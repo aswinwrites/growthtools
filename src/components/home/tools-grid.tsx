@@ -6,6 +6,7 @@ import {
   Smartphone,
   Monitor,
   Search,
+  Ruler,
 } from "lucide-react";
 import ToolCard from "@/components/shared/tool-card";
 
@@ -13,7 +14,7 @@ const tools = [
   {
     name: "UTM Builder",
     description:
-      "Build campaign URLs for Google, Meta, LinkedIn, WhatsApp, and more. Presets for every channel. Advanced naming convention generator.",
+      "Build campaign URLs for web and app. Presets for Google, Meta, LinkedIn, WhatsApp. Includes Play Store referrer URL builder for mobile UA campaigns.",
     href: "/utm-builder",
     icon: <Link2 className="h-5 w-5" />,
     colorClass: "text-blue-600",
@@ -40,11 +41,20 @@ const tools = [
   {
     name: "URL Shortener",
     description:
-      "Shorten links instantly. Logged-in users get click tracking, geography, device, browser, and 14-day analytics.",
+      "Shorten links instantly. Logged-in users get click tracking, geography, city-level data, device, browser, and 14-day analytics.",
     href: "/url-shortener",
     icon: <Tag className="h-5 w-5" />,
     colorClass: "text-orange-600",
     bgClass: "bg-orange-50",
+  },
+  {
+    name: "Screenshot Dimension Checker",
+    description:
+      "Upload screenshots and instantly verify they meet App Store and Play Store size requirements. Checks all iPhone, iPad, and Android sizes. Runs entirely in-browser.",
+    href: "/screenshot-checker",
+    icon: <Ruler className="h-5 w-5" />,
+    colorClass: "text-sky-600",
+    bgClass: "bg-sky-50",
   },
   {
     name: "Meta Safe Zone Checker",

@@ -1,44 +1,25 @@
 import type { Metadata } from "next";
-import PlayStoreURLGenerator from "@/components/tools/play-store-url/play-store-url";
+import ComingSoon from "@/components/shared/coming-soon";
 
 export const metadata: Metadata = {
-  title: "Play Store URL Generator — App Campaign Tracking Link Builder",
+  title: "Play Store Preview — Android App Screenshot Preview",
   description:
-    "Build Play Store campaign URLs with UTM parameters for Google UAC, Meta, AppLovin, IronSource, and 10+ ad networks. Track app installs with your MMP.",
-  keywords: [
-    "Play Store URL generator",
-    "Google Play campaign URL",
-    "app install tracking URL",
-    "UTM builder for apps",
-    "Google UAC campaign URL",
-    "MMP tracking link",
-    "AppLovin campaign URL",
-    "Android campaign tracking",
-  ],
+    "Preview your Android app screenshots in a live Google Play Store frame. See exactly what users see before you submit. Coming soon.",
   openGraph: {
-    title: "Play Store URL Generator | GrowthTools",
-    description:
-      "Build Play Store campaign tracking URLs for any ad network. Free app marketing tool.",
+    title: "Play Store Preview | GrowthTools",
+    description: "Preview Android app screenshots in a Google Play Store frame. Coming soon.",
     url: "https://growthtools.io/play-store-preview",
   },
 };
 
 export default function PlayStorePreviewPage() {
   return (
-    <div className="min-h-screen bg-gray-50/30">
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Play Store URL Generator
-          </h1>
-          <p className="mt-2 text-gray-500">
-            Build campaign tracking URLs for Google Play. Works with any MMP — AppsFlyer, Adjust, Branch, Singular.
-          </p>
-        </div>
-
-        <PlayStoreURLGenerator />
-      </div>
+    <div className="min-h-screen bg-gray-50/30 py-10">
+      <ComingSoon
+        toolName="Play Store Preview"
+        description="Preview your Android phone and tablet screenshots inside a live Google Play Store frame. Drag to reorder, toggle dark mode, and see exactly what users see before you submit."
+        eta="Q3 2025"
+      />
     </div>
   );
 }

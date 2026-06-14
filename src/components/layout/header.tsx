@@ -3,15 +3,15 @@
 import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { motion } from "framer-motion";
-import { Zap, Menu, X, ChevronDown, User, LogOut, BarChart3 } from "lucide-react";
+import { Zap, Menu, X, User, LogOut, BarChart3 } from "lucide-react";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 
-const tools = [
+const MOBILE_TOOLS = [
   { name: "UTM Builder", href: "/utm-builder" },
   { name: "Match Type Tool", href: "/match-type" },
   { name: "QR Generator", href: "/qr-generator" },
   { name: "URL Shortener", href: "/url-shortener" },
+  { name: "Screenshot Checker", href: "/screenshot-checker" },
   { name: "Meta Safe Zone", href: "/meta-safe-zone", badge: "Soon" },
   { name: "App Store Preview", href: "/app-store-preview", badge: "Soon" },
   { name: "Play Store Preview", href: "/play-store-preview", badge: "Soon" },
@@ -20,70 +20,19 @@ const tools = [
 export default function Header() {
   const { data: session } = useSession();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [toolsOpen, setToolsOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/90 backdrop-blur-md">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="px-4 sm:px-6">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
+          <Link href="/" className="flex items-center gap-2 group shrink-0">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 group-hover:bg-blue-700 transition-colors">
               <Zap className="h-4 w-4 text-white" />
             </div>
             <span className="text-lg font-bold text-gray-900">GrowthTools</span>
           </Link>
-
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1">
-            {/* Tools dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setToolsOpen(!toolsOpen)}
-                className="flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors"
-              >
-                Tools
-                <ChevronDown
-                  className={cn(
-                    "h-4 w-4 transition-transform",
-                    toolsOpen && "rotate-180"
-                  )}
-                />
-              </button>
-              {toolsOpen && (
-                <>
-                  <div
-                    className="fixed inset-0 z-10"
-                    onClick={() => setToolsOpen(false)}
-                  />
-                  <motion.div
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="absolute left-0 top-full z-20 mt-1 w-56 rounded-xl border border-gray-100 bg-white shadow-lg"
-                  >
-                    <div className="p-1">
-                      {tools.map((tool) => (
-                        <Link
-                          key={tool.href}
-                          href={tool.href}
-                          onClick={() => setToolsOpen(false)}
-                          className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                        >
-                          {tool.name}
-                          {tool.badge && (
-                            <span className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">
-                              {tool.badge}
-                            </span>
-                          )}
-                        </Link>
-                      ))}
-                    </div>
-                  </motion.div>
-                </>
-              )}
-            </div>
-          </nav>
 
           {/* Right section */}
           <div className="flex items-center gap-3">
@@ -151,14 +100,15 @@ export default function Header() {
                 onClick={() => signIn("google")}
                 className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 active:scale-95 transition-all"
               >
-                Sign in with Google
+                Sign in
               </button>
             )}
 
-            {/* Mobile menu button */}
+            {/* Mobile menu button — only on < lg (sidebar not visible) */}
             <button
-              className="md:hidden rounded-md p-2 text-gray-600 hover:bg-gray-100 transition-colors"
+              className="lg:hidden rounded-md p-2 text-gray-600 hover:bg-gray-100 transition-colors"
               onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
             >
               {mobileOpen ? (
                 <X className="h-5 w-5" />
@@ -170,15 +120,15 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile tools drawer */}
       {mobileOpen && (
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="border-t border-gray-100 bg-white md:hidden"
+          className="border-t border-gray-100 bg-white lg:hidden"
         >
-          <nav className="mx-auto max-w-7xl px-4 py-3 grid grid-cols-2 gap-1">
-            {tools.map((tool) => (
+          <nav className="px-4 py-3 grid grid-cols-2 gap-1">
+            {MOBILE_TOOLS.map((tool) => (
               <Link
                 key={tool.href}
                 href={tool.href}
