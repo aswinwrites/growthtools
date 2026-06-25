@@ -7,6 +7,10 @@ import {
   Monitor,
   Search,
   Ruler,
+  Braces,
+  RefreshCw,
+  Table,
+  FileText,
 } from "lucide-react";
 import ToolCard from "@/components/shared/tool-card";
 
@@ -55,6 +59,42 @@ const tools = [
     icon: <Ruler className="h-5 w-5" />,
     colorClass: "text-sky-600",
     bgClass: "bg-sky-50",
+  },
+  {
+    name: "JSON Formatter",
+    description:
+      "Format, minify, and validate JSON with syntax highlighting. See key count, depth, and size stats. Copy or download. Runs entirely in-browser.",
+    href: "/json-formatter",
+    icon: <Braces className="h-5 w-5" />,
+    colorClass: "text-blue-600",
+    bgClass: "bg-blue-50",
+  },
+  {
+    name: "Image Converter",
+    description:
+      "Convert between PNG, JPEG, WebP, and SVG. Adjust quality and scale SVGs to any resolution. Client-side only — no upload, no watermark.",
+    href: "/image-converter",
+    icon: <RefreshCw className="h-5 w-5" />,
+    colorClass: "text-amber-600",
+    bgClass: "bg-amber-50",
+  },
+  {
+    name: "Image to CSV",
+    description:
+      "Upload a screenshot of any table and extract clean, downloadable CSV data with AI. Works on spreadsheets, reports, dashboards, and more.",
+    href: "/image-to-csv",
+    icon: <Table className="h-5 w-5" />,
+    colorClass: "text-teal-600",
+    bgClass: "bg-teal-50",
+  },
+  {
+    name: "Screenshot to Text",
+    description:
+      "Extract text from any screenshot or image instantly using AI. Preserves structure, headings, and layout. Copy or download as .txt.",
+    href: "/screenshot-to-text",
+    icon: <FileText className="h-5 w-5" />,
+    colorClass: "text-emerald-600",
+    bgClass: "bg-emerald-50",
   },
   {
     name: "Meta Safe Zone Checker",

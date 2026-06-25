@@ -11,6 +11,10 @@ import {
   Shield,
   Smartphone,
   Monitor,
+  Braces,
+  RefreshCw,
+  Table,
+  FileText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +26,9 @@ type Color =
   | "sky"
   | "pink"
   | "indigo"
-  | "green";
+  | "green"
+  | "amber"
+  | "teal";
 
 interface NavItem {
   name: string;
@@ -37,6 +43,10 @@ const ACTIVE_TOOLS: NavItem[] = [
   { name: "QR Generator", href: "/qr-generator", icon: QrCode, color: "emerald" },
   { name: "URL Shortener", href: "/url-shortener", icon: Tag, color: "orange" },
   { name: "Screenshot Checker", href: "/screenshot-checker", icon: Ruler, color: "sky" },
+  { name: "JSON Formatter", href: "/json-formatter", icon: Braces, color: "blue" },
+  { name: "Image Converter", href: "/image-converter", icon: RefreshCw, color: "amber" },
+  { name: "Image to CSV", href: "/image-to-csv", icon: Table, color: "teal" },
+  { name: "Screenshot to Text", href: "/screenshot-to-text", icon: FileText, color: "emerald" },
 ];
 
 const SOON_TOOLS: NavItem[] = [
@@ -54,6 +64,8 @@ const activeBg: Record<Color, string> = {
   pink: "bg-pink-50 text-pink-700",
   indigo: "bg-indigo-50 text-indigo-700",
   green: "bg-green-50 text-green-700",
+  amber: "bg-amber-50 text-amber-700",
+  teal: "bg-teal-50 text-teal-700",
 };
 
 const activeIcon: Record<Color, string> = {
@@ -65,6 +77,8 @@ const activeIcon: Record<Color, string> = {
   pink: "text-pink-600",
   indigo: "text-indigo-600",
   green: "text-green-600",
+  amber: "text-amber-600",
+  teal: "text-teal-600",
 };
 
 export default function ToolsSidebar() {
