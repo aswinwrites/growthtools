@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import Groq from "groq-sdk";
 
 export async function POST(req: NextRequest) {
-  if (!process.env.GEMINI_API_KEY) {
-    return NextResponse.json({ error: "GEMINI_API_KEY is not configured" }, { status: 500 });
+  if (!process.env.GROQ_API_KEY) {
+    return NextResponse.json({ error: "GROQ_API_KEY is not configured" }, { status: 500 });
   }
 
   try {
@@ -16,14 +16,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing imageBase64 or mimeType" }, { status: 400 });
     }
 
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
+    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-    const result = await model.generateContent([
-      {
-        inlineData: { mimeType, data: imageBase64 },
-      },
-      `Extract all text from this image exactly as it appears.
+    const response = await groq.chat.completions.create({
+      model: "llama-3.2-90b-vision-preview",
+      max_tokens: 8192,
+      messages: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "image_url",
+              image_url: { url: `data:${mimeType};base64,${imageBase64}` },
+            },
+            {
+              type: "text",
+              text: `Extract all text from this image exactly as it appears.
 
 Rules:
 - Return ONLY the extracted text — no explanations or commentary
@@ -33,9 +41,13 @@ Rules:
 - For tables or structured data, preserve alignment with spaces or tabs
 - If a section has a clear heading, put it on its own line
 - If no text is found, return exactly: No text detected in this image`,
-    ]);
+            },
+          ],
+        },
+      ],
+    });
 
-    const text = result.response.text();
+    const text = response.choices[0].message.content ?? "";
     return NextResponse.json({ text });
   } catch (err) {
     console.error("[screenshot-to-text]", err);

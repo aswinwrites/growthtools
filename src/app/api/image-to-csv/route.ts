@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import Groq from "groq-sdk";
 
 export async function POST(req: NextRequest) {
-  if (!process.env.GEMINI_API_KEY) {
-    return NextResponse.json({ error: "GEMINI_API_KEY is not configured" }, { status: 500 });
+  if (!process.env.GROQ_API_KEY) {
+    return NextResponse.json({ error: "GROQ_API_KEY is not configured" }, { status: 500 });
   }
 
   try {
@@ -16,14 +16,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing imageBase64 or mimeType" }, { status: 400 });
     }
 
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
+    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-    const result = await model.generateContent([
-      {
-        inlineData: { mimeType, data: imageBase64 },
-      },
-      `Extract ALL tabular data from this image and return it as valid CSV.
+    const response = await groq.chat.completions.create({
+      model: "llama-3.2-90b-vision-preview",
+      max_tokens: 8192,
+      messages: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "image_url",
+              image_url: { url: `data:${mimeType};base64,${imageBase64}` },
+            },
+            {
+              type: "text",
+              text: `Extract ALL tabular data from this image and return it as valid CSV.
 
 Rules:
 - Return ONLY the CSV content — no explanations, no markdown fences
@@ -32,9 +40,13 @@ Rules:
 - If multiple tables exist, separate them with a blank line followed by: ## TABLE: [name or Table 1, Table 2, etc.]
 - Preserve all numbers exactly as shown (don't round or reformat)
 - If no tabular data is found, return exactly: ERROR: No tabular data detected in this image`,
-    ]);
+            },
+          ],
+        },
+      ],
+    });
 
-    const csv = result.response.text();
+    const csv = response.choices[0].message.content ?? "";
     return NextResponse.json({ csv });
   } catch (err) {
     console.error("[image-to-csv]", err);
