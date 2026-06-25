@@ -47,10 +47,10 @@ const ACTIVE_TOOLS: NavItem[] = [
   { name: "Image Converter", href: "/image-converter", icon: RefreshCw, color: "amber" },
   { name: "Image to CSV", href: "/image-to-csv", icon: Table, color: "teal" },
   { name: "Screenshot to Text", href: "/screenshot-to-text", icon: FileText, color: "emerald" },
+  { name: "Meta Safe Zone", href: "/meta-safe-zone", icon: Shield, color: "pink" },
 ];
 
 const SOON_TOOLS: NavItem[] = [
-  { name: "Meta Safe Zone", href: "/meta-safe-zone", icon: Shield, color: "pink" },
   { name: "App Store Preview", href: "/app-store-preview", icon: Smartphone, color: "indigo" },
   { name: "Play Store Preview", href: "/play-store-preview", icon: Monitor, color: "green" },
 ];

@@ -16,7 +16,7 @@ const MOBILE_TOOLS = [
   { name: "Image Converter", href: "/image-converter" },
   { name: "Image to CSV", href: "/image-to-csv" },
   { name: "Screenshot to Text", href: "/screenshot-to-text" },
-  { name: "Meta Safe Zone", href: "/meta-safe-zone", badge: "Soon" },
+  { name: "Meta Safe Zone", href: "/meta-safe-zone" },
   { name: "App Store Preview", href: "/app-store-preview", badge: "Soon" },
   { name: "Play Store Preview", href: "/play-store-preview", badge: "Soon" },
 ];

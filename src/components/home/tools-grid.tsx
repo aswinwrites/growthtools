@@ -99,12 +99,11 @@ const tools = [
   {
     name: "Meta Safe Zone Checker",
     description:
-      "Upload creative and see Reels, Story, and Feed safe zone overlays. Client-side processing. Download with overlay.",
+      "Simulate your ad creative across all Meta placements — Stories, Reels, Feed, In-Stream and more. Real safe zone overlays for Instagram & Facebook.",
     href: "/meta-safe-zone",
     icon: <Shield className="h-5 w-5" />,
     colorClass: "text-pink-600",
     bgClass: "bg-pink-50",
-    badge: "coming-soon" as const,
   },
   {
     name: "App Store Preview",

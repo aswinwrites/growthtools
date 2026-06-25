@@ -1,36 +1,33 @@
 import type { Metadata } from "next";
-import ComingSoon from "@/components/shared/coming-soon";
+import MetaSafeZone from "@/components/tools/meta-safe-zone/meta-safe-zone";
 
 export const metadata: Metadata = {
-  title: "Meta Safe Zone Checker — Check Reels, Story & Feed Safe Areas",
+  title: "Meta Safe Zone Checker — Instagram & Facebook Ad Safe Zones",
   description:
-    "Upload your Meta ad creative and see Reels, Story, and Feed safe zone overlays. Client-side processing. Free Meta safe zone checker for performance marketers.",
+    "Simulate your Meta ad creative across every placement — Stories, Reels, Feed, In-Stream, Right Column and more. See real safe zone overlays for Instagram and Facebook. Free, browser-based, no upload.",
   keywords: [
     "Meta safe zone checker",
+    "Instagram safe zone",
     "Facebook safe zone",
     "Reels safe area",
-    "Story safe zone",
+    "Stories safe zone",
     "Meta ad creative checker",
-    "social media creative tool",
+    "Instagram ad sizes",
+    "Facebook ad dimensions",
+    "Meta ad specs 2025",
+    "safe zone overlay tool",
+    "Instagram Reels safe zone",
+    "Facebook Stories safe zone",
+    "Meta ad simulator",
   ],
   openGraph: {
     title: "Meta Safe Zone Checker | GrowthTools",
     description:
-      "Check your Meta ad creatives against Reels, Story, and Feed safe zones. Coming soon.",
-    url: "https://growthtools.io/meta-safe-zone",
+      "Preview your Meta ad creative across all placements with real safe zone overlays. Instagram Stories, Reels, Feed, Facebook and more. Free.",
+    url: "https://growthtools.vercel.app/meta-safe-zone",
   },
 };
 
 export default function MetaSafeZonePage() {
-  return (
-    <div className="min-h-screen bg-gray-50/30">
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <ComingSoon
-          toolName="Meta Safe Zone Checker"
-          description="Upload your creative and instantly see safe zone overlays for Reels, Stories, and Feed placements. Download with overlay applied."
-          eta="Q2 2025"
-        />
-      </div>
-    </div>
-  );
+  return <MetaSafeZone />;
 }
