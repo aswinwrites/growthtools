@@ -39,6 +39,16 @@ export default function Header() {
             <span className="text-lg font-bold text-gray-900">MarketerTools</span>
           </Link>
 
+          {/* Nav links */}
+          <div className="hidden md:flex items-center gap-1">
+            <Link
+              href="/blog"
+              className="text-sm font-medium text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              Blog
+            </Link>
+          </div>
+
           {/* Right section */}
           <div className="flex items-center gap-3">
             {session ? (
@@ -133,6 +143,13 @@ export default function Header() {
           className="border-t border-gray-100 bg-white lg:hidden"
         >
           <nav className="px-4 py-3 grid grid-cols-2 gap-1">
+            <Link
+              href="/blog"
+              onClick={() => setMobileOpen(false)}
+              className="col-span-2 flex items-center rounded-lg px-3 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-50 transition-colors border-b border-gray-100 mb-1 pb-3"
+            >
+              Blog →
+            </Link>
             {MOBILE_TOOLS.map((tool) => (
               <Link
                 key={tool.href}
