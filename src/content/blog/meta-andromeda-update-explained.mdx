@@ -1,0 +1,118 @@
+---
+title: "Meta's Andromeda Update: What Actually Changed and Why Your Old Playbook Is Dead"
+description: "Andromeda is Meta's biggest ads infrastructure overhaul in years. Here's what it actually is, why Meta built it, what practitioners on r/FacebookAds are experiencing, and the new creative-first playbook that actually works."
+date: "2025-06-26"
+category: "Creative & Ads"
+readTime: "15 min read"
+author: "MarketerTools"
+authorTitle: "Marketing Practitioners"
+tags: ["Meta Ads", "Andromeda", "Facebook Ads", "Creative Strategy", "Performance Marketing"]
+---
+
+**Meta's Andromeda update is a complete rebuild of how the platform selects and distributes ads.** Instead of grouping users into audience buckets and matching ads to buckets, Andromeda uses a large-scale neural network to evaluate each ad against each user individually, in real time, and decide which specific ad a specific person is most likely to respond to. It rolled out across Facebook and Instagram between late 2024 and mid-2025.
+
+If your campaigns looked stable in early 2024 and started behaving strangely in Q1 2025, Andromeda is likely the cause. And if your agency is still managing Meta campaigns the way they did in 2022, with tightly structured ad sets, narrow interest stacks, and carefully controlled audience sizes, they are working against the system.
+
+---
+
+## Why Meta Built This (The Problem It Was Solving)
+
+To understand Andromeda, you have to understand what broke first.
+
+Between 2022 and 2024, the volume of ads being submitted to Meta's auction exploded. Generative AI tools made it trivially easy to produce dozens of creative variations. Meta's own Advantage+ features encouraged advertisers to upload more assets. What used to be a standard of 3 to 5 ads per ad set became 10, 20, or 50.
+
+The old retrieval system, which had been built when "a lot of ads" meant something manageable, became a bottleneck. It was designed to filter millions of ads down to a handful of candidates using relatively simple signals: audience match, bid, estimated action rates. It could not efficiently process the new volume of variation without degrading performance.
+
+Andromeda replaced that retrieval layer with a neural network that Meta says is **4x more efficient at driving performance gains for a given amount of data and compute**, and enabled a **10,000x increase in the complexity of models used for ads retrieval**. Those numbers are from Meta's own engineering blog. The practical implication: the system can now consider vastly more ads, for vastly more individual users, in the same amount of time.
+
+The analogy that helps: the old system was a card catalogue in a library. It filed ads by category (audience attributes) and found them when a patron (user) with matching characteristics walked in. Andromeda is the AI librarian that has read every book, remembers every patron's history, and makes a live recommendation for what each specific person most wants right now. The categories are gone. The recommendation is personal.
+
+---
+
+## What Actually Changed for Advertisers
+
+### 1. Your creative is now your targeting
+
+This is the biggest shift, and it is worth sitting with.
+
+The old model: you defined who you wanted to reach (audience), then showed them your creative. The audience settings were the primary filter. Creative was what you showed people after the algorithm found them.
+
+The new model: Andromeda reads your creative, decides what kind of person would respond to it, and finds those people. Your image, your hook, your copy, your offer, and your visual style are signals the algorithm uses to identify the right user. If your creative speaks to a stressed-out small business owner who can't keep up with invoicing, Andromeda will find stressed-out small business owners, even if you never specified them in an audience panel.
+
+Meta stated this shift explicitly in April 2025: "With AI-enabled advertising tools, the focus has shifted from niche targeting to creative diversification as the best lever to find the most relevant audiences."
+
+Jon Loomer, who has been documenting Meta advertising since 2012, [logged 83 distinct changes to Meta's platform in 2025](https://www.jonloomer.com/meta-advertising-changes-2025/) alone. He summarised the Andromeda shift this way: "Andromeda chooses which ads get considered. Advantage+ chooses targeting. GEM chooses placement distribution. Your job changed from 'control the campaign' to 'feed the system good inputs.'"
+
+### 2. Audience targeting works differently now
+
+Lookalike audiences, which were the backbone of prospecting strategy for years, are losing effectiveness as primary targeting tools. Andromeda's personalization already does, at scale, what lookalikes approximated manually. You were building a net; Andromeda is a spear.
+
+Interest stacking, where you would layer multiple interest categories to narrow your audience to a precise niche, is similarly less relevant. The system is smarter than any interest combination you can build. That said, audience settings are not meaningless. They still define the outer boundary of who can see your ads. Andromeda operates within those constraints. But the gap between tight targeting and broad targeting has narrowed significantly. Most practitioners running tests in 2025 found that broad audiences with strong creative outperformed narrow audiences with average creative.
+
+### 3. Campaign structure now matters more than it used to
+
+The old best practice of creating separate ad sets for each audience segment, each objective, each demographic variation, works against Andromeda. The system learns from each ad set independently. Fragment your budget into five ad sets of $20/day each and none of them accumulates enough signal to perform. Consolidate into one or two ad sets with meaningful budget and the algorithm has what it needs.
+
+The other structural change: Andromeda works inside ad sets, selecting which of your ads to show which users. If all your ads are slight variations of each other (same format, same hook, different background color), the system has little to work with. It needs genuine diversity to find diverse pockets of users.
+
+---
+
+## What Practitioners Are Experiencing
+
+The r/FacebookAds community has been discussing Andromeda-related changes throughout 2025. The common threads:
+
+**Performance swings during rollout.** Multiple advertisers reported 15 to 30% performance drops in January and February 2025 as the new system was learning. Accounts that had been stable for months started behaving erratically, with unexplained budget spikes, impression drops, and cost-per-result increases. For most, performance stabilised by April as Andromeda accumulated data.
+
+**"Ghost approvals" and erratic spend.** Some users reported ads being approved and then spending nothing, or spending way beyond their daily budget caps before the system corrected. These appear to be edge cases from the rollout, not a permanent behaviour.
+
+**The overstructured account problem.** A consistent observation from r/FacebookAds is that accounts with extremely granular structures (many small ad sets, many narrowly targeted campaigns) saw disproportionate drops. Accounts with simpler structures and bigger budgets per ad set largely weathered the transition better.
+
+---
+
+## The New Playbook
+
+Based on what's working in 2025, here is the practical framework:
+
+**Simplify your campaign structure.** Aim for 1 to 3 campaigns per objective, 1 to 2 ad sets per campaign, and 8 to 15 distinct creative variations per ad set. "Distinct" is doing a lot of work in that sentence. See below.
+
+**Invest in creative diversity, not creative volume.** Running 15 versions of the same video with different thumbnails is volume, not diversity. Andromeda needs different concepts: different hooks, different formats (video, static, carousel), different messaging angles, different visual styles. The algorithm will find the right variation for the right person. Your job is to give it material worth working with.
+
+**Go broad on audiences.** Advantage+ Audience or wide Broad targeting with no interest layers, combined with your pixel and Conversions API data, will outperform tightly sculpted audience stacks in most cases. There are exceptions (see the next article for when to keep manual control), but as a default, trust the algorithm's targeting and put your creative energy into the inputs.
+
+**Let campaigns run.** The biggest killer of Andromeda performance is over-editing. Every time you make a significant change to a campaign, it resets the learning phase. Meta considers "significant" to mean a budget change of more than 20%, swapping in new creative, changing audience settings, or changing the bid strategy. Make changes slowly, give the system 7 to 14 days to learn after each one, and resist the urge to intervene the moment you see a bad day.
+
+**Feed it first-party data.** Andromeda performs better when it has quality signals about who your converters actually are. This means: pixel installed correctly, Conversions API configured (not just pixel), sharing as many conversion events as possible (not just Purchase, but AddToCart, ViewContent, InitiateCheckout), and keeping your custom audiences fresh.
+
+---
+
+## What NOT to Do
+
+A few things that are actively counterproductive under Andromeda:
+
+**Don't use Campaign Budget Optimization across many ad sets.** CBO with five or six ad sets usually means the algorithm funnels almost everything to one or two winning ad sets and starves the rest. If you want to test multiple audience approaches, use separate campaigns with their own budgets.
+
+**Don't kill ads too early.** Under the old system, an ad that underperformed in the first three days was usually a signal to pause it. Under Andromeda, the system needs more time to find the right user pool for each creative variation. Give new ads 7 days and a meaningful spend threshold before judging them.
+
+**Don't rely on frequency to measure creative fatigue.** Andromeda distributes different creative variations to different users, so aggregate frequency numbers are less meaningful than they used to be. A campaign average frequency of 4 might mean some users have seen the ad 10 times and others have seen it once. Look at conversion rate trends over time, not just frequency, to diagnose fatigue.
+
+---
+
+## FAQ
+
+**What is Meta's Andromeda update?**
+Andromeda is Meta's rebuilt ad retrieval engine, rolled out between late 2024 and mid-2025. It replaces the previous system that matched ads to users based on audience category matching with a neural network that evaluates each ad against each user individually in real time. Meta says the system is 4x more efficient than its predecessor and enabled a 10,000x increase in model complexity for ad retrieval.
+
+**When did the Meta Andromeda update roll out?**
+Meta began internal testing with select accounts in December 2024. The wider rollout started January 2025, with the update reaching global completion around October 2025. Most advertisers began seeing the effects of the transition between January and April 2025.
+
+**Why are my Meta ads performing differently in 2025?**
+The most likely causes are Andromeda (the new delivery infrastructure), changes to Advantage+ targeting defaults, or both. If your account was stable through most of 2024 and started showing erratic spend, unexpected cost-per-result changes, or audience reach shifts in early 2025, Andromeda's rollout is the most probable explanation. The fix is usually campaign consolidation, creative diversification, and reducing manual targeting constraints.
+
+**Does Andromeda mean I don't need to target audiences anymore?**
+Not exactly. Audience settings still define the outer limits of who can see your ads. What changed is that within those limits, Andromeda does the fine-grained matching, rather than relying on your interest selections to do it. Broad targeting (or Advantage+ Audience) with strong creative now typically outperforms narrow interest targeting with average creative. But audience controls for age, location, and exclusions still matter.
+
+**What creative strategy works best with Andromeda?**
+Creative diversification is the core principle. Your ad set should contain genuinely different creative concepts: different hooks, different formats, different messaging angles. Andromeda will find the right match for the right user. Giving it 8 to 15 distinct creative variations (not just color-swap variations of the same concept) gives the algorithm enough material to personalise effectively. Meta's own guidance from April 2025 states that creative diversification is now the "primary lever" for finding relevant audiences.
+
+**How is Andromeda different from Google's Performance Max?**
+Both systems move targeting decisions toward AI and emphasise creative input over manual audience control. The key difference is transparency. Google's Performance Max has been heavily criticised for opacity, with minimal insight into where budget is going. Meta's implementation, while also AI-driven, still shows search-term-equivalent data (placement breakdowns, demographic delivery) that lets advertisers understand what the algorithm is doing. Jon Loomer and others in the practitioner community note that Andromeda is a retrieval upgrade, not a full black box, though the practical effect for advertisers is similar: feed the system good inputs and let it run.
