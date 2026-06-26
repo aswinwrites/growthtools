@@ -4,7 +4,7 @@ import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
-import { getPost, getAllPosts, formatDate } from "@/lib/blog";
+import { getPost, getAllPosts, formatDate, extractFaqs } from "@/lib/blog";
 import { mdxComponents } from "@/components/blog/mdx-components";
 import { ArrowLeft, Clock, Calendar, Tag } from "lucide-react";
 
@@ -80,12 +80,36 @@ export default async function BlogPostPage({ params }: Props) {
     },
   };
 
+  // FAQPage JSON-LD — extracted from the article's ## FAQ section
+  const faqs = extractFaqs(post.content);
+  const faqJsonLd =
+    faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: faq.answer,
+            },
+          })),
+        }
+      : null;
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
 
       <div className="min-h-screen bg-white">
         {/* Back nav */}

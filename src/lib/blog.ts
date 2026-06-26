@@ -78,3 +78,30 @@ export function formatDate(dateStr: string): string {
     day: "numeric",
   });
 }
+
+/**
+ * Extracts FAQ pairs from article MDX content.
+ * Looks for a "## FAQ" section with **Question?** / Answer paragraph format.
+ */
+export function extractFaqs(
+  content: string
+): { question: string; answer: string }[] {
+  const faqSectionMatch = content.match(/^## FAQ\s*\n([\s\S]*)$/m);
+  if (!faqSectionMatch) return [];
+
+  const faqSection = faqSectionMatch[1];
+  const faqs: { question: string; answer: string }[] = [];
+
+  // Each Q&A block: **Question text?** \n Answer paragraph(s)
+  const pattern = /\*\*(.+?)\*\*\n([\s\S]+?)(?=\n\*\*|\s*$)/g;
+  let match;
+  while ((match = pattern.exec(faqSection)) !== null) {
+    const question = match[1].trim();
+    const answer = match[2].replace(/\n+/g, " ").trim();
+    if (question && answer) {
+      faqs.push({ question, answer });
+    }
+  }
+
+  return faqs;
+}
