@@ -11,6 +11,7 @@ import {
   RefreshCw,
   Table,
   FileText,
+  Database,
 } from "lucide-react";
 import ToolCard from "@/components/shared/tool-card";
 
@@ -104,6 +105,15 @@ const tools = [
     icon: <Shield className="h-5 w-5" />,
     colorClass: "text-pink-600",
     bgClass: "bg-pink-50",
+  },
+  {
+    name: "Spreadsheet Operations",
+    description:
+      "26 browser-based operations: VLOOKUP, joins, find missing, detect changes, dedup, split columns, extract emails and more. CSV & XLSX. No uploads.",
+    href: "/spreadsheet",
+    icon: <Database className="h-5 w-5" />,
+    colorClass: "text-cyan-600",
+    bgClass: "bg-cyan-50",
   },
   {
     name: "App Store Preview",

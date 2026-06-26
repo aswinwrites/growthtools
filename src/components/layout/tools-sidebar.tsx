@@ -15,6 +15,7 @@ import {
   RefreshCw,
   Table,
   FileText,
+  Database,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -28,7 +29,8 @@ type Color =
   | "indigo"
   | "green"
   | "amber"
-  | "teal";
+  | "teal"
+  | "cyan";
 
 interface NavItem {
   name: string;
@@ -48,6 +50,7 @@ const ACTIVE_TOOLS: NavItem[] = [
   { name: "Image to CSV", href: "/image-to-csv", icon: Table, color: "teal" },
   { name: "Screenshot to Text", href: "/screenshot-to-text", icon: FileText, color: "emerald" },
   { name: "Meta Safe Zone", href: "/meta-safe-zone", icon: Shield, color: "pink" },
+  { name: "Spreadsheet Ops", href: "/spreadsheet", icon: Database, color: "cyan" },
 ];
 
 const SOON_TOOLS: NavItem[] = [
@@ -66,6 +69,7 @@ const activeBg: Record<Color, string> = {
   green: "bg-green-50 text-green-700",
   amber: "bg-amber-50 text-amber-700",
   teal: "bg-teal-50 text-teal-700",
+  cyan: "bg-cyan-50 text-cyan-700",
 };
 
 const activeIcon: Record<Color, string> = {
@@ -79,6 +83,7 @@ const activeIcon: Record<Color, string> = {
   green: "text-green-600",
   amber: "text-amber-600",
   teal: "text-teal-600",
+  cyan: "text-cyan-600",
 };
 
 export default function ToolsSidebar() {
