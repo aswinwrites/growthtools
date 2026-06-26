@@ -14,10 +14,10 @@ export const metadata: Metadata = {
     "marketing link shortener",
   ],
   openGraph: {
-    title: "URL Shortener with Analytics | GrowthTools",
+    title: "URL Shortener with Analytics | MarketerTools",
     description:
       "Shorten links in seconds. Track clicks, geography, and devices. Free for marketers.",
-    url: "https://growthtools.io/url-shortener",
+    url: "https://marketertools.fyi/url-shortener",
   },
 };
 

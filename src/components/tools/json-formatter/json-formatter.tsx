@@ -172,7 +172,7 @@ export default function JSONFormatter() {
           <textarea
             value={input}
             onChange={(e) => { setInput(e.target.value); setError(""); }}
-            placeholder={`Paste your JSON here…\n\n{\n  "name": "GrowthTools",\n  "type": "free",\n  "tools": 9\n}`}
+            placeholder={`Paste your JSON here…\n\n{\n  "name": "MarketerTools",\n  "type": "free",\n  "tools": 9\n}`}
             className="w-full h-[480px] rounded-2xl border border-gray-200 bg-gray-50 p-4 text-sm font-mono text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all"
             spellCheck={false}
           />

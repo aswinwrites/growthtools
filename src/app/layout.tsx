@@ -8,11 +8,11 @@ import LoginPrompt from "@/components/shared/login-prompt";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL ?? "https://growthtools.io"
+    process.env.NEXT_PUBLIC_APP_URL ?? "https://marketertools.fyi"
   ),
   title: {
-    default: "GrowthTools — Free Tools for Growth Marketers",
-    template: "%s | GrowthTools",
+    default: "MarketerTools — Free Tools for Marketers",
+    template: "%s | MarketerTools",
   },
   description:
     "Free marketing utilities for performance marketers, growth marketers, ASO specialists, and media buyers. UTM builder, QR generator, keyword match type tool, and more.",
@@ -27,14 +27,14 @@ export const metadata: Metadata = {
     "ASO tools",
     "free marketing tools",
   ],
-  authors: [{ name: "GrowthTools" }],
-  creator: "GrowthTools",
+  authors: [{ name: "MarketerTools" }],
+  creator: "MarketerTools",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://growthtools.io",
-    siteName: "GrowthTools",
-    title: "GrowthTools — Free Tools for Growth Marketers",
+    url: "https://marketertools.fyi",
+    siteName: "MarketerTools",
+    title: "MarketerTools — Free Tools for Marketers",
     description:
       "UTM builder, QR generator, keyword match type tool and more — free for every marketer.",
     images: [
@@ -42,13 +42,13 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "GrowthTools",
+        alt: "MarketerTools",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "GrowthTools — Free Tools for Growth Marketers",
+    title: "MarketerTools — Free Tools for Marketers",
     description:
       "UTM builder, QR generator, keyword match type tool and more — free for every marketer.",
     images: ["/og-image.png"],
@@ -82,6 +82,21 @@ export default function RootLayout({
           rel="preconnect"
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
+        />
+        {/* Google Analytics */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-KW3R1R0JR6"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-KW3R1R0JR6');
+            `,
+          }}
         />
       </head>
       <body className="min-h-screen bg-white font-sans">

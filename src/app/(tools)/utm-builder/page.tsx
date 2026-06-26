@@ -14,10 +14,10 @@ export const metadata: Metadata = {
     "UTM link builder",
   ],
   openGraph: {
-    title: "UTM Builder — Free Campaign URL Builder | GrowthTools",
+    title: "UTM Builder — Free Campaign URL Builder | MarketerTools",
     description:
       "Build UTM-tagged campaign URLs with presets for every channel. Free, instant, no signup required.",
-    url: "https://growthtools.io/utm-builder",
+    url: "https://marketertools.fyi/utm-builder",
   },
 };
 

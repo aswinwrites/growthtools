@@ -47,7 +47,7 @@ export default function DashboardClient({ data }: Props) {
             Welcome back{data.user.name ? `, ${data.user.name.split(" ")[0]}` : ""}
           </h1>
           <p className="text-sm text-gray-500 mt-0.5">
-            Your GrowthTools dashboard
+            Your MarketerTools dashboard
           </p>
         </div>
         <Link

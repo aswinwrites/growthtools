@@ -22,7 +22,7 @@ export default function Footer() {
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
                 <Zap className="h-4 w-4 text-white" />
               </div>
-              <span className="text-lg font-bold text-gray-900">GrowthTools</span>
+              <span className="text-lg font-bold text-gray-900">MarketerTools</span>
             </Link>
             <p className="mt-3 text-sm text-gray-500 max-w-xs">
               Free tools for growth marketers. No signup required for core features.
@@ -80,7 +80,7 @@ export default function Footer() {
 
         <div className="mt-10 border-t border-gray-100 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-400">
-            © {new Date().getFullYear()} GrowthTools. All rights reserved.
+            © {new Date().getFullYear()} MarketerTools. All rights reserved.
           </p>
           <p className="text-xs text-gray-400">
             Built for performance marketers.{" "}

@@ -15,10 +15,10 @@ export const metadata: Metadata = {
     "marketing QR code",
   ],
   openGraph: {
-    title: "Free QR Code Generator | GrowthTools",
+    title: "Free QR Code Generator | MarketerTools",
     description:
       "Custom QR codes with logo, colors, and styles. Export PNG or SVG. Free.",
-    url: "https://growthtools.io/qr-generator",
+    url: "https://marketertools.fyi/qr-generator",
   },
 };
 

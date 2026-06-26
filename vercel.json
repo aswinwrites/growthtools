@@ -1,10 +1,19 @@
 {
   "framework": "nextjs",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "growthtools.vercel.app" }],
+      "destination": "https://marketertools.fyi/$1",
+      "permanent": true
+    }
+  ],
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "env": {
-    "NEXT_TELEMETRY_DISABLED": "1"
+    "NEXT_TELEMETRY_DISABLED": "1",
+    "NEXT_PUBLIC_APP_URL": "https://marketertools.fyi"
   },
   "headers": [
     {

@@ -3,7 +3,7 @@ import ImageConverter from "@/components/tools/image-converter/image-converter";
 import { RefreshCw } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Image Format Converter: PNG, JPEG, WebP, SVG | Free – GrowthTools",
+  title: "Image Format Converter: PNG, JPEG, WebP, SVG | Free – MarketerTools",
   description:
     "Convert images between PNG, JPEG, WebP, and SVG formats instantly in your browser. Adjust quality, scale SVGs to any resolution. No upload, no watermark, no limits.",
   keywords: [
@@ -15,10 +15,10 @@ export const metadata: Metadata = {
     title: "Free Image Format Converter – PNG, JPEG, WebP, SVG",
     description:
       "Instantly convert between PNG, JPEG, WebP, and SVG in your browser. Quality control and scale settings — no file upload to any server.",
-    url: "https://growthtools.vercel.app/image-converter",
+    url: "https://marketertools.fyi/image-converter",
     type: "website",
   },
-  alternates: { canonical: "https://growthtools.vercel.app/image-converter" },
+  alternates: { canonical: "https://marketertools.fyi/image-converter" },
 };
 
 const CONVERSIONS = [

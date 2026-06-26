@@ -21,10 +21,10 @@ export const metadata: Metadata = {
     "Meta ad simulator",
   ],
   openGraph: {
-    title: "Meta Safe Zone Checker | GrowthTools",
+    title: "Meta Safe Zone Checker | MarketerTools",
     description:
       "Preview your Meta ad creative across all placements with real safe zone overlays. Instagram Stories, Reels, Feed, Facebook and more. Free.",
-    url: "https://growthtools.vercel.app/meta-safe-zone",
+    url: "https://marketertools.fyi/meta-safe-zone",
   },
 };
 

@@ -169,7 +169,7 @@ export default function QRGenerator() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "growthtools-qr.png";
+      a.download = "marketertools-qr.png";
       a.click();
       URL.revokeObjectURL(url);
       toast.success("QR code downloaded as PNG");
@@ -187,7 +187,7 @@ export default function QRGenerator() {
         errorCorrectionLevel: options.errorCorrectionLevel,
         color: { dark: options.fgColor, light: options.bgColor },
       });
-      downloadFile(svg, "growthtools-qr.svg", "image/svg+xml");
+      downloadFile(svg, "marketertools-qr.svg", "image/svg+xml");
       toast.success("QR code downloaded as SVG");
     } catch {
       toast.error("SVG export failed");

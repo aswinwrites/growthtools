@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/dashboard/"],
       },
     ],
-    sitemap: "https://growthtools.vercel.app/sitemap.xml",
+    sitemap: "https://marketertools.fyi/sitemap.xml",
   };
 }

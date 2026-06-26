@@ -15,10 +15,10 @@ export const metadata: Metadata = {
     "ASO screenshot tool",
   ],
   openGraph: {
-    title: "Screenshot Dimension Checker | GrowthTools",
+    title: "Screenshot Dimension Checker | MarketerTools",
     description:
       "Check if your screenshots meet App Store and Play Store requirements. Instant, client-side, free.",
-    url: "https://growthtools.io/screenshot-checker",
+    url: "https://marketertools.fyi/screenshot-checker",
   },
 };
 

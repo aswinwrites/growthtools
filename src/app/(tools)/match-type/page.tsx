@@ -15,10 +15,10 @@ export const metadata: Metadata = {
     "PPC keyword tool",
   ],
   openGraph: {
-    title: "Keyword Match Type Tool | GrowthTools",
+    title: "Keyword Match Type Tool | MarketerTools",
     description:
       "Convert keywords to all three Google Ads match types in bulk. Free, instant, CSV export.",
-    url: "https://growthtools.io/match-type",
+    url: "https://marketertools.fyi/match-type",
   },
 };
 

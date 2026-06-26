@@ -14,10 +14,10 @@ export const metadata: Metadata = {
     "app screenshot generator",
   ],
   openGraph: {
-    title: "App Store Screenshot Preview | GrowthTools",
+    title: "App Store Screenshot Preview | MarketerTools",
     description:
       "Preview screenshots in iPhone & iPad frames. Dark mode. Drag to reorder. Coming soon.",
-    url: "https://growthtools.io/app-store-preview",
+    url: "https://marketertools.fyi/app-store-preview",
   },
 };
 

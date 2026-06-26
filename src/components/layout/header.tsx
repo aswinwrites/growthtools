@@ -36,7 +36,7 @@ export default function Header() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 group-hover:bg-blue-700 transition-colors">
               <Zap className="h-4 w-4 text-white" />
             </div>
-            <span className="text-lg font-bold text-gray-900">GrowthTools</span>
+            <span className="text-lg font-bold text-gray-900">MarketerTools</span>
           </Link>
 
           {/* Right section */}

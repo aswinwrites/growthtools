@@ -3,7 +3,7 @@ import JSONFormatter from "@/components/tools/json-formatter/json-formatter";
 import { Braces } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "JSON Formatter & Validator | Free Online JSON Beautifier – GrowthTools",
+  title: "JSON Formatter & Validator | Free Online JSON Beautifier – MarketerTools",
   description:
     "Format, minify, and validate JSON instantly in your browser. Syntax-highlighted output with key count, depth, and size stats. No data leaves your device.",
   keywords: [
@@ -14,10 +14,10 @@ export const metadata: Metadata = {
     title: "JSON Formatter & Validator – Free Browser Tool",
     description:
       "Paste JSON, get beautiful syntax-highlighted output instantly. Format, minify, or validate — all client-side.",
-    url: "https://growthtools.vercel.app/json-formatter",
+    url: "https://marketertools.fyi/json-formatter",
     type: "website",
   },
-  alternates: { canonical: "https://growthtools.vercel.app/json-formatter" },
+  alternates: { canonical: "https://marketertools.fyi/json-formatter" },
 };
 
 const FEATURES = [

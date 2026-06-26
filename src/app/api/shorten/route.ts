@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { isValidUrl } from "@/lib/utils";
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://growthtools.io";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://marketertools.fyi";
 
 export async function POST(req: NextRequest) {
   try {

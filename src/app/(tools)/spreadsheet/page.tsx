@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import SpreadsheetOps from "@/components/tools/spreadsheet/spreadsheet-ops";
 
 export const metadata: Metadata = {
-  title: "Spreadsheet Operations — GrowthTools",
+  title: "Spreadsheet Operations — MarketerTools",
   description:
     "26 browser-based spreadsheet operations: VLOOKUP, XLOOKUP, joins, find missing, detect changes, remove duplicates, split/merge columns, extract emails, domains, numbers and more. No upload, no backend — all data stays in your browser.",
   keywords: [
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "free excel tool online",
   ],
   openGraph: {
-    title: "Spreadsheet Operations — GrowthTools",
+    title: "Spreadsheet Operations — MarketerTools",
     description:
       "26 spreadsheet operations in your browser. VLOOKUP, joins, dedup, clean, split, extract. No uploads.",
     type: "website",

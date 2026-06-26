@@ -6,7 +6,7 @@ import FeaturesSection from "@/components/home/features-section";
 import SocialProof from "@/components/home/social-proof";
 
 export const metadata: Metadata = {
-  title: "GrowthTools — Free Tools for Growth Marketers",
+  title: "MarketerTools — Free Tools for Marketers",
   description:
     "Build campaign URLs, generate QR codes, check keyword match types, and more. Free tools for performance marketers, ASO specialists, and agencies.",
 };

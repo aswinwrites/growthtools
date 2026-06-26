@@ -3,7 +3,7 @@ import ImageToCSV from "@/components/tools/image-to-csv/image-to-csv";
 import { Table } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Image to CSV Converter | Extract Table Data from Screenshots – GrowthTools",
+  title: "Image to CSV Converter | Extract Table Data from Screenshots – MarketerTools",
   description:
     "Convert images with tables into CSV data instantly. Upload a screenshot of a spreadsheet, report, or web table and get a downloadable CSV file in seconds. Powered by AI.",
   keywords: [
@@ -15,10 +15,10 @@ export const metadata: Metadata = {
     title: "Image to CSV – Extract Tables from Screenshots with AI",
     description:
       "Upload any screenshot containing a table and get structured CSV data instantly. No manual typing, no data storage.",
-    url: "https://growthtools.vercel.app/image-to-csv",
+    url: "https://marketertools.fyi/image-to-csv",
     type: "website",
   },
-  alternates: { canonical: "https://growthtools.vercel.app/image-to-csv" },
+  alternates: { canonical: "https://marketertools.fyi/image-to-csv" },
 };
 
 const USE_CASES = [

@@ -3,7 +3,7 @@ import ScreenshotToText from "@/components/tools/screenshot-to-text/screenshot-t
 import { FileText } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Screenshot to Text | Free AI OCR Tool – GrowthTools",
+  title: "Screenshot to Text | Free AI OCR Tool – MarketerTools",
   description:
     "Extract text from screenshots instantly using AI. Convert images of articles, UI, documents, and menus to editable text. No sign-up, no data stored.",
   keywords: [
@@ -12,13 +12,13 @@ export const metadata: Metadata = {
     "photo to text", "screenshot OCR", "image text extractor",
   ],
   openGraph: {
-    title: "Screenshot to Text – Free AI OCR | GrowthTools",
+    title: "Screenshot to Text – Free AI OCR | MarketerTools",
     description:
       "Upload any screenshot and extract all text instantly with AI. Preserves structure, headings, and layout.",
-    url: "https://growthtools.vercel.app/screenshot-to-text",
+    url: "https://marketertools.fyi/screenshot-to-text",
     type: "website",
   },
-  alternates: { canonical: "https://growthtools.vercel.app/screenshot-to-text" },
+  alternates: { canonical: "https://marketertools.fyi/screenshot-to-text" },
 };
 
 const USE_CASES = [
