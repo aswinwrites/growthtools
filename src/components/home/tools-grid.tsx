@@ -3,8 +3,6 @@ import {
   QrCode,
   Tag,
   Shield,
-  Smartphone,
-  Monitor,
   Search,
   Ruler,
   Braces,
@@ -114,26 +112,6 @@ const tools = [
     icon: <Database className="h-5 w-5" />,
     colorClass: "text-cyan-600",
     bgClass: "bg-cyan-50",
-  },
-  {
-    name: "App Store Preview",
-    description:
-      "Preview your screenshots in iPhone and iPad frames. Dark & light mode. Drag to reorder. See exactly what users see.",
-    href: "/app-store-preview",
-    icon: <Smartphone className="h-5 w-5" />,
-    colorClass: "text-sky-600",
-    bgClass: "bg-sky-50",
-    badge: "coming-soon" as const,
-  },
-  {
-    name: "Play Store Preview",
-    description:
-      "Preview Android phone and tablet screenshots in a live Google Play Store frame. Drag to reorder. Dark mode support.",
-    href: "/play-store-preview",
-    icon: <Monitor className="h-5 w-5" />,
-    colorClass: "text-green-600",
-    bgClass: "bg-green-50",
-    badge: "coming-soon" as const,
   },
 ];
 
