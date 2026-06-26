@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { signIn } from "next-auth/react";
 
 const stats = [
-  { value: "7+", label: "Marketing Tools" },
+  { value: "13+", label: "Marketing Tools" },
   { value: "100%", label: "Free to Use" },
   { value: "0", label: "Dark Patterns" },
   { value: "∞", label: "Campaigns Built" },

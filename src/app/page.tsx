@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import HeroSection from "@/components/home/hero-section";
 import ToolsGrid from "@/components/home/tools-grid";
 import FeaturesSection from "@/components/home/features-section";
+import BlogPreview from "@/components/home/blog-preview";
 import SocialProof from "@/components/home/social-proof";
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function HomePage() {
         <HeroSection />
       </Suspense>
       <ToolsGrid />
+      <BlogPreview />
       <FeaturesSection />
       <SocialProof />
     </div>

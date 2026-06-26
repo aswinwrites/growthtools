@@ -43,8 +43,8 @@ export default function HeroSection() {
             transition={{ delay: 0.2 }}
             className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl text-balance"
           >
-            Everything a Growth Marketer Needs.{" "}
-            <span className="gradient-text">In One Place.</span>
+            The Free Toolkit for{" "}
+            <span className="gradient-text">Serious Marketers.</span>
           </motion.h1>
 
           {/* Subheadline */}
