@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import {
   Link2,
   QrCode,
@@ -18,6 +19,7 @@ import {
   Database,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import EmailCaptureCard from "@/components/shared/email-capture-card";
 
 type Color =
   | "blue"
@@ -88,6 +90,7 @@ const activeIcon: Record<Color, string> = {
 
 export default function ToolsSidebar() {
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   return (
     <aside className="hidden lg:flex flex-col w-56 shrink-0 border-r border-gray-100 bg-white sticky top-16 h-[calc(100vh-64px)] overflow-y-auto">
@@ -151,6 +154,9 @@ export default function ToolsSidebar() {
           </div>
         </div>
       </nav>
+
+      {/* Email capture — only for non-signed-in users */}
+      {!session && <EmailCaptureCard />}
     </aside>
   );
 }

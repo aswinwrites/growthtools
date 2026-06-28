@@ -149,3 +149,15 @@ model LinkClick {
   @@index([createdAt])
   @@map("link_clicks")
 }
+
+// ── Email Leads ───────────────────────────────────────────────────────────────
+
+model EmailLead {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  source    String?  // e.g. "sidebar", "utm-builder", "spreadsheet"
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@map("email_leads")
+}
