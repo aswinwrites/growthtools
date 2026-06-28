@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 import { getAllPosts } from "@/lib/blog";
 
-const BASE_URL = "https://marketertools.fyi";
+const BASE_URL = "https://www.marketertools.fyi";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

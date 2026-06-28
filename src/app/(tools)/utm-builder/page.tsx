@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: "UTM Builder — Free Campaign URL Builder | MarketerTools",
     description:
       "Build UTM-tagged campaign URLs with presets for every channel. Free, instant, no signup required.",
-    url: "https://marketertools.fyi/utm-builder",
+    url: "https://www.marketertools.fyi/utm-builder",
   },
 };
 

@@ -11,9 +11,9 @@ export const metadata: Metadata = {
     title: "Marketing Blog — MarketerTools",
     description:
       "Practitioner-written guides on campaign tracking, paid search, ASO, and more.",
-    url: "https://marketertools.fyi/blog",
+    url: "https://www.marketertools.fyi/blog",
   },
-  alternates: { canonical: "https://marketertools.fyi/blog" },
+  alternates: { canonical: "https://www.marketertools.fyi/blog" },
 };
 
 const CATEGORY_COLORS: Record<string, string> = {

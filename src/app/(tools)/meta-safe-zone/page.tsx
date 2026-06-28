@@ -24,9 +24,9 @@ export const metadata: Metadata = {
     title: "Meta Safe Zone Checker | MarketerTools",
     description:
       "Preview your Meta ad creative across all placements with real safe zone overlays. Instagram Stories, Reels, Feed, Facebook and more. Free.",
-    url: "https://marketertools.fyi/meta-safe-zone",
+    url: "https://www.marketertools.fyi/meta-safe-zone",
   },
-  alternates: { canonical: "https://marketertools.fyi/meta-safe-zone" },
+  alternates: { canonical: "https://www.marketertools.fyi/meta-safe-zone" },
 };
 
 const faqSchema = {

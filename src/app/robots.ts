@@ -6,9 +6,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/dashboard/"],
+        disallow: ["/api/", "/_next/"],
       },
     ],
-    sitemap: "https://marketertools.fyi/sitemap.xml",
+    sitemap: "https://www.marketertools.fyi/sitemap.xml",
+    host: "https://www.marketertools.fyi",
   };
 }

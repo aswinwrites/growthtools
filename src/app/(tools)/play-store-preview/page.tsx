@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Play Store Preview | MarketerTools",
     description: "Preview Android app screenshots in a Google Play Store frame. Coming soon.",
-    url: "https://marketertools.fyi/play-store-preview",
+    url: "https://www.marketertools.fyi/play-store-preview",
   },
 };
 

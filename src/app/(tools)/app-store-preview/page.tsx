@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: "App Store Screenshot Preview | MarketerTools",
     description:
       "Preview screenshots in iPhone & iPad frames. Dark mode. Drag to reorder. Coming soon.",
-    url: "https://marketertools.fyi/app-store-preview",
+    url: "https://www.marketertools.fyi/app-store-preview",
   },
 };
 

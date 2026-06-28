@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: "URL Shortener with Analytics | MarketerTools",
     description:
       "Shorten links in seconds. Track clicks, geography, and devices. Free for marketers.",
-    url: "https://marketertools.fyi/url-shortener",
+    url: "https://www.marketertools.fyi/url-shortener",
   },
 };
 

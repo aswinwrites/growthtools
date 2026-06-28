@@ -35,7 +35,7 @@ export default async function DashboardPage() {
     }),
   ]);
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://marketertools.fyi";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.marketertools.fyi";
 
   const serialized = {
     user: session.user,

@@ -15,10 +15,10 @@ export const metadata: Metadata = {
     title: "Free Image Format Converter – PNG, JPEG, WebP, SVG",
     description:
       "Instantly convert between PNG, JPEG, WebP, and SVG in your browser. Quality control and scale settings — no file upload to any server.",
-    url: "https://marketertools.fyi/image-converter",
+    url: "https://www.marketertools.fyi/image-converter",
     type: "website",
   },
-  alternates: { canonical: "https://marketertools.fyi/image-converter" },
+  alternates: { canonical: "https://www.marketertools.fyi/image-converter" },
 };
 
 const CONVERSIONS = [

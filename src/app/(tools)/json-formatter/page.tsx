@@ -14,10 +14,10 @@ export const metadata: Metadata = {
     title: "JSON Formatter & Validator – Free Browser Tool",
     description:
       "Paste JSON, get beautiful syntax-highlighted output instantly. Format, minify, or validate — all client-side.",
-    url: "https://marketertools.fyi/json-formatter",
+    url: "https://www.marketertools.fyi/json-formatter",
     type: "website",
   },
-  alternates: { canonical: "https://marketertools.fyi/json-formatter" },
+  alternates: { canonical: "https://www.marketertools.fyi/json-formatter" },
 };
 
 const FEATURES = [

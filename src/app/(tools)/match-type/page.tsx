@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "Keyword Match Type Tool | MarketerTools",
     description:
       "Convert keywords to all three Google Ads match types in bulk. Free, instant, CSV export.",
-    url: "https://marketertools.fyi/match-type",
+    url: "https://www.marketertools.fyi/match-type",
   },
 };
 

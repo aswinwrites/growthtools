@@ -8,7 +8,7 @@ import LoginPrompt from "@/components/shared/login-prompt";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL ?? "https://marketertools.fyi"
+    process.env.NEXT_PUBLIC_APP_URL ?? "https://www.marketertools.fyi"
   ),
   title: {
     default: "MarketerTools — Free Tools for Marketers",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://marketertools.fyi",
+    url: "https://www.marketertools.fyi",
     siteName: "MarketerTools",
     title: "MarketerTools — Free Tools for Marketers",
     description:

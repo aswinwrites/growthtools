@@ -15,10 +15,10 @@ export const metadata: Metadata = {
     title: "Screenshot to Text – Free AI OCR | MarketerTools",
     description:
       "Upload any screenshot and extract all text instantly with AI. Preserves structure, headings, and layout.",
-    url: "https://marketertools.fyi/screenshot-to-text",
+    url: "https://www.marketertools.fyi/screenshot-to-text",
     type: "website",
   },
-  alternates: { canonical: "https://marketertools.fyi/screenshot-to-text" },
+  alternates: { canonical: "https://www.marketertools.fyi/screenshot-to-text" },
 };
 
 const USE_CASES = [

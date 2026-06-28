@@ -29,9 +29,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: post.description,
       type: "article",
       publishedTime: post.date,
-      url: `https://marketertools.fyi/blog/${slug}`,
+      url: `https://www.marketertools.fyi/blog/${slug}`,
     },
-    alternates: { canonical: `https://marketertools.fyi/blog/${slug}` },
+    alternates: { canonical: `https://www.marketertools.fyi/blog/${slug}` },
   };
 }
 
@@ -63,20 +63,20 @@ export default async function BlogPostPage({ params }: Props) {
     author: {
       "@type": "Organization",
       name: post.author,
-      url: "https://marketertools.fyi",
+      url: "https://www.marketertools.fyi",
     },
     publisher: {
       "@type": "Organization",
       name: "MarketerTools",
-      url: "https://marketertools.fyi",
+      url: "https://www.marketertools.fyi",
       logo: {
         "@type": "ImageObject",
-        url: "https://marketertools.fyi/og-image.png",
+        url: "https://www.marketertools.fyi/og-image.png",
       },
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://marketertools.fyi/blog/${slug}`,
+      "@id": `https://www.marketertools.fyi/blog/${slug}`,
     },
   };
 

@@ -51,7 +51,7 @@ export default function URLShortener() {
   const [analyticsData, setAnalyticsData] = useState<Record<string, AnalyticsData>>({});
   const [loadingAnalytics, setLoadingAnalytics] = useState<string | null>(null);
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://marketertools.fyi";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.marketertools.fyi";
 
   const handleShorten = async () => {
     setError("");

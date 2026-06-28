@@ -15,10 +15,10 @@ export const metadata: Metadata = {
     title: "Image to CSV – Extract Tables from Screenshots with AI",
     description:
       "Upload any screenshot containing a table and get structured CSV data instantly. No manual typing, no data storage.",
-    url: "https://marketertools.fyi/image-to-csv",
+    url: "https://www.marketertools.fyi/image-to-csv",
     type: "website",
   },
-  alternates: { canonical: "https://marketertools.fyi/image-to-csv" },
+  alternates: { canonical: "https://www.marketertools.fyi/image-to-csv" },
 };
 
 const USE_CASES = [

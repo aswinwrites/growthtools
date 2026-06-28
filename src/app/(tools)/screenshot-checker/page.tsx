@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "Screenshot Dimension Checker | MarketerTools",
     description:
       "Check if your screenshots meet App Store and Play Store requirements. Instant, client-side, free.",
-    url: "https://marketertools.fyi/screenshot-checker",
+    url: "https://www.marketertools.fyi/screenshot-checker",
   },
 };
 

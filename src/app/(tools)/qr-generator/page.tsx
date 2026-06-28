@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "Free QR Code Generator | MarketerTools",
     description:
       "Custom QR codes with logo, colors, and styles. Export PNG or SVG. Free.",
-    url: "https://marketertools.fyi/qr-generator",
+    url: "https://www.marketertools.fyi/qr-generator",
   },
 };
 
