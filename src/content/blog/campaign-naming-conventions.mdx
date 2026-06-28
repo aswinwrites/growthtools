@@ -1,0 +1,359 @@
+---
+title: "Campaign Naming Conventions: The System That Keeps Multi-Channel Attribution from Falling Apart"
+description: "A practical framework for naming campaigns, ad sets, and ads across Google Ads, Meta, TikTok, and LinkedIn — so your data is clean, your team is aligned, and your reports actually mean something."
+date: "2026-06-28"
+category: "Campaign Tracking"
+readTime: "16 min read"
+author: "MarketerTools"
+authorTitle: "Marketing Practitioners"
+tags: ["Campaign Naming", "Campaign Tracking", "UTM", "Google Ads", "Meta Ads", "Attribution"]
+---
+
+**Campaign naming conventions are the structured rules your team uses to name campaigns, ad sets, and individual ads inside ad platforms.** A good naming convention makes it possible to understand a campaign's purpose, audience, creative type, and date range by reading its name — without clicking into it. A bad one means every report requires three follow-up questions and a Slack message to whoever built the campaign.
+
+This isn't a cosmetic problem. When campaign names are inconsistent, your ability to filter, segment, and compare data across platforms collapses. Pivot tables break. Cross-platform reporting requires manual cleanup. And when team members turn over, institutional knowledge about what each campaign does and targets walks out the door with them.
+
+> **Quick answer:** A campaign naming convention is a documented structure that defines what information each campaign, ad set, and ad name must contain, and in what order. A minimal viable structure for most teams is: `[Platform]_[Channel]_[Campaign-Type]_[Audience]_[Date]` at the campaign level, with ad set names containing audience/targeting details and ad names containing creative details and variants.
+
+---
+
+## Table of Contents
+
+- [Why Naming Conventions Matter More Than You Think](#why-naming-conventions-matter-more-than-you-think)
+- [The Anatomy of a Good Campaign Name](#the-anatomy-of-a-good-campaign-name)
+- [Platform-Level Naming Framework](#platform-level-naming-framework)
+- [Ad Set and Ad Group Naming](#ad-set-and-ad-group-naming)
+- [Ad-Level Naming](#ad-level-naming)
+- [Cross-Platform Naming Consistency](#cross-platform-naming-consistency)
+- [Date Conventions](#date-conventions)
+- [Naming for Automated Reporting](#naming-for-automated-reporting)
+- [How to Retroactively Fix Bad Naming](#how-to-retroactively-fix-bad-naming)
+- [The Living Naming Document](#the-living-naming-document)
+- [FAQ](#faq)
+
+---
+
+## Why Naming Conventions Matter More Than You Think
+
+Here's what poorly named campaigns actually cost:
+
+**Reporting time.** If campaign names don't encode useful information, every analysis starts with a lookup step — opening the campaign to understand what it is before you can interpret its performance. Multiply this by hundreds of campaigns across five platforms and you're talking about hours per week of preventable overhead.
+
+**Cross-platform filtering.** Most reporting tools (Google Looker Studio, Supermetrics, Northbeam, Triple Whale) let you filter data by campaign name using string matching. If your Google campaign is named `Brand_Search_Exact` and your Meta campaign targeting the same funnel stage is named `Retargeting - Warm - Phase 2`, you can't programmatically compare them. Consistent naming turns reporting filters into powerful segmentation tools.
+
+**Team handoffs.** New team members, agencies, and freelancers inherit whatever naming system was in place. If that system is "whoever built it named it whatever made sense to them at the time," incoming team members have no anchor. Consistent naming is documentation.
+
+**Budget decisions.** When you're looking at a top-line performance summary and a campaign called `TEST_Q3_Creative-A_v2_FINAL_USE-THIS-ONE` is underperforming, you don't know if it's a test you should pause, a core campaign you should scale, or something a vendor set up and forgot about.
+
+---
+
+## The Anatomy of a Good Campaign Name
+
+A campaign name should encode enough information to answer: *What is this? Who does it target? When was it built?*
+
+The standard components, roughly in order of importance:
+
+| Component | What it encodes | Example values |
+|-----------|----------------|----------------|
+| Platform | Which ad platform | `GGL` (Google), `META`, `TT` (TikTok), `LI` (LinkedIn), `PIN` (Pinterest) |
+| Channel | Broad channel type | `Search`, `Display`, `Social`, `Video`, `Shopping`, `PMax` |
+| Campaign type | Objective or funnel stage | `Brand`, `Prospecting`, `Retargeting`, `Conversion`, `Awareness` |
+| Audience / Targeting | Who is being targeted | `Lookalike`, `Retarget-90d`, `Cold`, `CRM-List`, `TopOfFunnel` |
+| Campaign theme | Product or offer focus | `SummerSale`, `ProductX`, `FreeTrial` |
+| Date | When the campaign was built or runs | `2026Q2`, `Jun2026`, `2026-06` |
+
+A complete campaign name using these components:
+```
+META_Social_Prospecting_Lookalike-1pct_SummerSale_2026Q2
+```
+
+Reading that name cold, you know: it's on Meta, it's a social placement, it's prospecting new users, targeting a 1% lookalike audience, for the Summer Sale campaign, built in Q2 2026.
+
+You don't need all six components in every campaign name — some teams use four. What matters is that you pick a structure and apply it consistently.
+
+---
+
+## Platform-Level Naming Framework
+
+### Google Ads
+
+Google Ads has three levels: Campaign → Ad Group → Ad. The naming convention should cascade down these levels.
+
+**Campaign level:**
+```
+[Network]_[Type]_[Theme]_[Audience]_[Date]
+```
+
+Examples:
+- `Search_Brand_Exact_All-Users_2026Q2`
+- `Search_NonBrand_BMM-Phrase_TopOfFunnel_2026Q3`
+- `Display_Remarketing_CartAbandoners_30d_2026Q2`
+- `PMax_Shopping_AllProducts_2026Q3`
+- `Video_Awareness_YoungAdults18-34_ProductLaunch_2026Q2`
+
+**Network abbreviations:**
+- `Search` — Google Search
+- `Display` — Google Display Network
+- `PMax` — Performance Max
+- `Video` — YouTube/Video campaigns
+- `Shopping` — Shopping-only campaigns
+- `Discovery` — Discovery campaigns
+
+### Meta Ads
+
+Meta Ads has three levels: Campaign → Ad Set → Ad.
+
+**Campaign level:**
+```
+[Objective]_[Funnel-Stage]_[Theme]_[Date]
+```
+
+Examples:
+- `Conversions_Prospecting_SummerSale_2026Q2`
+- `Conversions_Retargeting_CartAbandoners_2026Q3`
+- `Awareness_TopOfFunnel_BrandVideo_2026Q2`
+- `LeadGen_Prospecting_FreeTrial_2026Q3`
+
+**Objective abbreviations to use:**
+- `Conversions` — Purchase / Lead objective
+- `Awareness` — Brand awareness / reach
+- `Traffic` — Link clicks / landing page views
+- `Engagement` — Post engagement
+- `LeadGen` — Lead generation forms
+- `Video` — Video views objective
+
+### TikTok Ads
+
+TikTok Ads has the same three-level structure: Campaign → Ad Group → Ad.
+
+**Campaign level:**
+```
+TT_[Objective]_[Funnel-Stage]_[Theme]_[Date]
+```
+
+Examples:
+- `TT_Conversions_Prospecting_SummerSale_2026Q2`
+- `TT_Awareness_TopOfFunnel_BrandVideo_2026Q2`
+
+### LinkedIn Ads
+
+LinkedIn Campaign Manager: Campaign Group → Campaign → Ad.
+
+**Campaign Group** = Budget container (use to group related campaigns by objective or quarter)
+**Campaign** = Targeting + bid strategy
+**Ad** = Individual creative
+
+**Campaign level:**
+```
+LI_[Format]_[Audience]_[Theme]_[Date]
+```
+
+Examples:
+- `LI_Sponsored-Content_B2B-IT-Decision-Makers_WhitepaperQ2_2026`
+- `LI_Message-Ads_CRM-Retarget_ProductDemo_2026Q3`
+- `LI_Lead-Gen_Retarget-WebsiteVisitors_FreeTrial_2026Q2`
+
+---
+
+## Ad Set and Ad Group Naming
+
+The ad set or ad group name should encode targeting details — who is being reached and how.
+
+### Meta Ad Set Naming
+
+```
+[Audience-Type]_[Audience-Detail]_[Placement]_[Budget-Type]
+```
+
+Examples:
+- `LAL_1pct-Purchasers_AutoPlacements_CBO`
+- `Retarget_WebVisitors-30d_FeedOnly_ABO`
+- `Interest_Fitness-Enthusiasts-25-44_AutoPlacements_CBO`
+- `Broad_No-Targeting_All-Placements_ABO`
+
+**Audience type abbreviations:**
+- `LAL` — Lookalike audience
+- `Retarget` — Retargeting (website, video viewers, engaged users)
+- `Interest` — Interest-based targeting
+- `Custom` — Custom audience (CRM list, engagement list)
+- `Broad` — Broad targeting / no interest layers
+
+**Budget type:**
+- `CBO` — Campaign Budget Optimization (budget set at campaign level)
+- `ABO` — Ad Set Budget Optimization (budget set at ad set level)
+
+### Google Ads Ad Group Naming
+
+For Search campaigns:
+```
+[Match-Type]_[Keyword-Theme]
+```
+
+Examples:
+- `Exact_Brand-Core`
+- `Phrase_NonBrand-Category`
+- `Broad_Competitor-Terms`
+
+For Display and Video:
+```
+[Audience-Type]_[Audience-Detail]`
+```
+
+Examples:
+- `Remarketing_CartAbandoners-14d`
+- `InMarket_SoftwarePurchasers`
+- `CustomIntent_CompetitorSearchers`
+
+---
+
+## Ad-Level Naming
+
+The ad name is where you encode creative details: format, angle, variant, and test information.
+
+### Ad Naming Structure
+
+```
+[Format]_[Creative-Angle]_[Variant]_[Test-Info]
+```
+
+Examples for Meta image ads:
+- `Static_UGC-Review_v1`
+- `Static_ProductFlatlay_v2`
+- `Carousel_5Card-Features_v1`
+- `Video_Testimonial-30s_v1`
+- `Video_ProductDemo-15s_v2`
+- `Story_UGC-Unboxing-9x16_v1`
+
+**Format abbreviations:**
+- `Static` — Single image
+- `Carousel` — Multi-card carousel
+- `Video` — Video ad
+- `Story` or `Reel` — Stories/Reels format
+- `DPA` — Dynamic Product Ad (catalogue feed)
+
+**Creative angle** describes the messaging or visual hook:
+- `UGC` — User-generated content style
+- `Testimonial` — Customer quote or face
+- `ProductDemo` — Product in use
+- `Offer` — Discount, promotion, or deal
+- `Comparison` — vs. competitor or alternative
+- `Pain-Point` — Addresses a problem
+- `Social-Proof` — Reviews, ratings, numbers
+
+**Variant** (`v1`, `v2`, `v3`) distinguishes creative iterations. When an ad is paused and a new version is created, increment the variant number rather than creating an entirely new name from scratch. This preserves the lineage.
+
+---
+
+## Cross-Platform Naming Consistency
+
+The most valuable thing a naming convention can do for cross-platform reporting is create shared vocabulary. When the same campaign concept exists across Google Ads, Meta, and TikTok, the names should parallel each other so reports can be built with regex or string matching.
+
+Example of a Summer Sale campaign across platforms:
+
+| Platform | Campaign Name |
+|----------|--------------|
+| Google Search | `Search_Brand_SummerSale_All_2026Q2` |
+| Google PMax | `PMax_Shopping_SummerSale_All_2026Q2` |
+| Meta | `Conversions_Prospecting_SummerSale_2026Q2` |
+| TikTok | `TT_Conversions_Prospecting_SummerSale_2026Q2` |
+| LinkedIn | `LI_Sponsored-Content_B2B_SummerSale_2026Q2` |
+
+A Looker Studio or Excel filter for `SummerSale` will now surface all related campaigns across all platforms in one query. Without the shared campaign theme in the name, this cross-platform view requires a manual mapping table that someone has to maintain.
+
+---
+
+## Date Conventions
+
+How you encode date in campaign names matters for longevity of reporting. Three common approaches:
+
+**Quarterly (`2026Q2`):** Best for campaigns that run for a full quarter or are part of a quarterly planning cycle. Easy to filter and compare Q1 vs Q2. Campaigns that start in Q2 and run into Q3 get slightly confusing, but this is manageable.
+
+**Month-Year (`Jun2026`):** Best for monthly budget cycles or campaigns that launch and end within a month. More precise than quarterly, but creates more rows in multi-month comparisons.
+
+**ISO date (`2026-06-15`):** Best for campaigns with specific launch dates, A/B tests, or event-specific campaigns. Most precise, least ambiguous, but creates long names when combined with other components.
+
+**Recommendation:** use `2026Q2` or `Jun2026` for standard campaigns; use full ISO dates for tests, launches, and time-limited promotions.
+
+---
+
+## Naming for Automated Reporting
+
+If you're using any automated reporting tool (Looker Studio, Supermetrics, Northbeam, Triple Whale, custom BigQuery dashboards), your naming convention directly determines what automated filters you can build.
+
+**Make your naming conventions regex-compatible:**
+- Use consistent separators (underscores `_` rather than spaces or mixed punctuation)
+- Use consistent abbreviations (always `META`, never sometimes `Facebook` or `FB`)
+- Never use special characters that break regex or CSV parsing: `&`, `%`, `#`, `(`, `)`, `/`
+
+**Build regex filters once, use forever:**
+- Filter `campaign_name ~ "Prospecting"` to see all prospecting campaigns across platforms
+- Filter `campaign_name ~ "2026Q2"` to see all Q2 campaigns
+- Filter `campaign_name ~ "Retarget"` to see all retargeting across platforms
+- Filter `campaign_name ~ "Brand"` to see branded campaigns across Search and Social
+
+When your naming convention is consistent, these filters are write-once, maintained never. When it's inconsistent, they require constant manual adjustment.
+
+---
+
+## How to Retroactively Fix Bad Naming
+
+Existing accounts with years of inconsistent naming are a harder problem. Renaming live campaigns risks disrupting the account's machine learning (on Meta and Google, campaign renames don't reset learning but ad set renames can in some cases). Here's a practical approach:
+
+1. **Audit first.** Export all campaign names from all platforms into a spreadsheet. Note which campaigns are active vs. paused. Categorize by what each campaign actually does.
+
+2. **Create a mapping table.** Old name → new name. This becomes your reference document and your historical data annotation.
+
+3. **Rename paused campaigns immediately.** No learning risk for inactive campaigns. Clean those up first.
+
+4. **Rename active campaigns in waves.** For Meta, rename ad sets and ads before the campaign (the campaign rename is low risk). For Google, rename campaigns and ad groups during low-traffic periods. Monitor performance for 48–72 hours after renames on Smart Bidding campaigns.
+
+5. **Don't rename ads.** Individual ad renames in Google and Meta can reset ad performance history. Instead, pause old ads and create new ones with correct names. Preserve the old naming in a note or label for historical context.
+
+6. **Document the cutover date.** Note in your reporting tool: "Campaign naming convention standardized [date]." Historical data before that date uses the old names — filter accordingly.
+
+---
+
+## The Living Naming Document
+
+A naming convention document is only useful if it's accessible, current, and enforced. Best practices for maintaining it:
+
+- **Single source of truth:** One document (Notion page, Google Doc, Confluence page) that everyone uses. Not a Slack message from 2023.
+- **Includes examples:** For every level (campaign, ad set, ad), include 3–5 real examples from current campaigns. Abstract rules are ignored; concrete examples are followed.
+- **Includes prohibited patterns:** List what NOT to do. "Don't use the word 'test' without a date. Don't use 'new' or 'copy.' Don't use spaces."
+- **Version controlled:** Date the document. When the convention changes, note the change and the date — so historical campaigns can be interpreted against the right version.
+- **Enforced at campaign creation:** The easiest enforcement point is a naming checklist in your campaign launch process. Make naming compliance a step before any campaign goes live.
+- **Reviewed quarterly:** As platforms add new objectives, formats, and features, your naming vocabulary needs to expand. A quarterly review keeps the document accurate.
+
+---
+
+## FAQ
+
+**What is a campaign naming convention?**
+A campaign naming convention is a documented structure that defines what information must be included in each campaign, ad set, and ad name, and in what order. It ensures that campaign names are consistently formatted across team members, agencies, and platforms — making reporting, filtering, and analysis possible without manual data cleanup.
+
+**Why do campaign naming conventions matter?**
+Campaign names are the primary way reporting tools (including native platform dashboards, Looker Studio, Supermetrics, and custom BI tools) filter and segment data. Inconsistent naming means you can't reliably filter for "all prospecting campaigns" or "all Q2 campaigns" without manual work. Clean, consistent naming turns campaign names into a first-class data dimension.
+
+**What information should a campaign name include?**
+At minimum: the platform (Google, Meta, TikTok, LinkedIn), the campaign type or funnel stage (prospecting, retargeting, brand, awareness), the campaign theme or offer, and the date (quarter or month-year). Optionally: audience type, placement, and objective. The exact components depend on your team's reporting needs — the key is that every team member builds names with the same components in the same order.
+
+**Should campaign names be different on each platform?**
+They should be platform-consistent (following the same naming structure on each platform) but can include a platform prefix to distinguish them in cross-platform reports. A campaign for the Summer Sale should have "SummerSale" in the name on Google, Meta, and TikTok — so cross-platform filters can surface all three with a single string match.
+
+**How do I handle campaign renames without losing historical data?**
+Campaign renames don't delete historical data — the platform retains performance history under the new name. However, any reporting tool that uses campaign name as a dimension will see a break in the time series (the old name stops getting data, the new name starts). Mitigate this by: documenting rename dates in your reporting notes, using labels or tags in addition to names for historical context, and building reporting dimensions from campaign labels (which don't change on rename) rather than only campaign names.
+
+**What separators should I use in campaign names?**
+Underscores (`_`) are the most universally compatible separator — they work in regex, URL strings, and CSV exports without breaking formatting. Hyphens (`-`) work for secondary separators within a component. Avoid spaces (which appear as `%20` in some tools), forward slashes, ampersands, and parentheses, which can break regex filters and CSV parsing.
+
+**How specific should ad names be?**
+Ad names should encode enough information to understand the creative without clicking into the ad itself. At minimum: the format (static image, video, carousel), the creative angle or hook (testimonial, UGC, product demo, offer), and a variant number. The goal is that someone looking at an ad performance report can understand what creative they're looking at — and know which version to scale or cut — from the name alone.
+
+**Should I use different naming for evergreen vs. promotional campaigns?**
+Yes. Evergreen campaigns (always-on brand, retargeting, bottom-funnel) benefit from names without date components, since they run continuously. Promotional campaigns (Black Friday, product launches, seasonal sales) should always include a date or quarter in the name so historical promotions can be compared year-over-year. A practical approach: omit the date from evergreen campaign names but include it at the ad set level to distinguish budget periods.
+
+**What's the best way to enforce naming conventions across a team?**
+The most effective enforcement mechanisms are: (1) a naming checklist step in the campaign launch SOP that must be completed before a campaign goes live, (2) a peer review requirement where a second team member checks the campaign name during QA, and (3) a Google Sheets or Notion template that generates compliant names from dropdown inputs. Enforcement through policy alone (a document nobody reads) rarely works. Make the right format the easiest format to use.
+
+**How do I name Performance Max campaigns?**
+PMax campaigns collapse the traditional campaign/ad group hierarchy, so naming needs to encode more information at the campaign level. A practical format: `PMax_[Objective]_[ProductLine/Theme]_[Audience-Focus]_[Date]`. Example: `PMax_Shopping_AllProducts_BroadAudience_2026Q3`. If you're running multiple PMax campaigns targeting different product categories, distinguish them by product line in the name: `PMax_Shopping_Category-Electronics_2026Q3`.

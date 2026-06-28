@@ -1,0 +1,277 @@
+---
+title: "VLOOKUP vs XLOOKUP: When to Use Each (And When to Use Neither)"
+description: "XLOOKUP replaced VLOOKUP for most use cases, but VLOOKUP still has a place. This guide covers the exact differences, when each wins, and the scenarios where INDEX-MATCH is still your best option."
+date: "2026-06-28"
+category: "Data & Analytics"
+readTime: "13 min read"
+author: "MarketerTools"
+authorTitle: "Marketing Practitioners"
+tags: ["Excel", "VLOOKUP", "XLOOKUP", "Spreadsheet", "Data Analysis", "Google Sheets"]
+---
+
+**VLOOKUP and XLOOKUP are both lookup functions in Excel and Google Sheets that find a value in a table and return a corresponding value from another column.** VLOOKUP has been the standard since Excel 1995. XLOOKUP was introduced by Microsoft in 2019 and is available in Excel 365, Excel 2021, and Google Sheets. For most use cases, XLOOKUP is the better choice — but understanding why requires understanding what VLOOKUP gets wrong.
+
+> **Quick answer:** Use XLOOKUP over VLOOKUP for virtually every new formula you write. XLOOKUP searches in any direction, doesn't break when columns are inserted, handles missing values natively, and is easier to read. Keep VLOOKUP only when you must maintain compatibility with Excel versions before 2019 (Excel 2019 and earlier, Excel Online, or Google Sheets users without XLOOKUP access).
+
+---
+
+## Table of Contents
+
+- [The Core Problem VLOOKUP Has](#the-core-problem-vlookup-has)
+- [VLOOKUP Syntax and How It Works](#vlookup-syntax-and-how-it-works)
+- [XLOOKUP Syntax and How It Works](#xlookup-syntax-and-how-it-works)
+- [Side-by-Side Comparison](#side-by-side-comparison)
+- [What XLOOKUP Does That VLOOKUP Cannot](#what-xlookup-does-that-vlookup-cannot)
+- [When VLOOKUP Still Makes Sense](#when-vlookup-still-makes-sense)
+- [INDEX-MATCH: The Third Option](#index-match-the-third-option)
+- [Performance at Scale](#performance-at-scale)
+- [Common Mistakes in Both Functions](#common-mistakes-in-both-functions)
+- [Use the Spreadsheet Ops Tool](#use-the-spreadsheet-ops-tool)
+- [FAQ](#faq)
+
+---
+
+## The Core Problem VLOOKUP Has
+
+VLOOKUP's most fundamental limitation is that it looks up a value in the **first column** of a range and returns a value from a column **to the right** by position number (column index). This creates two significant fragility issues:
+
+**Problem 1: Column index fragility.** You write `VLOOKUP(A2, Data!A:D, 3, FALSE)` to return the value from the 3rd column. A colleague inserts a new column between columns B and C of your data range. Now column 3 contains different data than when you wrote the formula — and the formula is silently wrong. No error, just wrong numbers.
+
+**Problem 2: Can't look left.** VLOOKUP only returns values to the right of the lookup column. If your lookup key is in column C and the value you want is in column A (to the left), you need to restructure the data or use a workaround. VLOOKUP by design can't search right-to-left.
+
+These aren't edge cases — they're the reason INDEX-MATCH became the preferred alternative for serious Excel users long before XLOOKUP existed. XLOOKUP was Microsoft's answer to both problems.
+
+---
+
+## VLOOKUP Syntax and How It Works
+
+```excel
+=VLOOKUP(lookup_value, table_array, col_index_num, [range_lookup])
+```
+
+| Argument | Required? | What it does |
+|----------|-----------|-------------|
+| `lookup_value` | Yes | The value to search for |
+| `table_array` | Yes | The range to search (lookup column must be leftmost) |
+| `col_index_num` | Yes | Which column number in the range to return (1 = leftmost) |
+| `range_lookup` | No | `TRUE` for approximate match (sorted data), `FALSE` for exact match |
+
+**Example:** Find an email address from a user ID in a separate sheet:
+```excel
+=VLOOKUP(A2, UserData!A:C, 3, FALSE)
+```
+
+This searches for the value in A2 within the first column of `UserData!A:C`, then returns the value from the 3rd column of that range.
+
+**The `range_lookup` trap:** Leaving `range_lookup` blank defaults to `TRUE` (approximate match). For most data lookups, you want `FALSE` (exact match). This is one of the most common VLOOKUP mistakes — an accidentally omitted `FALSE` that returns wrong data silently when your data isn't sorted.
+
+---
+
+## XLOOKUP Syntax and How It Works
+
+```excel
+=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])
+```
+
+| Argument | Required? | What it does |
+|----------|-----------|-------------|
+| `lookup_value` | Yes | The value to search for |
+| `lookup_array` | Yes | The single column or row to search |
+| `return_array` | Yes | The single column or row to return values from |
+| `if_not_found` | No | What to return if no match found (default: `#N/A` error) |
+| `match_mode` | No | `0` = exact (default), `-1` = exact or next smaller, `1` = exact or next larger, `2` = wildcard |
+| `search_mode` | No | `1` = first-to-last (default), `-1` = last-to-first, `2` = binary ascending, `-2` = binary descending |
+
+**Example:** Same lookup as above, rewritten in XLOOKUP:
+```excel
+=XLOOKUP(A2, UserData!A:A, UserData!C:C, "Not found")
+```
+
+This searches for the value in A2 within `UserData!A:A`, then returns the corresponding value from `UserData!C:C`. If nothing is found, it returns "Not found" instead of an `#N/A` error.
+
+The critical difference: **lookup_array and return_array are specified separately**. No column index number. No fragility from column inserts. No limit on direction.
+
+---
+
+## Side-by-Side Comparison
+
+| Feature | VLOOKUP | XLOOKUP |
+|---------|---------|---------|
+| Can search left of lookup column | No | Yes |
+| Breaks when columns inserted | Yes (column index shifts) | No (uses column references) |
+| Default on no match | `#N/A` error | `#N/A` error (configurable with `if_not_found`) |
+| Handles multiple return columns | No (one at a time) | Yes (return an entire range) |
+| Wildcard support | Partial | Yes (match_mode = 2) |
+| Approximate match (sorted data) | Yes | Yes |
+| Search direction (first vs last match) | First only | Configurable (first or last) |
+| Binary search for performance | No | Yes (search_mode = 2 or -2) |
+| Available in Excel 2016 and earlier | Yes | No |
+| Available in Google Sheets | Yes | Yes (since 2022) |
+| Available in Excel 365/2021 | Yes | Yes |
+| Formula readability | Moderate | Higher |
+
+---
+
+## What XLOOKUP Does That VLOOKUP Cannot
+
+### 1. Return multiple columns at once
+
+VLOOKUP can only return one value per formula. If you need three columns, you write three VLOOKUP formulas with different column index numbers. XLOOKUP can return an entire range:
+
+```excel
+=XLOOKUP(A2, UserData!A:A, UserData!B:D)
+```
+
+This single formula returns all three values from columns B, C, and D simultaneously — spilling into adjacent cells (Excel dynamic arrays, available in Excel 365).
+
+### 2. Look left without tricks
+
+XLOOKUP simply works right-to-left. If your return value is to the left of your lookup column:
+
+```excel
+=XLOOKUP(D2, Data!C:C, Data!A:A)
+```
+
+No helper columns, no restructuring needed.
+
+### 3. Custom "not found" value
+
+Instead of getting an `#N/A` error when a match isn't found, XLOOKUP lets you specify exactly what to return:
+
+```excel
+=XLOOKUP(A2, Products!A:A, Products!B:B, "Product not in catalogue")
+```
+
+Much cleaner than wrapping VLOOKUP in `IFERROR()`.
+
+### 4. Find the last match
+
+VLOOKUP always finds the first match in a column. XLOOKUP can find the last match by setting `search_mode = -1`:
+
+```excel
+=XLOOKUP(A2, Orders!A:A, Orders!B:B, "No orders", 0, -1)
+```
+
+Useful when you have duplicate keys and want the most recent entry (assuming the data is in chronological order).
+
+### 5. No sorted data requirement for approximate match
+
+VLOOKUP's approximate match (`range_lookup = TRUE`) requires the lookup column to be sorted ascending. XLOOKUP's approximate match (`match_mode = -1` or `1`) works on unsorted data. This removes a data preparation step and reduces error risk.
+
+---
+
+## When VLOOKUP Still Makes Sense
+
+Despite XLOOKUP's advantages, there are scenarios where VLOOKUP is the right choice:
+
+**1. Compatibility with older Excel versions.** If your spreadsheet will be opened by users on Excel 2019 or earlier, or shared with external parties who may not have Excel 365, VLOOKUP is the safe choice. XLOOKUP in Excel 365 will display as `#NAME?` error in older Excel.
+
+**2. Existing VLOOKUP formulas in inherited files.** If a spreadsheet has hundreds of working VLOOKUP formulas and nothing is broken, rewriting them all in XLOOKUP creates risk without clear benefit. Fix what's broken; don't rewrite what works.
+
+**3. Environments where XLOOKUP isn't available.** Some enterprise environments run older versions of Microsoft 365 that haven't received the XLOOKUP update. Some third-party tools that read Excel files don't support XLOOKUP. Check your specific environment.
+
+**4. Simple one-column lookups with stable data structure.** For a straightforward lookup where the data structure never changes and you're the only person who edits the file, VLOOKUP's slightly simpler syntax (for people who already know it) can be fine. This is a weak argument, but it's honest.
+
+---
+
+## INDEX-MATCH: The Third Option
+
+Before XLOOKUP existed, power Excel users avoided both VLOOKUP's limitations using the combination of `INDEX` and `MATCH`. It's worth understanding even in 2026 because:
+
+- It works in all Excel versions including very old ones
+- It's still faster than VLOOKUP in some performance scenarios
+- It's what you'll encounter in pre-2019 spreadsheets
+
+```excel
+=INDEX(return_range, MATCH(lookup_value, lookup_range, 0))
+```
+
+**Example:**
+```excel
+=INDEX(Data!C:C, MATCH(A2, Data!A:A, 0))
+```
+
+`MATCH(A2, Data!A:A, 0)` finds the position of A2 in column A. `INDEX(Data!C:C, [position])` returns the value from column C at that position.
+
+INDEX-MATCH isn't fragile to column inserts (it uses column references), can look in any direction, and is generally considered the predecessor to XLOOKUP's design philosophy.
+
+**INDEX-MATCH vs XLOOKUP:** For modern Excel/Sheets, XLOOKUP is easier to read and write. INDEX-MATCH wins for backward compatibility and certain performance scenarios with very large datasets. Both beat VLOOKUP in nearly every dimension.
+
+Use the [Spreadsheet Ops tool on MarketerTools](/spreadsheet) if you need to perform VLOOKUP-style joins between two files — the XLOOKUP, VLOOKUP, and INDEX-MATCH operations are available without writing any formulas.
+
+---
+
+## Performance at Scale
+
+For most marketing spreadsheets (tens of thousands of rows), performance differences between lookup functions are imperceptible. For very large datasets (hundreds of thousands of rows, complex multi-sheet lookups), the differences matter:
+
+| Function | Relative performance | Notes |
+|----------|---------------------|-------|
+| VLOOKUP (exact match) | Baseline | Sequential scan of lookup column |
+| INDEX-MATCH (exact match) | Slightly faster | More efficient on very large ranges |
+| XLOOKUP (exact match) | Similar to INDEX-MATCH | Modern implementation |
+| XLOOKUP (binary search) | Significantly faster | Requires sorted data; use `search_mode = 2` |
+
+For large datasets where performance is an issue: sort your lookup column and use XLOOKUP with `search_mode = 2` (binary ascending search) — this dramatically reduces computation time by searching logarithmically rather than linearly.
+
+---
+
+## Common Mistakes in Both Functions
+
+**VLOOKUP mistakes:**
+1. **Omitting FALSE for exact match** — defaulting to approximate match when you want exact
+2. **Hardcoding column index numbers** — `col_index_num = 4` breaks when columns are inserted/deleted
+3. **Not locking the table_array reference** — `VLOOKUP(A2, B:D, 3, FALSE)` when copied down stays correct; `VLOOKUP(A2, B2:D100, 3, FALSE)` shifts incorrectly
+4. **Using it for approximate match on unsorted data** — silently returns wrong results
+5. **Not handling #N/A errors** — unhandled errors cascade through dependent cells
+
+**XLOOKUP mistakes:**
+1. **Mismatched lookup and return array sizes** — `lookup_array` and `return_array` must be the same size
+2. **Forgetting `if_not_found` handling** — still returns `#N/A` by default; specify a fallback
+3. **Expecting spill behavior in older Excel** — multiple-column XLOOKUP requires dynamic arrays (Excel 365); in older versions, only the first returned value appears
+4. **Using wildcard match without knowing it** — `match_mode = 2` enables wildcard matching; `?` and `*` become special characters in the lookup value
+5. **Binary search on unsorted data** — `search_mode = 2` or `-2` requires sorted data; on unsorted data it returns unpredictable results
+
+---
+
+## Use the Spreadsheet Ops Tool
+
+If you're joining two CSV or Excel files without wanting to write formulas, the [Spreadsheet Ops tool on MarketerTools](/spreadsheet) performs VLOOKUP, XLOOKUP, INDEX-MATCH, and full join operations (left join, inner join, full outer join) on uploaded files. Upload both files, select the key column, choose your operation, and download the result. No formula writing required.
+
+---
+
+## FAQ
+
+**What is the difference between VLOOKUP and XLOOKUP?**
+VLOOKUP searches the leftmost column of a range and returns a value from a specified column to the right, identified by a position number. XLOOKUP separates the lookup column and return column into independent arguments, allowing lookup in any direction (left, right, up, or down), eliminating column index fragility, and natively handling missing values. For new formulas in Excel 365 or Google Sheets, XLOOKUP is the better choice in almost every case.
+
+**Is XLOOKUP available in Google Sheets?**
+Yes. Google added XLOOKUP to Google Sheets in 2022. It works the same as in Microsoft Excel 365 with the same syntax and arguments. If you or your collaborators use older versions of Excel (2019 or earlier), XLOOKUP will not work in those environments, but Google Sheets users can use it regardless.
+
+**When should I still use VLOOKUP?**
+Use VLOOKUP when: (1) you need compatibility with Excel 2019 or earlier where XLOOKUP doesn't exist, (2) you're maintaining existing spreadsheets with working VLOOKUP formulas that don't need to change, or (3) your specific environment doesn't support XLOOKUP. For any new formula in Excel 365 or Google Sheets, XLOOKUP is almost always the better choice.
+
+**What does the FALSE argument in VLOOKUP do?**
+The fourth argument `[range_lookup]` controls whether VLOOKUP finds an exact match (`FALSE`) or an approximate match (`TRUE`). Approximate match assumes the lookup column is sorted ascending and uses binary search to find the closest value less than or equal to the lookup value. For most marketing data lookups (matching IDs, names, campaign codes), you want exact match — `FALSE`. Omitting this argument defaults to `TRUE`, which can silently return wrong results on unsorted data.
+
+**Can XLOOKUP replace INDEX-MATCH?**
+For most practical use cases in Excel 365 and Google Sheets, yes. XLOOKUP has equivalent functionality to INDEX-MATCH and is easier to write and read. INDEX-MATCH remains useful for: backward compatibility with Excel 2019 and earlier, performance optimization with very large sorted datasets, and certain two-dimensional lookup patterns (like looking up a value at the intersection of a row and column lookup) where INDEX-MATCH syntax is more natural.
+
+**What happens when XLOOKUP doesn't find a match?**
+By default, XLOOKUP returns `#N/A` (same as VLOOKUP). The third optional argument, `[if_not_found]`, lets you specify a custom return value when no match is found. For example, `=XLOOKUP(A2, Data!A:A, Data!B:B, "Not found")` returns "Not found" instead of an error. This is cleaner than wrapping VLOOKUP in `IFERROR()`.
+
+**Can XLOOKUP return multiple columns?**
+Yes, in Excel 365 with dynamic arrays. If your `return_array` spans multiple columns (e.g., `Data!B:D`), XLOOKUP will return all three columns, spilling results into adjacent cells automatically. This lets one XLOOKUP formula do what would require three separate VLOOKUP formulas. In Google Sheets, XLOOKUP also supports multi-column returns.
+
+**Is VLOOKUP being discontinued?**
+No. Microsoft has not announced any plans to remove VLOOKUP from Excel. It remains fully supported and will continue to work indefinitely. However, Microsoft has made clear that XLOOKUP is the intended modern replacement, and XLOOKUP is prominently featured in Microsoft's Excel documentation and training. For practical purposes, you should use XLOOKUP for new formulas and treat VLOOKUP as a legacy function for compatibility situations.
+
+**What is the XLOOKUP equivalent of VLOOKUP with approximate match?**
+For approximate match (finding the closest value less than or equal to the lookup value), use XLOOKUP with `match_mode = -1`. For exact or next larger, use `match_mode = 1`. Note that unlike VLOOKUP's approximate match, XLOOKUP's approximate match does not require the data to be sorted (though sorting and using binary search mode improves performance). Example: `=XLOOKUP(A2, Tiers!A:A, Tiers!B:B, "Out of range", -1)` finds the discount tier for a given quantity.
+
+**How do I do a two-way lookup (row and column) with XLOOKUP?**
+Nest two XLOOKUP functions: the outer XLOOKUP finds the row, the inner XLOOKUP (used as the `return_array` argument) finds the column:
+```excel
+=XLOOKUP(row_lookup, row_headers, XLOOKUP(col_lookup, col_headers, data_range))
+```
+This is one area where INDEX-MATCH can be more intuitive: `=INDEX(data_range, MATCH(row_lookup, row_headers, 0), MATCH(col_lookup, col_headers, 0))`.

@@ -1,0 +1,294 @@
+---
+title: "Meta Ad Sizes & Safe Zones 2026: The Complete Spec Sheet"
+description: "Every Meta ad format with exact pixel dimensions, safe zone measurements, file size limits, and the creative mistakes that get your assets rejected or cropped wrong in 2026."
+date: "2026-06-28"
+category: "Creative & Ads"
+readTime: "14 min read"
+author: "MarketerTools"
+authorTitle: "Marketing Practitioners"
+tags: ["Meta Ads", "Facebook Ads", "Instagram Ads", "Ad Creative", "Ad Specs"]
+---
+
+**Meta ad specs change more often than most advertisers realize.** An asset that worked perfectly last quarter can get rejected today or show up cropped in a placement you didn't account for. This guide covers every active Meta ad format in 2026 — exact pixel dimensions, safe zone measurements, file requirements, and the specific mistakes that waste creative budget.
+
+> **Quick answer:** The most important Meta ad specs in 2026: Feed images/videos use a 1:1 (1080×1080px) or 4:5 (1080×1350px) ratio. Stories and Reels require 9:16 (1080×1920px). Keep all text, logos, and CTAs within the safe zone (top 14% and bottom 20% reserved for UI). File size max is 30MB for images and 4GB for video. Minimum video length for Reels ads is 1 second; maximum is 60 minutes (though under 15 seconds performs best).
+
+---
+
+## Table of Contents
+
+- [Why Ad Specs Keep Changing](#why-ad-specs-keep-changing)
+- [Feed Ads: Image and Video](#feed-ads-image-and-video)
+- [Stories and Reels](#stories-and-reels)
+- [Carousel Ads](#carousel-ads)
+- [Collection Ads](#collection-ads)
+- [Instant Experience / Fullscreen](#instant-experience--fullscreen)
+- [The Safe Zone Explained](#the-safe-zone-explained-in-detail)
+- [Text Overlay Rules](#text-overlay-rules-2026)
+- [File Requirements & Technical Specs](#file-requirements--technical-specs)
+- [The Most Common Creative Rejection Reasons](#the-most-common-creative-rejection-reasons)
+- [FAQ](#faq)
+
+---
+
+## Why Ad Specs Keep Changing
+
+Meta's ad specs evolve for two reasons: new placement surfaces (Reels, Threads integration, AI-generated placements) and changes to how Meta's algorithm renders ads across placements when you use Advantage+ placements.
+
+The practical implication: a single creative asset may be cropped, letterboxed, or reformatted by Meta's system when served across multiple placements in the same ad set. Designing for the safe zone — not just the overall canvas size — is the only reliable way to ensure your key content survives reformatting.
+
+Use the [Meta Safe Zone Checker on MarketerTools](/meta-safe-zone) to preview how your creative will render across placements before launching.
+
+---
+
+## Feed Ads: Image and Video
+
+Feed ads appear in the Facebook News Feed, Instagram Feed, Facebook Marketplace, and Facebook Video Feeds. They're the baseline format most advertisers start with.
+
+### Image Feed Ads
+
+| Property | Spec |
+|----------|------|
+| Recommended ratio | 1:1 (square) or 4:5 (portrait) |
+| Square dimensions | 1080 × 1080 px |
+| Portrait dimensions | 1080 × 1350 px |
+| Minimum width | 500 px |
+| Maximum file size | 30 MB |
+| File formats | JPG, PNG |
+| Primary text | Up to 125 characters (truncated after in feed) |
+| Headline | Up to 27 characters |
+| Description | Up to 27 characters |
+
+The 4:5 ratio (portrait) outperforms square in most feed placements because it takes up more vertical screen real estate on mobile. If you're only designing one ratio for feed, start with 4:5.
+
+### Video Feed Ads
+
+| Property | Spec |
+|----------|------|
+| Recommended ratio | 4:5 (portrait) or 1:1 (square) |
+| Portrait dimensions | 1080 × 1350 px |
+| Square dimensions | 1080 × 1080 px |
+| Minimum resolution | 1080 px (shortest side) |
+| Maximum file size | 4 GB |
+| File formats | MP4, MOV, GIF |
+| Video length | 1 second – 241 minutes |
+| Recommended length | 15 seconds or under |
+| Frame rate | 23–60 fps |
+| Captions | Strongly recommended (85%+ of video watched without sound) |
+| Thumbnail ratio | Same as video |
+
+---
+
+## Stories and Reels
+
+Stories and Reels are fullscreen vertical placements. They're the highest-engagement format on Instagram and among the fastest-growing on Facebook. The creative demands are different — your design must work edge-to-edge while keeping key elements out of the UI collision zones.
+
+### Stories Ads
+
+| Property | Spec |
+|----------|------|
+| Recommended ratio | 9:16 (vertical) |
+| Recommended dimensions | 1080 × 1920 px |
+| Minimum dimensions | 500 × 889 px |
+| Maximum file size (image) | 30 MB |
+| Maximum file size (video) | 4 GB |
+| File formats (image) | JPG, PNG |
+| File formats (video) | MP4, MOV |
+| Video length | 1 second – 2 minutes |
+| Recommended length | 5–15 seconds |
+| Safe zone (top) | Top 14% (approximately 250px of 1920px) |
+| Safe zone (bottom) | Bottom 20% (approximately 384px of 1920px) |
+
+### Reels Ads
+
+| Property | Spec |
+|----------|------|
+| Recommended ratio | 9:16 (vertical) |
+| Recommended dimensions | 1080 × 1920 px |
+| Maximum file size | 4 GB |
+| File formats | MP4, MOV |
+| Video length | 1 second – 60 minutes |
+| Recommended length | Under 15 seconds |
+| Safe zone (top) | Top 14% (≈ 250px on 1920px canvas) |
+| Safe zone (bottom) | Bottom 35% (≈ 672px on 1920px canvas) — Reels has more UI chrome than Stories |
+| Audio | Recommended — Reels is heavily sound-on |
+
+Note: Reels ads have a larger bottom collision zone than Stories because the engagement bar (like, comment, share, follow) is persistent and takes up more canvas area. Design your bottom safe zone more conservatively for Reels.
+
+---
+
+## Carousel Ads
+
+Carousel ads show 2–10 scrollable cards, each with its own image or video, headline, and optional CTA. They work across Feed, Stories, Messenger, and Audience Network.
+
+| Property | Spec |
+|----------|------|
+| Number of cards | 2–10 |
+| Image ratio | 1:1 (square) |
+| Image dimensions | 1080 × 1080 px |
+| Video ratio | 1:1 (square) |
+| Video dimensions | 1080 × 1080 px |
+| Image file size | 30 MB max |
+| Video file size | 4 GB max |
+| Video length per card | 1 second – 240 minutes |
+| Headline per card | Up to 45 characters |
+| Description per card | Up to 18 characters |
+| Primary text | Up to 125 characters (applies to whole ad) |
+
+Carousel is the right format for product catalogues, step-by-step storytelling, or feature comparisons. Each card can link to a different URL, which makes it effective for multi-product promotions where each card goes to a different product page.
+
+---
+
+## Collection Ads
+
+Collection ads feature a cover image or video with a grid of four product images below it. Tapping the ad opens an Instant Experience. They're designed specifically for product discovery and mobile shopping.
+
+| Property | Spec |
+|----------|------|
+| Cover image/video ratio | 1:1 or 16:9 |
+| Cover image dimensions (1:1) | 1080 × 1080 px |
+| Cover image dimensions (16:9) | 1200 × 628 px |
+| Cover video length | 1 second – 2 minutes |
+| Product image ratio | 1:1 |
+| Minimum product images | 4 (auto-populated from catalogue) |
+| Primary text | Up to 125 characters |
+| Headline | Up to 45 characters |
+| CTA | Required |
+
+Collection ads require a product catalogue connected to your Meta Business Manager. The four product images in the grid are dynamically populated by Meta based on the products in your catalogue.
+
+---
+
+## Instant Experience / Fullscreen
+
+Instant Experience (formerly Canvas) is a fullscreen, mobile-only, fast-loading page that opens when someone taps your ad. It's not a separate placement — it's a destination that any ad format can open. Think of it as a mini landing page hosted inside Facebook/Instagram.
+
+| Property | Spec |
+|----------|------|
+| Component types | Header image, video, text, button, product set, carousel, image group |
+| Header image dimensions | 820 × 312 px |
+| Full-width image dimensions | 1080 × any height |
+| Video dimensions | 720p minimum, 9:16 recommended |
+| Button text | Up to 30 characters |
+| Body text | Standard text formatting (bold, italic) |
+
+Instant Experience loads up to 15x faster than external mobile websites because it's hosted natively on Meta's infrastructure. For advertisers with slow external landing pages, an Instant Experience can meaningfully improve conversion rates.
+
+---
+
+## The Safe Zone Explained in Detail
+
+The safe zone is the area of your creative where your important content — logo, CTA, product shot, price — must be placed to guarantee visibility across all placements.
+
+For **Stories and Reels**, Meta's UI elements occupy:
+- **Top:** Profile photo, username, CTA button strip — approximately the top 14% of the canvas (~250px on a 1920px canvas)
+- **Bottom Stories:** Page dot indicator and CTA — approximately the bottom 20% (~384px on a 1920px canvas)
+- **Bottom Reels:** Like/comment/share bar + follow button — approximately the bottom 35% (~672px on a 1920px canvas)
+
+**Safe zone in practice:**
+- Stories safe zone: design critical content between ~250px from top and ~1536px (250px from top to 384px from bottom of 1920px)
+- Reels safe zone: design critical content between ~250px from top and ~1248px (250px from top to 672px from bottom of 1920px)
+
+For **Advantage+ placements** (Meta's automatic cross-placement delivery), your 9:16 creative will also be reformatted to 4:5 for Feed placements. The reformatting crops the top and bottom equally — meaning a 9:16 canvas with content that respects safe zones will typically center-crop cleanly to 4:5.
+
+Use the [Meta Safe Zone Checker](/meta-safe-zone) to overlay exact safe zone guides on your creative before exporting.
+
+---
+
+## Text Overlay Rules 2026
+
+Meta removed its strict "20% text rule" in 2020 — ads with more than 20% text overlay are no longer automatically rejected or penalized with reduced delivery. However, performance data consistently shows that image ads with heavy text overlays underperform compared to cleaner visuals. Meta's own guidance still recommends keeping text minimal.
+
+**What is still enforced:**
+- Text that is "misleading, inaccurate, or unsubstantiated" will get rejected (policy enforcement, not technical)
+- Text size and font must be legible — blurry or unreadably small text triggers rejection
+- Animated text in video ads must comply with flicker and flash thresholds (under 3 flashes per second)
+
+**Best practice for text in creative:**
+- Limit text overlays on images to headlines or single key messages (under 20 words)
+- Put longer copy in the Primary Text field of the ad, not burned into the image
+- For video, burn in captions for the spoken audio — this directly lifts performance in sound-off environments
+
+---
+
+## File Requirements & Technical Specs
+
+### Image Files
+
+| Property | Requirement |
+|----------|-------------|
+| Formats | JPG, PNG (PNG for transparency) |
+| Maximum file size | 30 MB |
+| Minimum resolution | 1080 px on shortest side |
+| Color space | sRGB recommended (CMYK will be auto-converted, sometimes with color shifts) |
+| DPI | 72 DPI for screen — DPI is irrelevant for digital; resolution in pixels is what matters |
+
+### Video Files
+
+| Property | Requirement |
+|----------|-------------|
+| Formats | MP4, MOV (H.264 codec recommended) |
+| Maximum file size | 4 GB |
+| Minimum resolution | 720p (1280 × 720 px for landscape, 720 × 1280 px for portrait) |
+| Recommended resolution | 1080p |
+| Frame rate | 23–60 fps (29.97 or 30 fps standard) |
+| Compression | H.264 video, AAC audio, 128 kbps+ audio bitrate |
+| Captions | SRT file upload supported; auto-captions available |
+
+### Audio
+
+| Property | Requirement |
+|----------|-------------|
+| Audio format | AAC recommended |
+| Minimum bitrate | 128 kbps |
+| Channels | Stereo or mono (stereo preferred) |
+| Note | Design for sound-off by default; sound-on is the enhancement, not the baseline |
+
+---
+
+## The Most Common Creative Rejection Reasons
+
+After reviewing rejection patterns across Meta ad accounts, these are the most frequent reasons assets get rejected or underperform:
+
+**1. Before/after imagery.** Meta's ad policies prohibit direct before/after comparisons showing body transformation, skin improvement, or health results. This catches a lot of health, beauty, and wellness advertisers by surprise. The workaround is showing the product in use rather than the outcome, or using third-party testimonials rather than direct visual comparisons.
+
+**2. Text in images that violates community standards.** Claims like "guaranteed results," "cure," "100% effective," or superlatives ("the best," "#1") in image text are policy violations, not just style issues. These will get the ad rejected, and repeated violations affect account health.
+
+**3. Wrong ratio for the placement.** A 16:9 image uploaded to a placement expecting 1:1 will be letterboxed with black bars — technically accepted, visually terrible. Always upload native-ratio assets for each placement rather than relying on Meta to crop.
+
+**4. Safe zone violations.** A logo or price callout that lands in the bottom 20% of a Stories canvas will be hidden behind the CTA button. Meta won't reject the ad — it just won't show what you designed. This is discovered by the advertiser after launch, which is the worst time to discover it.
+
+**5. Compressed video with visible artifacts.** Videos exported at low bitrates or over-compressed look terrible in Meta's HDR-capable environments. Always export at the maximum reasonable quality (H.264, high quality preset) and let Meta's compression pipeline handle it. Don't pre-compress for file size — Meta recompresses everything anyway.
+
+**6. Flash and seizure-risk content.** Videos with rapid flashing, high-contrast flickering, or strobing patterns (more than 3 times per second) are rejected. This affects some animation styles and motion graphics transitions.
+
+---
+
+## FAQ
+
+**What is the best Meta ad size in 2026?**
+For most campaigns, the best combination is a 1080×1350px (4:5) asset for Feed placements and 1080×1920px (9:16) for Stories and Reels. The 4:5 ratio occupies more vertical space in the feed than square (1:1), which improves visibility. If you can only produce one asset, 1:1 (1080×1080px) is the safest universal fallback across the widest range of placements.
+
+**What is Meta's safe zone and why does it matter?**
+The Meta safe zone is the area of a Stories or Reels creative where Meta's own UI elements (profile picture, username, CTA button, engagement bar) overlay the canvas. Any text, logos, or CTAs placed outside the safe zone will be partially or fully obscured by these UI elements. For Stories, keep content between roughly 250px from the top and 384px from the bottom of a 1920px canvas. For Reels, keep content between 250px from the top and 672px from the bottom.
+
+**What happened to the 20% text rule?**
+Meta officially removed the 20% text rule (which penalized image ads where text covered more than 20% of the image) in 2020. Ads with high text coverage are no longer automatically reduced in delivery or rejected on that basis alone. However, Meta's performance data still shows that image-heavy, text-light creatives outperform text-heavy overlays. The rule is gone; the principle behind it isn't.
+
+**Can I use the same creative for Facebook and Instagram?**
+Technically yes — Meta's ad system automatically adapts creatives across Facebook and Instagram placements. In practice, what works visually on Instagram Feed (high-polish imagery, minimal text, strong aesthetic) often underperforms on Facebook Feed (where native-feeling UGC and direct-response copy tends to work better). For best results, build separate assets tuned for each platform's visual culture, especially for Reels vs. Instagram Stories which have different audience expectations.
+
+**How long should a Meta video ad be?**
+For Feed placements, 15 seconds or under outperforms longer videos in most objectives. For Stories, 5–10 seconds is the sweet spot — anything longer sees significantly higher skip rates. For Reels, Meta's internal data shows ads under 15 seconds get the most completion, but creative quality matters more than length. For awareness campaigns where view time matters, 6-second "bumper" style ads can be highly efficient. The rule is: be as short as you need to be to make one clear point, no shorter.
+
+**What file format should I upload for Meta video ads?**
+MP4 with H.264 video encoding is the recommended format for compatibility and quality across all Meta placements. MOV files are also accepted. Avoid older formats like AVI or WMV — they'll often be rejected or converted in ways that degrade quality. For best results, export at 1080p resolution, 29.97 or 30 fps, H.264 codec, with AAC audio at 128kbps minimum.
+
+**Do Meta Reels ads need to be vertical?**
+Yes. Reels ads must be vertical (9:16 ratio, 1080×1920px). Horizontal or square videos uploaded to Reels placements will be pillarboxed (black bars on the sides) or rejected. Since Reels is a fullscreen vertical format, non-vertical creative performs significantly worse even when technically accepted.
+
+**What is the difference between Stories ads and Reels ads?**
+Stories ads appear in the Stories surfaces on Facebook and Instagram — between organic Stories content. They auto-advance after the story's duration ends. Reels ads appear within the Reels feed on Instagram and Facebook Reels, interspersed between organic Reels content. The key practical difference is the bottom safe zone (Stories: 20%, Reels: 35%) because Reels has a larger persistent UI chrome. Reels also trends toward sound-on, while Stories is predominantly sound-off.
+
+**How do I check if my creative fits Meta's safe zone before publishing?**
+Use the [Meta Safe Zone Checker on MarketerTools](/meta-safe-zone) to overlay precise safe zone guides on your creative for both Stories and Reels formats. You can upload your asset, see exactly where Meta's UI elements would appear, and identify any content that falls outside the safe area before you launch.
