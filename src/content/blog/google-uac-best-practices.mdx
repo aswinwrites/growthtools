@@ -1,0 +1,384 @@
+---
+title: "Google App Campaigns (UAC) Playbook: The Expert Framework for Scaling Past Installs in 2026"
+description: "Most UAC campaigns optimise for installs and wonder why LTV is terrible. This is the complete expert framework: the install trap, bid cap testing, deep funnel event configuration, creative rotation at scale, and Firebase audience engineering."
+date: "2026-06-29"
+category: "App Marketing"
+readTime: "22 min read"
+author: "MarketerTools"
+authorTitle: "App Marketing Practitioners"
+tags: ["Google App Campaigns", "UAC", "Mobile User Acquisition", "tCPA", "tROAS", "Firebase", "App Marketing", "Bid Strategy", "Creative Testing", "Deep Funnel"]
+---
+
+**Google App Campaigns (formerly Universal App Campaigns, or UAC) are Google's fully automated channel for mobile app growth — one campaign type that serves ads across Search, Google Play, YouTube, Discover, and the Display Network simultaneously.** You provide creative assets, a budget, a bid target, and a conversion goal. Google's ML handles placement, audience targeting, and creative combination testing automatically.
+
+The automation is powerful. It is also deceptive: it creates the illusion that the campaign runs itself. The teams hitting 2–3× ROAS are not the ones who "set it and forget it." They are the ones who configure the right signals, structure the right inputs, and know exactly which levers to pull — and when.
+
+> **The short version:** Never stay on install optimisation past the data-gathering phase. The correct progression is: install volume (to build signal) → meaningful in-app action (registration, tutorial, D1 retention) → purchase or tROAS (once you have 75+ weekly revenue conversions). Budget floor: 50× your target CPI per day for install campaigns, 10× your target CPA for action campaigns. Change bids by ≤20% at a time or you reset the learning phase. Creative drives 60–70% of results — fill every asset slot. Firebase audiences are the highest-leverage remarketing signal most teams never configure.
+
+---
+
+## Table of Contents
+
+- [The Install Trap: Why Optimising for Installs Destroys LTV](#the-install-trap-why-optimising-for-installs-destroys-ltv)
+- [Budget Architecture: The Minimum Math That Actually Works](#budget-architecture-the-minimum-math-that-actually-works)
+- [The Bid Strategy Progression: tCPI → tCPA → tROAS](#the-bid-strategy-progression-tcpi--tcpa--troas)
+- [Bid Cap Testing: The Progressive Ladder Framework](#bid-cap-testing-the-progressive-ladder-framework)
+- [Deep Funnel Event Configuration](#deep-funnel-event-configuration)
+- [Creative Testing at Scale](#creative-testing-at-scale)
+- [Firebase Audience Engineering](#firebase-audience-engineering)
+- [Campaign Structure and Segmentation](#campaign-structure-and-segmentation)
+- [The 30-Day UAC Optimisation Sprint](#the-30-day-uac-optimisation-sprint)
+- [FAQ](#faq)
+
+---
+
+## The Install Trap: Why Optimising for Installs Destroys LTV
+
+Install volume is the most visible UAC metric. It is also the most misleading one.
+
+When you optimise an App Campaign for installs (App Campaigns for Installs, or ACi, with the default "Volume" goal), you are telling Google's algorithm exactly one thing: find people who tap "Install." Google is very good at this. It will find enormous numbers of people willing to install your app. Many of them will open it once, never return, and consume your budget without generating a cent of revenue.
+
+The reason is structural. Optimising for installs sends a weak signal. "Install" does not differentiate a high-LTV subscriber from a one-session user. The algorithm cannot distinguish between them because you have not told it to care. It will optimise toward whoever installs cheapest — which often skews toward low-intent audiences and, on Android especially, toward traffic with inflated install rates.
+
+> "Based on 11+ years of UA experience, install-only campaigns rarely bring quality traffic. For Android, this is guaranteed to bring mostly low-quality users — a lot of this traffic may be bots. Install-only is a vanity metric." — App growth practitioner consensus, cited across Phiture, RocketShip HQ, and Udonis
+
+The counterargument — "but I need installs to build conversion data before I can optimise deeper" — is valid for the first 2–4 weeks. It is not valid as a permanent strategy.
+
+**The install-optimised campaign has one legitimate use:** generating enough conversion volume (50+ conversions per week per campaign) on a deeper funnel event so that you can then switch to tCPA optimisation on that event. Once you have that signal, there is no reason to stay on install optimisation.
+
+**What you should do instead:**
+
+| Phase | Condition | Optimisation target |
+|-------|-----------|---------------------|
+| Signal building | <50 weekly conversions on target event | Installs (volume) |
+| Mid-funnel | 50–74 weekly conversions on action event | tCPA → registration, tutorial_complete, D1_active |
+| Revenue | 75+ weekly revenue conversions | tCPA → first_purchase or tROAS |
+| Scale | Established ROAS baseline | tROAS with value-based bidding |
+
+The moment you have sufficient signal on a deeper event, pause the install-only campaign and move budget to the tCPA campaign. Every week you delay this transition is a week of budget spent training the algorithm on the wrong users.
+
+---
+
+## Budget Architecture: The Minimum Math That Actually Works
+
+Google App Campaigns require a minimum daily budget relative to your bid target in order for the algorithm to exit the learning phase and deliver consistent results. These are not suggestions — running below these thresholds produces erratic delivery, inflated CPIs, and a campaign that never fully optimises.
+
+| Campaign type | Minimum daily budget | Rationale |
+|--------------|---------------------|-----------|
+| ACi (install volume) | 50× target CPI | Enough daily conversions to train the algorithm |
+| ACi (action/tCPA) | 10× target CPA | Google's official minimum recommendation |
+| ACe (engagement/tCPA) | 15× target CPA | Higher due to smaller re-engagement pool |
+| tROAS | 10× average order value × target ROAS | Must fund enough purchases to build signal |
+
+**Example:** If your target CPI is ₹180, your daily budget floor is ₹9,000. Running at ₹2,000/day at a ₹180 tCPI means roughly 11 installs per day — far below the volume needed to optimise. The campaign will underdeliver, then overspend in bursts, and never find a stable rhythm.
+
+> Admiral Media, which manages €500M+ in app ad spend, confirms: "Setting budgets below these thresholds starves the algorithm of data and leads to erratic delivery." — Kevin, Admiral Media, April 2026
+
+If your total app marketing budget cannot meet these minimums for 2–3 campaigns simultaneously, run fewer campaigns with sufficient budgets rather than many campaigns with insufficient ones. Two well-funded campaigns consistently outperform eight starved ones.
+
+---
+
+## The Bid Strategy Progression: tCPI → tCPA → tROAS
+
+The bid strategy you choose determines which users Google targets. This is the single highest-leverage structural decision in App Campaigns.
+
+### Stage 1: Target CPI (install volume)
+
+Use this only to build conversion signal. Set a target CPI based on your LTV economics — not on what feels cheap. If your Day-30 LTV is ₹400 and 20% of installs become payers, a ₹80 CPI is breakeven (₹400 × 20% = ₹80). Anything below ₹80 is profitable. Do not set ₹40 targets because they look nice on dashboards; you will attract lower-quality users who skew your early cohort data.
+
+### Stage 2: Target CPA (action optimisation)
+
+Once you have 50+ weekly conversions on your target event, create a new campaign (or switch bidding) to tCPA on that event. Your tCPA target should reflect the economics of that event's value:
+
+- If registrations convert to payers at 15% and each payer is worth ₹500, a registration is worth ₹75. Set tCPA at ₹75 or below.
+- If tutorial completions have a 40% Day-7 retention vs 12% for non-completers, and retained users are worth 3× more, price that signal accordingly.
+
+Do not copy the tCPI target into the tCPA field. These are different events with different values. Recalculate from first principles every time you shift targets.
+
+### Stage 3: Target ROAS (value-based bidding)
+
+Once you have 75+ weekly purchase conversions (or subscription starts), enable tROAS bidding and pass actual revenue values back to Google via your MMP (AppsFlyer, Adjust, Singular, Firebase). tROAS tells the algorithm to maximise revenue per ad dollar rather than just conversion count — it will target users more likely to buy, not just users more likely to complete any action.
+
+The prerequisite is passing real revenue values in your conversion postbacks. Placeholder values (e.g., sending ₹1 for every purchase regardless of order value) teach the algorithm nothing about high-value users. Pass the actual transaction amount.
+
+---
+
+## Bid Cap Testing: The Progressive Ladder Framework
+
+The most common bid optimisation mistake is making large, reactive adjustments. A CPA spikes for 3 days → marketer cuts the tCPA by 40% → algorithm resets learning phase → delivery drops → marketer panics and raises again → cycle repeats.
+
+The alternative is progressive ladder testing: running structured bid variants simultaneously rather than changing a single campaign reactively.
+
+### The ladder structure
+
+| Campaign | Budget split | tCPA vs goal | Purpose |
+|----------|-------------|--------------|---------|
+| Conservative | 20% of total | 20% below goal | Establishes quality floor |
+| Target | 50% of total | At goal | Your primary delivery vehicle |
+| Aggressive | 30% of total | 30% above goal | Tests scale ceiling |
+
+Run all three for 14 days. Collect ≥100 conversions per variant. Then compare:
+
+- **CPI/CPA**: What does each bid level actually cost?
+- **D7 ROAS**: Which bid level brings higher LTV users?
+- **Volume**: How much does scale drop as you lower bids?
+
+Often the "aggressive" campaign delivers 15–20% better D7 ROAS than the "conservative" one — because paying more per install attracts a higher-quality audience segment. If the unit economics hold (D7 ROAS still above 1.0 at the higher bid), that is your new target.
+
+> Linkrunner's analysis of 50+ UAC audits found that "campaigns with basic setup drive 40–60% lower ROAS than campaigns using structured bid testing. On a ₹20L monthly budget, that's ₹8L in wasted spend annually." — Lakshith Dinesh, Head of Growth, Linkrunner
+
+### Bid change rules
+
+Once you identify your optimal bid point, follow these rules for ongoing adjustments:
+
+1. **≤20% change per adjustment** — larger changes reset the learning phase
+2. **Wait 5–7 days between changes** — the learning phase needs time to recalibrate
+3. **Wait for 100 conversions before evaluating** — sub-100 is not statistically meaningful
+4. **Track D7 ROAS, not just CPA** — a lower CPA that brings churners is not an improvement
+
+---
+
+## Deep Funnel Event Configuration
+
+This is where most teams leave money on the table. They track installs, maybe registrations, and call it done. The algorithm gets weak signals and optimises toward weak users.
+
+A properly configured deep funnel tracks 8–12 post-install events, weighted by their economic value, and uses different events as optimisation targets at different spend scales.
+
+### The event depth framework
+
+| Funnel tier | Example events | When to use as optimisation target |
+|-------------|---------------|-------------------------------------|
+| Install | `app_install` | Signal building only (<50 weekly target event conversions) |
+| Activation | `tutorial_complete`, `onboarding_done`, `account_created` | $500–$1k/day spend |
+| Engagement | `d1_active`, `d3_active`, `feature_used`, `level_complete` | $1k–$2k/day |
+| Monetisation | `trial_start`, `first_purchase`, `subscription_start` | $2k–$5k/day |
+| High-value | `subscription_renewal`, `high_value_purchase`, `d30_active` | $5k+/day, tROAS campaigns |
+
+For **gaming apps**: `tutorial_complete` → `level_5_reached` → `first_purchase` → `second_purchase`
+
+For **subscription apps**: `registration` → `trial_start` → `subscription_start` → `subscription_d30_active`
+
+For **commerce apps**: `registration` → `product_view` → `add_to_cart` → `first_purchase` → `second_purchase`
+
+### Setting up conversion priority weights
+
+In Google Ads, you can assign relative value weights to each conversion action. Use these to signal the economic hierarchy of your events:
+
+```
+first_purchase     → value: actual transaction amount (e.g., ₹499)
+trial_start        → value: ₹499 × trial-to-paid conversion rate (e.g., 30% = ₹150)
+registration       → value: ₹499 × trial rate × paid rate (e.g., 15% = ₹75)
+tutorial_complete  → value: ₹499 × funnel conversion rate (e.g., 10% = ₹50)
+```
+
+This is the correct approach: derive each event's value from the downstream revenue it generates, not from gut feel or rank. Pass these values via your MMP postback so Google's algorithm can optimize toward users with the highest predicted LTV, not just the most conversions.
+
+### The most common deep funnel mistake
+
+Tracking an event but not sending it back to Google is pointless. Tracking it correctly but with a 72-hour postback delay trains the algorithm on stale data. Use server-side postbacks where possible, and verify within your MMP that conversion data is reaching Google Ads within 24 hours of the event firing.
+
+---
+
+## Creative Testing at Scale
+
+Creative is the only lever you fully control in Google App Campaigns. You cannot manually target audiences, select placements, or adjust keyword bids. Creative quality and variety directly determine which inventory the algorithm can access and how efficiently it converts.
+
+> "Creative assets are the single biggest lever you have in Google App Campaigns. Since you cannot manually target audiences or select placements, the quality and variety of your creative assets determine who sees your ads and how they perform." — Admiral Media, 2026
+
+### Asset slot limits and fill rate
+
+| Asset type | Maximum per ad group | Minimum recommended |
+|-----------|---------------------|---------------------|
+| Text headlines | 10 | 8 |
+| Images | 20 | 15 (multiple aspect ratios) |
+| Videos | 20 | 10 (9:16, 16:9, 1:1) |
+| HTML5 | 20 | 5 |
+
+Fill every slot. More asset combinations give the algorithm more hypotheses to test. Teams providing fewer than 5 assets per type consistently underperform in ad spend efficiency.
+
+### Asset format priority
+
+| Format | CPI impact vs baseline | Notes |
+|--------|----------------------|-------|
+| HTML5 (interactive) | −20 to −35% CPI | Highest performing; requires development |
+| Video (15–30 sec) | −15 to −25% CPI | Critical for YouTube/Discover placements |
+| Image (multi-ratio) | Baseline | Fallback; provide all ratios |
+
+HTML5 interactive ads are the highest-performing format by a significant margin — 20–35% lower CPI — because they allow users to interact with the app experience before installing. If you do not have HTML5 capacity, prioritise video.
+
+For video, the first 3 seconds determine engagement. Lead with the core value proposition or a pattern interrupt — not your logo, not a slow brand intro. Authenticity outperforms polish: creator-style UGC consistently beats corporate video across Google's network.
+
+> Admiral Media's KaufDA case study found that creator-style video ads vs standard creative delivered: **+731% overall user growth**, **+146% user activity**, and **−18% CPI** in a single campaign on a comparable channel mix. The principle transfers directly to UAC video assets.
+
+### Creative rotation and refresh cadence
+
+| Action | Timing |
+|--------|--------|
+| Switch to "Rotate evenly" for new assets | First 14 days after upload |
+| Switch back to "Optimize" after initial test | Day 15+ |
+| Replace bottom 20% of assets by conversion rate | Every 14 days |
+| Full creative refresh (prevent fatigue) | Every 21–30 days |
+| Replace Low-rated assets | Within 7 days of rating |
+
+Never replace all underperforming assets at once — this forces a full creative reset. Replace 2–3 at a time, allow 3–5 days for recalibration, then evaluate the next set.
+
+### Messaging angles to test (in priority order)
+
+1. **Feature-led**: Show the core product experience in the first 2 seconds
+2. **Problem-solution**: Open with the pain point, show resolution
+3. **Social proof**: User testimonials, ratings, download numbers
+4. **Creator/UGC style**: Authentic first-person narration with app screen recording
+5. **Promotional**: Offer, discount, or trial — useful for mid-funnel campaigns
+6. **Before/after**: Transformation visual (works particularly well for fitness, productivity, finance apps)
+
+Test one angle per asset group. Don't mix angles within a single creative — diffuse messaging underperforms focused messaging consistently.
+
+---
+
+## Firebase Audience Engineering
+
+Firebase is Google's mobile analytics SDK — and when linked to Google Ads, it becomes your highest-quality signal source for App Campaigns for Engagement (ACe) remarketing.
+
+Most teams install Firebase, track basic events, and never think about it again. The teams that configure Firebase audiences properly get access to a remarketing layer that standard UAC install campaigns cannot replicate.
+
+### Linking Firebase to Google Ads
+
+Setup path: **Firebase Console → Project Settings → Integrations → Google Ads → Link**
+
+Once linked, Firebase audiences sync automatically to Google Ads. Any audience you build in Firebase appears in your Google Ads Audience Manager within 24 hours.
+
+### High-value audience types to build
+
+| Audience | Firebase conditions | UAC use case |
+|----------|---------------------|-------------|
+| Lapsed high-value users | `last_open` > 7 days + `lifetime_value` > ₹1000 | ACe re-engagement at elevated bid |
+| Trial non-converters | `trial_start` = true AND `subscription_start` = false | ACe push to convert |
+| D1 active, D7 churned | `d1_active` = true AND `d7_active` = false | Re-engagement with onboarding friction fix |
+| High-intent browsers | `product_view` ≥ 3 AND `add_to_cart` = false | Dynamic feature showcase creative |
+| Lookalike seed: payers | `first_purchase` = true, LTV > ₹500 | Seed audience for ACi targeting |
+| Power users | `session_count` > 30 in 30 days | Exclude from install campaigns (already have app) |
+
+### App Campaigns for Engagement (ACe) configuration
+
+ACe campaigns target users who already have your app installed. They require a Firebase audience as the target, and they are the only way to re-engage lapsed high-value users through Google's network.
+
+Key ACe settings:
+- **Target**: Firebase audience (not a Google Ads audience list)
+- **Bid**: tCPA on re-engagement event (e.g., `session_start` or `purchase`)
+- **Budget**: 15× tCPA minimum (higher than standard ACi due to smaller addressable pool)
+- **Creative**: Different from acquisition campaigns — focus on "what's new" or "you left something behind" messaging
+
+ACe campaigns are separated from ACi campaigns by design — never mix install and engagement goals in one campaign.
+
+### Dynamic audiences based on in-app behaviour
+
+Firebase lets you build audiences from event parameter combinations, not just event presence. This enables precision segmentation impossible to achieve through Google Ads alone:
+
+```
+// High-intent non-payer: viewed pricing screen 3+ times in 7 days
+condition: screen_view (screen_name == "pricing") count >= 3 AND days_since_first_open <= 7 AND first_purchase == false
+
+// Level-specific gaming re-engagement
+condition: level_start (level == "15") AND level_complete (level == "15") == false AND last_open > 3 days
+
+// Subscription risk audience
+condition: subscription_status == "active" AND last_open > 14 days
+```
+
+These are retention and monetisation audiences, not just re-engagement audiences. Export the subscription-risk segment to Google Ads and run ACe campaigns to bring them back before they churn.
+
+---
+
+## Campaign Structure and Segmentation
+
+Campaign structure determines how cleanly Google's algorithm can optimise. Poor structure forces the algorithm to balance competing objectives within a single campaign, which degrades performance across both.
+
+### The recommended structure
+
+```
+Account
+├── Country A
+│   ├── ACi — Installs (signal building)
+│   ├── ACi — tCPA: registration (mid-funnel)
+│   ├── ACi — tCPA: first_purchase (revenue)
+│   └── ACe — Lapsed re-engagement (Firebase audience)
+└── Country B (same structure)
+```
+
+**One country per campaign.** Germany and India should never share a campaign. CPIs, conversion rates, and user quality differ dramatically across markets. Mixing geographies dilutes the signal and averages out performance data that you need to read cleanly.
+
+**One goal per campaign.** An install-volume campaign and a tCPA campaign should never share budget or structure. They optimize toward different users and require different bid levels.
+
+**Do not run too many campaigns simultaneously.** Each campaign needs sufficient conversion volume to exit the learning phase. If you spread budget across 10 campaigns, none will optimise. For most apps, 3–5 campaigns per market is the upper bound at typical spend levels.
+
+### Campaign segmentation that helps (and what doesn't)
+
+| Segmentation | Worth doing? | Rationale |
+|-------------|-------------|-----------|
+| By country/market | Always | CPIs and CVRs differ dramatically |
+| By bid strategy (install vs action) | Always | Different goals, different users |
+| By acquisition vs re-engagement | Always | ACi and ACe serve different audiences |
+| By creative theme | Yes, at scale | Lets you read creative performance clearly |
+| By placement (Search vs YouTube) | Test if CPA variance >30% | Otherwise let algorithm allocate |
+| By device (mobile vs tablet) | Only if tablet ROAS meaningfully differs | Small segments create noise |
+| By demographic | Cautiously (100+ conversions per segment first) | Only exclude if variance persists 60+ days |
+
+---
+
+## The 30-Day UAC Optimisation Sprint
+
+| Week | Actions |
+|------|---------|
+| **Week 1** | Audit conversion tracking — verify MMP postbacks reach Google within 24h. Check all events are firing correctly in Firebase DebugView. Audit creative asset count per slot. |
+| **Week 2** | Upload new creative assets (prioritise HTML5 and video). Set up bid ladder (conservative / target / aggressive campaigns). Implement Firebase audiences in Google Ads. |
+| **Week 3** | Review asset-level ratings — replace all "Low" rated assets. Add negative keywords from Search term reports. Check placement performance; create placement-specific campaigns if CPA variance >30%. |
+| **Week 4** | Analyse bid ladder results — identify optimal tCPA point. Launch ACe re-engagement campaign against lapsed Firebase audience. Plan tROAS migration if weekly purchase conversions ≥75. |
+
+After the sprint: plan the next optimisation cycle based on what moved the needle. Most teams see 18–30% ROAS improvement after implementing the core levers above.
+
+---
+
+## FAQ
+
+**What is the difference between UAC and Google App Campaigns?**
+They are the same product. "Universal App Campaigns" (UAC) was the original name. Google rebranded to "App Campaigns" in 2019. You may still see "UAC" used interchangeably in the industry — it refers to the same campaign type: Google's automated, cross-network mobile app promotion product available in Google Ads.
+
+**Why should I never stay on install optimisation?**
+Install optimisation tells Google's algorithm to find users who tap "Install" — it cannot distinguish between high-LTV subscribers and one-session churners. On Android especially, install-optimised campaigns skew toward low-quality traffic. Use install campaigns only to build enough conversion signal (50+ weekly conversions) on a deeper funnel event, then switch to tCPA on that event. Every week you stay on install optimisation after that threshold is wasted budget training the algorithm on the wrong users.
+
+**How much budget do I need to run Google App Campaigns effectively?**
+The minimum is 50× your target CPI per day for install campaigns, or 10× your target CPA for action campaigns. If your target CPI is ₹180, you need at least ₹9,000/day per campaign. Below these floors, the algorithm cannot find enough conversions to optimise, resulting in erratic delivery and elevated CPAs. If your total budget cannot sustain these minimums across multiple campaigns, run fewer campaigns with sufficient budgets.
+
+**How long is the UAC learning phase?**
+Typically 2–7 days, or until the campaign has accumulated 50 conversions on its target event — whichever comes first. During the learning phase, avoid making bid or budget changes. Small bid adjustments (≤20%) or adding new creative assets are permissible. Larger changes restart the learning phase. Never evaluate campaign performance during the learning phase.
+
+**What is tCPA vs tROAS and when should I use each?**
+tCPA (Target Cost Per Action) tells Google to optimise toward a specific conversion event at a specific cost. Use it when you are optimising for a non-revenue event (registration, tutorial completion) or when you have insufficient purchase volume for value-based bidding. tROAS (Target Return on Ad Spend) tells Google to maximise revenue per ad dollar — it targets high-value users who are more likely to spend, not just convert. Use tROAS when you have 75+ weekly purchase conversions and are passing real revenue values via MMP postbacks.
+
+**How do I configure deep funnel events for UAC?**
+Track 8–12 post-install events in Firebase (or your MMP) and pass them back to Google Ads as conversion actions. Assign each event a monetary value based on its downstream revenue contribution (e.g., if 30% of trial starts become paying subscribers at ₹499, a trial start is worth ₹150). Use different events as optimisation targets at different spend scales: activations at lower spend, purchases at higher spend. The critical technical requirement is that postbacks reach Google within 24 hours of the event firing.
+
+**How many creative assets should I upload to UAC?**
+Fill every slot: up to 20 videos, 20 images, 10 text headlines, and 20 HTML5 assets per ad group. At minimum: 8+ text assets, 15 images across 1:1, 4:5, and 1.91:1 ratios, and 10 videos in 9:16, 16:9, and 1:1 formats. More creative options give the algorithm more combinations to test and typically accelerates optimisation. Replace the bottom 20% of assets by conversion rate every 14 days, and do a full creative refresh every 21–30 days to prevent fatigue.
+
+**What is the right video format for UAC?**
+Provide videos in all three orientations: 9:16 (portrait/Reels-style), 16:9 (landscape/YouTube), and 1:1 (square). Providing only one orientation locks you out of placements where other formats perform better. For content: lead with the core value prop or pattern interrupt in the first 3 seconds. Authentic, creator-style or UGC-style video consistently outperforms polished corporate production in Google's network — particularly on YouTube and Discover.
+
+**What is Firebase audience engineering and why does it matter for UAC?**
+Firebase is Google's mobile analytics SDK, and when linked to Google Ads, Firebase audiences become the targeting layer for App Campaigns for Engagement (ACe). You build audiences based on in-app event combinations (e.g., "users who viewed the pricing screen 3+ times in 7 days but never purchased") and use them to re-engage lapsed or high-intent users. Standard UAC install campaigns cannot target users who already have your app — ACe campaigns with Firebase audiences are the only mechanism for this, and they are the highest-leverage re-engagement channel available on Google.
+
+**How do I link Firebase to Google Ads for audience creation?**
+Go to Firebase Console → Project Settings → Integrations → Google Ads → Link. Ensure your Firebase project and Google Ads account are under the same Google account. Once linked, audiences you create in Firebase sync to Google Ads Audience Manager within 24 hours. You can then use these as targeting lists in ACe campaigns or as exclusion lists in ACi campaigns (to avoid serving install ads to users who already have your app).
+
+**Can I target specific keywords or audiences in UAC?**
+Standard App Campaigns for Installs do not support manual keyword or audience targeting. The algorithm determines targeting automatically based on your creative assets, app store listing, and conversion signal. You can add negative keywords to exclude irrelevant Search queries, and you can exclude specific audiences (e.g., exclude current users from install campaigns). Web-to-App campaigns using Google Search Ads support manual keyword targeting, which gives more control over search-driven installs.
+
+**What should I do when UAC CPA spikes suddenly?**
+First, do nothing for 3 days. Short-term CPA spikes (1–3 days) are often learning phase fluctuations that self-correct. If the spike persists beyond 5 days, check: (1) conversion tracking — are events still firing and postbacks reaching Google? (2) creative fatigue — have your top assets been running for 30+ days? (3) bid changes — did you or a colleague adjust bids recently and reset the learning phase? (4) external factors — seasonal CPM increases, competitor budget changes. If tracking and creatives are clean and the campaign is out of learning phase, then adjust the tCPA by no more than 20%.
+
+**How do I measure true UAC performance beyond install CPI?**
+CPI is a surface metric. The numbers that matter: D7 ROAS (revenue generated per ₹1 spent within 7 days of install), D30 LTV by cohort and campaign, payback period (days until campaign pays back its CAC), and revenue per install (RPI). Your MMP (AppsFlyer, Adjust, Singular, Firebase) should be your measurement source of record — not Google Ads' own reporting, which will always show better numbers than reality due to attribution modelling differences. Compare cross-platform: if UAC delivers D7 ROAS of 0.6× and Meta delivers 1.8× on the same budget with comparable creative, that is signal worth acting on.
+
+---
+
+*Use the [UTM Builder](/utm-builder) on MarketerTools to properly tag every Google App Campaign for accurate attribution in your MMP and GA4.*
