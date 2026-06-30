@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { Upload, Download, Eye, EyeOff, RotateCcw, Info, CheckCircle2, AlertTriangle } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 import { motion, AnimatePresence } from "framer-motion";
 
 // ─────────────────────────────────────────────────────────────
@@ -815,12 +816,16 @@ export default function MetaSafeZone() {
     const next = PLACEMENTS.filter((x) => x.platform === p);
     const equiv = next.find((x) => x.uiStyle === placement.uiStyle) ?? next[0];
     setSelectedId(equiv.id);
+    trackEvent("meta_safe_zone_platform_switched", { platform: p });
   }, [placement.uiStyle]);
 
   const loadImage = useCallback((file: File) => {
     if (!file.type.startsWith("image/")) return;
     const reader = new FileReader();
-    reader.onload = (e) => setImageUrl(e.target?.result as string);
+    reader.onload = (e) => {
+      setImageUrl(e.target?.result as string);
+      trackEvent("meta_safe_zone_image_uploaded");
+    };
     reader.readAsDataURL(file);
   }, []);
 
@@ -871,6 +876,7 @@ export default function MetaSafeZone() {
       link.download = `meta-safe-zone-${placement.id}.png`;
       link.href = canvas.toDataURL("image/png");
       link.click();
+      trackEvent("meta_safe_zone_downloaded", { placement: placement.id });
     };
     img.src = imageUrl;
   }, [imageUrl, placement, showOverlay]);
@@ -912,7 +918,7 @@ export default function MetaSafeZone() {
               {placements.map((p) => {
                 const hasDanger = p.danger.top > 0 || p.danger.bottom > 0 || p.danger.left > 0 || p.danger.right > 0;
                 return (
-                  <button key={p.id} onClick={() => setSelectedId(p.id)}
+                  <button key={p.id} onClick={() => { setSelectedId(p.id); trackEvent("meta_safe_zone_placement_selected", { placement: p.id }); }}
                     className={`w-full flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left transition-all ${
                       selectedId === p.id ? "bg-gray-900 text-white" : "hover:bg-gray-50 text-gray-700"}`}>
                     <span className="text-sm font-medium leading-tight">{p.label}</span>
@@ -952,7 +958,7 @@ export default function MetaSafeZone() {
 
           {/* Controls */}
           <div className="space-y-2 mt-auto">
-            <button onClick={() => setShowOverlay(!showOverlay)}
+            <button onClick={() => { const next = !showOverlay; setShowOverlay(next); trackEvent("meta_safe_zone_overlay_toggled", { visible: next }); }}
               className={`w-full flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all ${
                 showOverlay ? "bg-gray-900 text-white hover:bg-gray-800" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>
               {showOverlay ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
@@ -963,7 +969,7 @@ export default function MetaSafeZone() {
               <Download className="w-4 h-4" /> Download with Overlay
             </button>
             {imageUrl && (
-              <button onClick={() => { setImageUrl(null); if (fileInputRef.current) fileInputRef.current.value = ""; }}
+              <button onClick={() => { setImageUrl(null); if (fileInputRef.current) fileInputRef.current.value = ""; trackEvent("meta_safe_zone_cleared"); }}
                 className="w-full flex items-center justify-center gap-2 rounded-xl py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors">
                 <RotateCcw className="w-3.5 h-3.5" /> Clear image
               </button>

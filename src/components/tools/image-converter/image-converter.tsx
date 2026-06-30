@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -181,6 +182,7 @@ export default function ImageConverter() {
       const res = await convertImage(file, targetFormat, quality, scale);
       setResult(res);
       toast.success("Converted!");
+      trackEvent("image_converted", { from_format: inputFormat, to_format: targetFormat });
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Conversion failed";
       setError(msg);
@@ -198,10 +200,12 @@ export default function ImageConverter() {
     a.href = result.dataUrl;
     a.download = `${baseName}.${ext}`;
     a.click();
+    trackEvent("image_downloaded", { format: targetFormat });
   };
 
   const clear = () => {
     setFile(null); setPreview(null); setResult(null); setError("");
+    trackEvent("image_cleared");
   };
 
   const showQuality = targetFormat === "jpeg" || targetFormat === "webp";

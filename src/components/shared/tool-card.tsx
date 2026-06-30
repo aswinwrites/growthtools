@@ -14,6 +14,7 @@ interface ToolCardProps {
   colorClass: string;
   bgClass: string;
   index?: number;
+  onClick?: () => void;
 }
 
 export default function ToolCard({
@@ -25,6 +26,7 @@ export default function ToolCard({
   colorClass,
   bgClass,
   index = 0,
+  onClick,
 }: ToolCardProps) {
   const isComingSoon = badge === "coming-soon";
 
@@ -37,6 +39,7 @@ export default function ToolCard({
     >
       <Link
         href={href}
+        onClick={onClick}
         className={cn(
           "group block rounded-2xl border border-gray-100 bg-white p-6",
           "hover:border-gray-200 hover:shadow-md transition-all duration-200",

@@ -5,11 +5,11 @@ import { ArrowRight, Zap, Lock, Globe } from "lucide-react";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "MarketerTools is a free toolkit built for performance marketers, growth teams, and ASO specialists. No paywalls, no dark patterns — just useful tools.",
+    "MarketerTools is a free all-in-one toolkit for growth marketers. No paywalls, no dark patterns — just useful tools that work instantly.",
   openGraph: {
     title: "About MarketerTools",
     description:
-      "Free tools for marketers who ship campaigns every day. Built with no dark patterns and no forced signups.",
+      "Free tools for growth marketers who ship campaigns every day. No dark patterns, no forced signups.",
   },
 };
 
@@ -50,7 +50,7 @@ export default function AboutPage() {
             Built by a marketer, for marketers
           </h1>
           <p className="mt-5 text-lg text-gray-500 leading-relaxed text-balance">
-            MarketerTools started as a personal toolkit — a collection of
+            MarketerTools started as a personal toolkit: a collection of
             utilities I kept rebuilding across jobs and agencies. Eventually it
             made more sense to just build them properly and share them.
           </p>
@@ -63,10 +63,10 @@ export default function AboutPage() {
           <div className="prose prose-gray max-w-none">
             <h2 className="text-2xl font-bold text-gray-900">The problem we solve</h2>
             <p className="mt-4 text-gray-600 leading-relaxed">
-              Performance marketers spend a disproportionate amount of time on
-              operational work — building UTMs, generating QR codes, reformatting
+              Growth marketers spend a disproportionate amount of time on
+              operational work: building UTMs, generating QR codes, reformatting
               data, verifying screenshots, checking ad safe zones. Most tools
-              that help with this are either locked behind expensive SaaS plans,
+              that help with this are locked behind expensive SaaS plans,
               require account creation just to run a query, or are so bloated
               they&apos;re slower than doing it manually.
             </p>
@@ -78,14 +78,14 @@ export default function AboutPage() {
 
             <h2 className="mt-10 text-2xl font-bold text-gray-900">What we&apos;re building</h2>
             <p className="mt-4 text-gray-600 leading-relaxed">
-              We&apos;re building the most comprehensive free toolkit for growth and
-              performance marketers. The current suite covers campaign URL
-              building, QR code generation, keyword match type conversion,
-              screenshot validation, Meta safe zones, spreadsheet operations, JSON
-              formatting, and more.
+              We&apos;re building the most comprehensive free toolkit for growth
+              marketers: an all-in-one suite covering the operational and manual
+              tasks that eat into your day. Campaign URL building, QR code
+              generation, keyword match type conversion, screenshot validation,
+              Meta safe zones, spreadsheet operations, JSON formatting, and more.
             </p>
             <p className="mt-4 text-gray-600 leading-relaxed">
-              Logged-in users get extras — saved presets, URL shortening with
+              Logged-in users get extras: saved presets, URL shortening with
               link analytics, and cross-session history. But signing in is
               optional. The tools work either way.
             </p>
@@ -94,26 +94,26 @@ export default function AboutPage() {
             <p className="mt-4 text-gray-600 leading-relaxed">
               MarketerTools is an independent project run by{" "}
               <a
-                href="https://www.linkedin.com/in/aswinsk/"
+                href="https://aswinsampathkumar.in"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"
               >
                 Aswin Sampathkumar
               </a>
-              , a growth marketer with experience across performance marketing,
-              ASO, and growth strategy for apps and SaaS products. It&apos;s a
-              side project that became a real product — used daily by marketers
+              , a growth marketer with experience across paid growth, ASO, and
+              growth strategy for apps and SaaS products. It started as a side
+              project and became a real product — used daily by growth marketers
               at agencies, startups, and growth teams.
             </p>
             <p className="mt-4 text-gray-600 leading-relaxed">
               Have a tool request, found a bug, or want to say hi? Use the chat
-              button at the bottom right, or email us at{" "}
+              button at the bottom right, or email{" "}
               <a
-                href="mailto:aswinwrites@gmail.com"
+                href="mailto:aswin.growth@gmail.com"
                 className="text-blue-600 hover:underline"
               >
-                aswinwrites@gmail.com
+                aswin.growth@gmail.com
               </a>
               .
             </p>

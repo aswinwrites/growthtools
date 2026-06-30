@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { signIn, useSession } from "next-auth/react";
+import { trackEvent } from "@/lib/analytics";
 
 export default function HeroSection() {
   const { data: session } = useSession();
@@ -68,6 +69,7 @@ export default function HeroSection() {
           >
             <Link
               href="/utm-builder"
+              onClick={() => trackEvent("cta_hero_start_tools")}
               className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700 active:scale-[0.98] transition-all shadow-sm"
             >
               Start Using Tools
@@ -75,7 +77,7 @@ export default function HeroSection() {
             </Link>
             {!session && (
               <button
-                onClick={() => signIn("google")}
+                onClick={() => { trackEvent("cta_hero_signin"); signIn("google"); }}
                 className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-700 hover:border-gray-300 hover:bg-gray-50 active:scale-[0.98] transition-all"
               >
                 {/* Google icon */}

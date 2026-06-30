@@ -6,6 +6,7 @@ import {
   Table, FileText, Database, Shield, Smartphone, LayoutGrid,
 } from "lucide-react";
 import ToolCard from "@/components/shared/tool-card";
+import { trackEvent } from "@/lib/analytics";
 
 const CATEGORIES = [
   { id: "all", label: "All Tools", icon: LayoutGrid },
@@ -147,7 +148,10 @@ export default function ToolsGrid() {
           {CATEGORIES.map((cat) => (
             <button
               key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
+              onClick={() => {
+                setActiveCategory(cat.id);
+                trackEvent("tools_filter_tab", { category: cat.id });
+              }}
               className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all ${
                 activeCategory === cat.id
                   ? "bg-blue-600 text-white shadow-sm"
@@ -163,7 +167,12 @@ export default function ToolsGrid() {
         {/* Tools grid */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((tool, i) => (
-            <ToolCard key={tool.href} {...tool} index={i} />
+            <ToolCard
+              key={tool.href}
+              {...tool}
+              index={i}
+              onClick={() => trackEvent("tool_card_click", { tool_name: tool.name, tool_slug: tool.href })}
+            />
           ))}
         </div>
 

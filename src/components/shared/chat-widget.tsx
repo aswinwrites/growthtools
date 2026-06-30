@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { MessageCircle, X, Send, CheckCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { trackEvent } from "@/lib/analytics";
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -12,6 +13,7 @@ export default function ChatWidget() {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
+  const hasTyped = useRef(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,6 +34,8 @@ export default function ChatWidget() {
       }
 
       setSent(true);
+      trackEvent("chat_message_sent");
+      hasTyped.current = false;
     } catch {
       setError("Network error. Please try again.");
     } finally {
@@ -40,6 +44,9 @@ export default function ChatWidget() {
   };
 
   const handleClose = () => {
+    if (!sent && hasTyped.current) {
+      trackEvent("chat_widget_abandoned");
+    }
     setOpen(false);
     setTimeout(() => {
       setSent(false);
@@ -47,6 +54,7 @@ export default function ChatWidget() {
       setEmail("");
       setMessage("");
       setError("");
+      hasTyped.current = false;
     }, 300);
   };
 
@@ -99,7 +107,7 @@ export default function ChatWidget() {
                       type="text"
                       placeholder="Your name"
                       value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={(e) => { setName(e.target.value); hasTyped.current = true; }}
                       required
                       className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all"
                     />
@@ -150,7 +158,11 @@ export default function ChatWidget() {
 
       {/* Trigger button */}
       <motion.button
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => {
+          const next = !open;
+          setOpen(next);
+          if (next) trackEvent("chat_widget_opened");
+        }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         className="flex h-13 w-13 items-center justify-center rounded-full bg-blue-600 shadow-lg shadow-blue-500/30 text-white hover:bg-blue-700 transition-colors"

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Copy, Check, Download, Trash2, Minimize2, Maximize2, AlertCircle, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics";
 
 // ─── Syntax highlighting ─────────────────────────────────────────────────────
 
@@ -73,11 +74,13 @@ export default function JSONFormatter() {
         setStats(getStats(formatted));
         setIndent(spaces);
         toast.success("Formatted");
+        trackEvent("json_formatted", { indent: spaces });
       } catch (e) {
         const msg = e instanceof SyntaxError ? e.message : "Invalid JSON";
         setError(msg);
         setOutput("");
         setStats(null);
+        trackEvent("json_error_detected");
       }
     },
     [input, indent]
@@ -92,10 +95,12 @@ export default function JSONFormatter() {
       setError("");
       setStats(getStats(minified));
       toast.success("Minified");
+      trackEvent("json_minified");
     } catch (e) {
       setError(e instanceof SyntaxError ? e.message : "Invalid JSON");
       setOutput("");
       setStats(null);
+      trackEvent("json_error_detected");
     }
   };
 
@@ -105,15 +110,18 @@ export default function JSONFormatter() {
       JSON.parse(input);
       setError("");
       toast.success("Valid JSON ✓");
+      trackEvent("json_validated", { valid: true });
     } catch (e) {
       const msg = e instanceof SyntaxError ? e.message : "Invalid JSON";
       setError(msg);
       toast.error("Invalid JSON");
+      trackEvent("json_validated", { valid: false });
     }
   };
 
   const clear = () => {
     setInput(""); setOutput(""); setError(""); setStats(null);
+    trackEvent("json_cleared");
   };
 
   const copy = () => {
@@ -122,6 +130,7 @@ export default function JSONFormatter() {
       setCopied(true);
       toast.success("Copied!");
       setTimeout(() => setCopied(false), 2000);
+      trackEvent("json_copied");
     });
   };
 
@@ -132,6 +141,7 @@ export default function JSONFormatter() {
     const a = document.createElement("a");
     a.href = url; a.download = "formatted.json"; a.click();
     URL.revokeObjectURL(url);
+    trackEvent("json_downloaded");
   };
 
   const isValid = input.trim() && !error;

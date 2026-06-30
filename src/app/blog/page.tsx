@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllPosts, formatDate } from "@/lib/blog";
 import { ArrowRight, Clock, Tag } from "lucide-react";
+import { BlogListTracker } from "@/components/blog/blog-list-tracker";
 
 export const metadata: Metadata = {
   title: "Marketing Blog — Guides, Tips & Insights | MarketerTools",
@@ -52,6 +53,7 @@ export default function BlogPage() {
         {posts.length === 0 ? (
           <p className="text-gray-400 text-center py-20">Coming soon.</p>
         ) : (
+          <BlogListTracker>
           <div className="space-y-px">
             {posts.map((post, i) => {
               const colorClass =
@@ -115,6 +117,7 @@ export default function BlogPage() {
               );
             })}
           </div>
+          </BlogListTracker>
         )}
       </div>
     </div>

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FileText, Copy, Check, Download, Trash2, RefreshCw, AlertCircle, X } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -86,6 +87,7 @@ export default function ScreenshotToText() {
       }
       setText(data.text);
       toast.success("Text extracted!");
+      trackEvent("screenshot_to_text_extracted");
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Something went wrong";
       setError(msg);
@@ -100,6 +102,7 @@ export default function ScreenshotToText() {
       setCopied(true);
       toast.success("Copied!");
       setTimeout(() => setCopied(false), 2000);
+      trackEvent("screenshot_to_text_copied");
     });
   };
 
@@ -110,10 +113,12 @@ export default function ScreenshotToText() {
     const name = file?.name.replace(/\.[^.]+$/, "") ?? "extracted";
     a.href = url; a.download = `${name}.txt`; a.click();
     URL.revokeObjectURL(url);
+    trackEvent("screenshot_to_text_downloaded");
   };
 
   const clear = () => {
     setFile(null); setPreview(null); setText(""); setError("");
+    trackEvent("screenshot_to_text_cleared");
   };
 
   return (

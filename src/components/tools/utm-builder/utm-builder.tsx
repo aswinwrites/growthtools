@@ -20,6 +20,7 @@ import { useUTMStore, useUIStore } from "@/store";
 import { buildUtmUrl, toNamingConvention, isValidUrl } from "@/lib/utils";
 import CopyButton from "@/components/shared/copy-button";
 import { toast } from "sonner";
+import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 // ─── Web Campaign ────────────────────────────────────────────────────────────
@@ -134,6 +135,7 @@ export default function UTMBuilder() {
   const applyPreset = (p: typeof WEB_PRESETS[0]) => {
     setParams({ source: p.source, medium: p.medium });
     toast.success(`Applied ${p.name} preset`);
+    trackEvent("utm_preset_applied", { preset: p.name });
   };
 
   const generateNaming = () => {
@@ -141,12 +143,14 @@ export default function UTMBuilder() {
     if (!parts.length) { toast.error("Enter at least one naming component"); return; }
     setParams({ campaign: parts.map(toNamingConvention).join("_") });
     toast.success("Naming convention applied");
+    trackEvent("utm_naming_convention_applied");
   };
 
   const handleNetworkSelect = (n: typeof AD_NETWORKS[0]) => {
     setNetwork(n);
     setIsNetworkOpen(false);
     setAppFields((prev) => ({ ...prev, source: n.source, medium: n.medium }));
+    trackEvent("utm_platform_selected", { platform: n.name });
   };
 
   const resetApp = () => {
@@ -154,6 +158,7 @@ export default function UTMBuilder() {
     setNetwork(AD_NETWORKS[0]);
     setAppFields({ source: "google", medium: "cpc", campaign: "", term: "", content: "" });
     toast("Form reset");
+    trackEvent("utm_app_reset");
   };
 
   const handleAppCopy = () => {
@@ -162,6 +167,7 @@ export default function UTMBuilder() {
       setCopied(true);
       toast.success("Play Store URL copied!");
       setTimeout(() => setCopied(false), 2000);
+      trackEvent("utm_app_url_copied");
     });
   };
 
@@ -170,7 +176,7 @@ export default function UTMBuilder() {
       {/* Mode Switcher */}
       <div className="inline-flex rounded-xl border border-gray-200 bg-gray-50 p-1 gap-1">
         <button
-          onClick={() => setMode("web")}
+          onClick={() => { setMode("web"); trackEvent("utm_mode_switched", { mode: "web" }); }}
           className={cn(
             "flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all",
             mode === "web"
@@ -182,7 +188,7 @@ export default function UTMBuilder() {
           Web Campaign
         </button>
         <button
-          onClick={() => setMode("app")}
+          onClick={() => { setMode("app"); trackEvent("utm_mode_switched", { mode: "app" }); }}
           className={cn(
             "flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all",
             mode === "app"
@@ -388,7 +394,7 @@ export default function UTMBuilder() {
                   {webUrl || "Fill in the fields on the left to generate your URL."}
                 </div>
                 <div className="mt-3 flex gap-2">
-                  <CopyButton text={webUrl} className="flex-1 justify-center" onCopy={() => addToHistory(webUrl, params)} />
+                  <CopyButton text={webUrl} className="flex-1 justify-center" onCopy={() => { addToHistory(webUrl, params); trackEvent("utm_url_copied"); }} />
                   {webUrl && (
                     <a href={webUrl} target="_blank" rel="noopener noreferrer" className="rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 transition-colors">↗</a>
                   )}

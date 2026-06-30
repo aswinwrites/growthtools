@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { formatKeyword, toCSV, downloadFile, copyToClipboard } from "@/lib/utils";
 import { toast } from "sonner";
+import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 type MatchType = "broad" | "phrase" | "exact";
@@ -51,13 +52,13 @@ export default function MatchTypeTool() {
   );
 
   const toggleType = (type: MatchType) => {
-    setActiveTypes((prev) =>
-      prev.includes(type)
-        ? prev.length > 1
-          ? prev.filter((t) => t !== type)
-          : prev
-        : [...prev, type]
-    );
+    setActiveTypes((prev) => {
+      const next = prev.includes(type)
+        ? prev.length > 1 ? prev.filter((t) => t !== type) : prev
+        : [...prev, type];
+      trackEvent("match_type_toggled", { match_type: type, enabled: !prev.includes(type) });
+      return next;
+    });
   };
 
   const copyColumn = async (type: MatchType) => {
@@ -66,6 +67,7 @@ export default function MatchTypeTool() {
     setCopiedCol(type);
     toast.success(`Copied all ${type} match keywords`);
     setTimeout(() => setCopiedCol(null), 2000);
+    trackEvent("match_type_column_copied", { match_type: type });
   };
 
   const copyAll = async () => {
@@ -76,6 +78,7 @@ export default function MatchTypeTool() {
       .join("\n");
     await copyToClipboard(lines);
     toast.success("Copied all keywords");
+    trackEvent("match_type_copy_all", { keyword_count: keywords.length });
   };
 
   const exportCSV = () => {
@@ -87,11 +90,13 @@ export default function MatchTypeTool() {
     const csv = toCSV([headers, ...csvRows]);
     downloadFile(csv, "keywords-match-types.csv", "text/csv");
     toast.success("CSV downloaded");
+    trackEvent("match_type_csv_exported", { keyword_count: keywords.length });
   };
 
   const clearAll = () => {
     setRawInput("");
     toast("Cleared");
+    trackEvent("match_type_cleared");
   };
 
   const charCount = useMemo(

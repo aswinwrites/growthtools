@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Mail, CheckCircle } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 export default function NewsletterSection() {
   const [email, setEmail] = useState("");
@@ -28,6 +29,7 @@ export default function NewsletterSection() {
       }
 
       setSubscribed(true);
+      trackEvent("newsletter_subscribe", { source: "homepage" });
     } catch {
       setError("Network error. Please try again.");
     } finally {

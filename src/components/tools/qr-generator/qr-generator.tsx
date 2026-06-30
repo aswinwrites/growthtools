@@ -18,6 +18,7 @@ import {
 import { useQRStore, useUIStore } from "@/store";
 import { downloadFile } from "@/lib/utils";
 import { toast } from "sonner";
+import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import type { QRInputType } from "@/types";
 
@@ -141,6 +142,7 @@ export default function QRGenerator() {
     reader.onload = (ev) => {
       setLogoDataUrl(ev.target?.result as string);
       setLogoFileName(file.name);
+      trackEvent("qr_logo_uploaded");
       // Auto-switch to H error correction when logo is added
       if (options.errorCorrectionLevel !== "H") {
         setOptions({ errorCorrectionLevel: "H" });
@@ -154,6 +156,7 @@ export default function QRGenerator() {
     setLogoDataUrl(null);
     setLogoFileName("");
     if (logoInputRef.current) logoInputRef.current.value = "";
+    trackEvent("qr_logo_removed");
   };
 
   useEffect(() => {
@@ -173,6 +176,7 @@ export default function QRGenerator() {
       a.click();
       URL.revokeObjectURL(url);
       toast.success("QR code downloaded as PNG");
+      trackEvent("qr_downloaded_png");
     }, "image/png");
   };
 
@@ -189,6 +193,7 @@ export default function QRGenerator() {
       });
       downloadFile(svg, "marketertools-qr.svg", "image/svg+xml");
       toast.success("QR code downloaded as SVG");
+      trackEvent("qr_downloaded_svg");
     } catch {
       toast.error("SVG export failed");
     }
@@ -200,6 +205,7 @@ export default function QRGenerator() {
       return;
     }
     toast.success("QR style saved!");
+    trackEvent("qr_preset_saved");
   };
 
   return (

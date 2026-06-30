@@ -7,6 +7,7 @@ import rehypeSlug from "rehype-slug";
 import { getPost, getAllPosts, formatDate, extractFaqs } from "@/lib/blog";
 import { mdxComponents } from "@/components/blog/mdx-components";
 import { ArrowLeft, Clock, Calendar, Tag } from "lucide-react";
+import { BlogTracker } from "@/components/blog/blog-tracker";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -111,6 +112,7 @@ export default async function BlogPostPage({ params }: Props) {
         />
       )}
 
+      <BlogTracker slug={slug} />
       <div className="min-h-screen bg-white">
         {/* Back nav */}
         <div className="border-b border-gray-100">

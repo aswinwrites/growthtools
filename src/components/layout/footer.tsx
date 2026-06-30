@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { Zap } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 const tools = [
   { name: "UTM Builder", href: "/utm-builder" },
@@ -39,6 +42,7 @@ export default function Footer() {
                 <li key={tool.href}>
                   <Link
                     href={tool.href}
+                    onClick={() => trackEvent("footer_link_clicked", { destination: tool.href })}
                     className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
                   >
                     {tool.name}

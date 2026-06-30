@@ -23,6 +23,7 @@ import {
   Filter,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics";
 import { OPERATION_DEFS, runOperation } from "./operations";
 import type {
   ParsedFile,
@@ -469,6 +470,7 @@ export default function SpreadsheetOps() {
     setError(null);
     setResult(null);
     setStep(2);
+    trackEvent("spreadsheet_operation_selected", { operation: id });
   };
 
   const setFile = (idx: number, f: ParsedFile) => {
@@ -478,6 +480,7 @@ export default function SpreadsheetOps() {
       return next;
     });
     setConfig({}); // reset config when file changes
+    trackEvent("spreadsheet_file_uploaded");
   };
 
   const clearFile = (idx: number) => {
@@ -518,6 +521,7 @@ export default function SpreadsheetOps() {
         const res = runOperation(selectedOp.id, files, config);
         setResult(res);
         setStep(3);
+        trackEvent("spreadsheet_operation_run", { operation: selectedOp.id, row_count: res.rows.length });
       } catch (e) {
         setError(e instanceof Error ? e.message : "An unexpected error occurred");
       } finally {
@@ -531,6 +535,7 @@ export default function SpreadsheetOps() {
     const csv = Papa.unparse({ fields: result.headers, data: result.rows });
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     saveAs(blob, `result_${selectedOpId}.csv`);
+    trackEvent("spreadsheet_result_downloaded", { format: "csv", operation: selectedOpId ?? "" });
   };
 
   const downloadXLSX = () => {
@@ -541,6 +546,7 @@ export default function SpreadsheetOps() {
     const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const blob = new Blob([wbout], { type: "application/octet-stream" });
     saveAs(blob, `result_${selectedOpId}.xlsx`);
+    trackEvent("spreadsheet_result_downloaded", { format: "xlsx", operation: selectedOpId ?? "" });
   };
 
   const reset = () => {
@@ -551,6 +557,7 @@ export default function SpreadsheetOps() {
     setResult(null);
     setError(null);
     setProcessing(false);
+    trackEvent("spreadsheet_reset");
   };
 
   return (

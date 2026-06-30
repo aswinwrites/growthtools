@@ -9,6 +9,7 @@ import {
   Table, FileText, Database, Shield, Smartphone, BookOpen,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 const CATEGORIES = [
   {
@@ -85,6 +86,7 @@ export default function Header() {
 
   const handleMenuEnter = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
+    if (!megaOpen) trackEvent("mega_menu_opened");
     setMegaOpen(true);
   };
   const handleMenuLeave = () => {
@@ -157,7 +159,10 @@ export default function Header() {
                                 <Link
                                   key={tool.href}
                                   href={tool.href}
-                                  onClick={() => setMegaOpen(false)}
+                                  onClick={() => {
+                                    setMegaOpen(false);
+                                    trackEvent("nav_tool_click", { tool_name: tool.name });
+                                  }}
                                   className="group/tool flex items-start gap-2.5 rounded-lg px-2 py-2 hover:bg-gray-50 transition-colors"
                                 >
                                   <tool.icon className={`h-4 w-4 mt-0.5 shrink-0 ${cat.color} opacity-70`} />
@@ -270,7 +275,7 @@ export default function Header() {
               </div>
             ) : (
               <button
-                onClick={() => signIn("google")}
+                onClick={() => { trackEvent("cta_header_signin"); signIn("google"); }}
                 className="hidden lg:flex rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 active:scale-95 transition-all"
               >
                 Sign in free
@@ -280,7 +285,11 @@ export default function Header() {
             {/* Mobile hamburger */}
             <button
               className="lg:hidden rounded-md p-2 text-gray-600 hover:bg-gray-100 transition-colors"
-              onClick={() => setMobileOpen(!mobileOpen)}
+              onClick={() => {
+                const next = !mobileOpen;
+                setMobileOpen(next);
+                if (next) trackEvent("mobile_menu_opened");
+              }}
               aria-label="Toggle menu"
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -328,7 +337,10 @@ export default function Header() {
                         <Link
                           key={tool.href}
                           href={tool.href}
-                          onClick={() => setMobileOpen(false)}
+                          onClick={() => {
+                            setMobileOpen(false);
+                            trackEvent("nav_tool_click", { tool_name: tool.name, source: "mobile" });
+                          }}
                           className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                         >
                           <tool.icon className={`h-3.5 w-3.5 shrink-0 ${cat.color} opacity-70`} />

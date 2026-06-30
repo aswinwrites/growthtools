@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Upload, Download, Copy, Check, Trash2, Table, RefreshCw, AlertCircle, X } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -101,6 +102,7 @@ export default function ImageToCSV() {
       if (data.csv.startsWith("ERROR:")) throw new Error(data.csv.replace("ERROR:", "").trim());
       setCsv(data.csv);
       toast.success("Table extracted!");
+      trackEvent("image_to_csv_extracted");
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Something went wrong";
       setError(msg);
@@ -115,6 +117,7 @@ export default function ImageToCSV() {
       setCopied(true);
       toast.success("Copied!");
       setTimeout(() => setCopied(false), 2000);
+      trackEvent("image_to_csv_copied");
     });
   };
 
@@ -125,10 +128,12 @@ export default function ImageToCSV() {
     const name = file?.name.replace(/\.[^.]+$/, "") ?? "table";
     a.href = url; a.download = `${name}.csv`; a.click();
     URL.revokeObjectURL(url);
+    trackEvent("image_to_csv_downloaded");
   };
 
   const clear = () => {
     setFile(null); setPreview(null); setCsv(""); setError("");
+    trackEvent("image_to_csv_cleared");
   };
 
   const rows = csv ? parseCsvToRows(csv) : [];

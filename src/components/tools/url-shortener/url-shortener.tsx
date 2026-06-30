@@ -19,6 +19,7 @@ import CopyButton from "@/components/shared/copy-button";
 import { useUIStore } from "@/store";
 import { isValidUrl } from "@/lib/utils";
 import { toast } from "sonner";
+import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 interface ShortenedLink {
@@ -75,6 +76,7 @@ export default function URLShortener() {
       setUrl("");
       setCustomSlug("");
       toast.success("Link shortened!");
+      trackEvent("link_shortened", { has_custom_slug: !!customSlug });
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Something went wrong";
       setError(msg);
@@ -87,6 +89,7 @@ export default function URLShortener() {
   const handleDelete = async (id: string) => {
     setLinks((prev) => prev.filter((l) => l.id !== id));
     toast("Link removed");
+    trackEvent("link_deleted");
   };
 
   const toggleAnalytics = async (linkId: string) => {
@@ -95,6 +98,7 @@ export default function URLShortener() {
       return;
     }
     setExpandedAnalytics(linkId);
+    trackEvent("link_analytics_viewed");
     if (analyticsData[linkId]) return; // already loaded
     setLoadingAnalytics(linkId);
     try {

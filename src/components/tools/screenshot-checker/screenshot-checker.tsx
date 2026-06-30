@@ -13,6 +13,7 @@ import {
   Monitor,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics";
 
 // ─── Device Data ─────────────────────────────────────────────────────────────
 
@@ -177,6 +178,12 @@ export default function ScreenshotChecker() {
     }
     setResults((prev) => [...newResults, ...prev]);
     setProcessing(false);
+    if (newResults.length > 0) {
+      const allPassed = newResults.every(r => r.iosMatches.length > 0 || r.androidCheck.passed);
+      trackEvent("screenshot_uploaded", { count: newResults.length });
+      if (allPassed) trackEvent("screenshot_check_passed");
+      else trackEvent("screenshot_check_failed");
+    }
   }, []);
 
   const handleDrop = useCallback(
@@ -194,7 +201,7 @@ export default function ScreenshotChecker() {
   };
 
   const removeResult = (id: string) => setResults((prev) => prev.filter((r) => r.id !== id));
-  const clearAll = () => setResults([]);
+  const clearAll = () => { setResults([]); trackEvent("screenshot_checker_cleared"); };
 
   return (
     <div className="space-y-6">
