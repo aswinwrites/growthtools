@@ -7,8 +7,10 @@ const tools = [
   { name: "QR Generator", href: "/qr-generator" },
   { name: "URL Shortener", href: "/url-shortener" },
   { name: "Meta Safe Zone", href: "/meta-safe-zone" },
-  { name: "Play Store Preview", href: "/play-store-preview" },
-  { name: "App Store Preview", href: "/app-store-preview" },
+  { name: "Screenshot Checker", href: "/screenshot-checker" },
+  { name: "Spreadsheet Ops", href: "/spreadsheet" },
+  { name: "JSON Formatter", href: "/json-formatter" },
+  { name: "Image Converter", href: "/image-converter" },
 ];
 
 export default function Footer() {
@@ -25,7 +27,7 @@ export default function Footer() {
               <span className="text-lg font-bold text-gray-900">MarketerTools</span>
             </Link>
             <p className="mt-3 text-sm text-gray-500 max-w-xs">
-              Free tools for growth marketers. No signup required for core features.
+              Free tools for growth marketers. Free forever. No credit card. No dark patterns.
             </p>
           </div>
 

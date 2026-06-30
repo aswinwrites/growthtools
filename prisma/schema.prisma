@@ -155,9 +155,23 @@ model LinkClick {
 model EmailLead {
   id        String   @id @default(cuid())
   email     String   @unique
-  source    String?  // e.g. "sidebar", "utm-builder", "spreadsheet"
+  source    String?  // e.g. "sidebar", "utm-builder", "spreadsheet", "newsletter"
   createdAt DateTime @default(now())
 
   @@index([createdAt])
   @@map("email_leads")
+}
+
+// ── Contact Messages ──────────────────────────────────────────────────────────
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String   @db.Text
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@map("contact_messages")
 }

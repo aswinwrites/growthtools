@@ -5,6 +5,7 @@ import AuthSessionProvider from "@/components/shared/session-provider";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import LoginPrompt from "@/components/shared/login-prompt";
+import ChatWidget from "@/components/shared/chat-widget";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -105,6 +106,7 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
           <LoginPrompt />
+          <ChatWidget />
           <Toaster
             position="bottom-right"
             toastOptions={{

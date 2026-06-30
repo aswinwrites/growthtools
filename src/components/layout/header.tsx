@@ -38,8 +38,6 @@ const CATEGORIES = [
     bg: "bg-emerald-50",
     tools: [
       { name: "Screenshot Checker", href: "/screenshot-checker", desc: "Verify App Store & Play Store screenshot sizes", icon: Ruler },
-      { name: "App Store Preview", href: "/app-store-preview", desc: "Preview screenshots on real device frames", icon: Smartphone, badge: "Soon" },
-      { name: "Play Store Preview", href: "/play-store-preview", desc: "Simulate Android store listings", icon: Smartphone, badge: "Soon" },
     ],
   },
   {
@@ -188,7 +186,7 @@ export default function Header() {
                       {/* Footer strip */}
                       <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
                         <span className="text-xs text-gray-400">
-                          {CATEGORIES.reduce((n, c) => n + c.tools.length, 0)} tools · all free · no signup required
+                          {CATEGORIES.reduce((n, c) => n + c.tools.length, 0)} tools · free forever · no card needed
                         </span>
                         <Link
                           href="/"

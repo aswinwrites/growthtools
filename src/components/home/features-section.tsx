@@ -6,9 +6,9 @@ import { Zap, Lock, History, BarChart3 } from "lucide-react";
 const features = [
   {
     icon: <Zap className="h-5 w-5 text-blue-600" />,
-    title: "Instant, no signup required",
+    title: "Free forever, no card needed",
     description:
-      "Every tool works in your browser immediately. No account needed to get value from day one.",
+      "Every tool works in your browser immediately. No account needed. No trial period. No paywall after 30 days.",
   },
   {
     icon: <Lock className="h-5 w-5 text-violet-600" />,
@@ -36,7 +36,7 @@ export default function FeaturesSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
           <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-            Built for how marketers actually work
+            Fast tools. No friction. Free forever.
           </h2>
         </div>
 

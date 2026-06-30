@@ -65,26 +65,6 @@ const tools = [
     category: "aso" as CategoryId,
   },
   {
-    name: "App Store Preview",
-    description: "Preview your screenshots on real iPhone and iPad device frames before uploading to App Store Connect. Spot layout issues instantly.",
-    href: "/app-store-preview",
-    icon: <Smartphone className="h-5 w-5" />,
-    colorClass: "text-sky-600",
-    bgClass: "bg-sky-50",
-    badge: "coming-soon" as const,
-    category: "aso" as CategoryId,
-  },
-  {
-    name: "Play Store Preview",
-    description: "Simulate how your screenshots and feature graphic look on the Google Play Store. Preview on multiple Android frame sizes.",
-    href: "/play-store-preview",
-    icon: <Smartphone className="h-5 w-5" />,
-    colorClass: "text-emerald-600",
-    bgClass: "bg-emerald-50",
-    badge: "coming-soon" as const,
-    category: "aso" as CategoryId,
-  },
-  {
     name: "Meta Safe Zone Checker",
     description: "Simulate your ad creative across all Meta placements — Stories, Reels, Feed, In-Stream and more. Real safe zone overlays for Instagram & Facebook.",
     href: "/meta-safe-zone",
@@ -157,8 +137,8 @@ export default function ToolsGrid() {
             The complete marketer&apos;s toolkit
           </h2>
           <p className="mt-3 text-gray-500 max-w-2xl mx-auto">
-            Every tool you need to run better campaigns. No paywalls. No forced signups.
-            Just useful utilities that save hours.
+            Every tool you need to run better campaigns. Free forever. No paywalls.
+            No forced signups. Just utilities that save hours.
           </p>
         </div>
 

@@ -5,6 +5,7 @@ import ToolsGrid from "@/components/home/tools-grid";
 import FeaturesSection from "@/components/home/features-section";
 import BlogPreview from "@/components/home/blog-preview";
 import SocialProof from "@/components/home/social-proof";
+import NewsletterSection from "@/components/home/newsletter-section";
 
 export const metadata: Metadata = {
   title: "MarketerTools — Free Tools for Marketers",
@@ -21,6 +22,7 @@ export default function HomePage() {
       <ToolsGrid />
       <BlogPreview />
       <FeaturesSection />
+      <NewsletterSection />
       <SocialProof />
     </div>
   );

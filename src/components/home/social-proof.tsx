@@ -7,7 +7,7 @@ const stats = [
   { value: "13+", label: "Marketing Tools" },
   { value: "100%", label: "Free to Use" },
   { value: "0", label: "Dark Patterns" },
-  { value: "∞", label: "Campaigns Built" },
+  { value: "0", label: "Paywalls" },
 ];
 
 export default function SocialProof() {
@@ -39,11 +39,11 @@ export default function SocialProof() {
           className="rounded-2xl bg-blue-600 px-8 py-12 text-center"
         >
           <h2 className="text-2xl font-bold text-white sm:text-3xl">
-            Save your first UTM preset
+            The marketer&apos;s toolkit that stays free
           </h2>
           <p className="mt-2 text-blue-200 max-w-lg mx-auto">
-            Sign in with Google to unlock history, presets, and link analytics.
-            Takes 10 seconds. Always free.
+            Sign in with Google to unlock saved presets, link analytics, and
+            cross-session history. Takes 10 seconds. Always free.
           </p>
           <button
             onClick={() => signIn("google")}
