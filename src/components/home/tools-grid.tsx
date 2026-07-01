@@ -3,7 +3,7 @@
 import { useState } from "react";
 import {
   Link2, Search, QrCode, Tag, Ruler, Braces, RefreshCw,
-  Table, FileText, Database, Shield, Smartphone, LayoutGrid,
+  Table, FileText, Database, Shield, Smartphone, LayoutGrid, Linkedin,
 } from "lucide-react";
 import ToolCard from "@/components/shared/tool-card";
 import { trackEvent } from "@/lib/analytics";
@@ -118,6 +118,15 @@ const tools = [
     colorClass: "text-cyan-600",
     bgClass: "bg-cyan-50",
     category: "data" as CategoryId,
+  },
+  {
+    name: "LinkedIn Text Formatter",
+    description: "Bold, italic, script, strikethrough and 12+ styles for LinkedIn posts. Selection-based formatting, live preview with see-more truncation, AI hook ideas, hashtags, and tone rewriter.",
+    href: "/linkedin-formatter",
+    icon: <Linkedin className="h-5 w-5" />,
+    colorClass: "text-blue-600",
+    bgClass: "bg-blue-50",
+    category: "campaign" as CategoryId,
   },
 ];
 

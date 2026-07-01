@@ -17,6 +17,7 @@ import {
   Table,
   FileText,
   Database,
+  Linkedin,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EmailCaptureCard from "@/components/shared/email-capture-card";
@@ -53,6 +54,7 @@ const ACTIVE_TOOLS: NavItem[] = [
   { name: "Screenshot to Text", href: "/screenshot-to-text", icon: FileText, color: "emerald" },
   { name: "Meta Safe Zone", href: "/meta-safe-zone", icon: Shield, color: "pink" },
   { name: "Spreadsheet Ops", href: "/spreadsheet", icon: Database, color: "cyan" },
+  { name: "LinkedIn Formatter", href: "/linkedin-formatter", icon: Linkedin, color: "blue" },
 ];
 
 const SOON_TOOLS: NavItem[] = [
