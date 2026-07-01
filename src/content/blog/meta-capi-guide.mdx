@@ -1,0 +1,455 @@
+---
+title: "Meta Conversions API (CAPI): The Complete Implementation Guide for Performance Marketers"
+description: "Tracking is leaking. Meta's Pixel misses up to 40% of conversions due to iOS 14.5, ad blockers, and cookie death. Here's how Meta CAPI fixes it — and what you must get right to see the impact."
+date: "2026-07-01"
+category: "Data & Analytics"
+readTime: "18 min read"
+author: "MarketerTools"
+authorTitle: "Growth Marketing Practitioners"
+tags: ["Meta CAPI", "Conversions API", "Meta Ads", "Tracking", "EMQ", "Server-Side Tracking", "Facebook Ads"]
+---
+
+**Fair warning:** this article has depth. It's not a listicle, there's no TL;DR at the top, and it will not respect your attention span. If you're here for a quick skim, this isn't it. But if you read to the end, you'll walk away knowing more about Meta tracking than 95% of people actively spending on Meta ads. That's the trade.
+
+---
+
+If you're running Meta ads and relying only on the Pixel, you're flying half-blind. iOS 14.5 wiped out cross-app tracking. Ad blockers are on 40%+ of desktop browsers. Safari's Intelligent Tracking Prevention deletes first-party cookies after 7 days. The result: your Pixel is routinely under-reporting conversions by 20–40%, your algorithm is optimising on noise, and your cost-per-lead is higher than it should be.
+
+Meta's Conversions API (CAPI) is the fix. It's not a magic bullet — there are real constraints to understand — but implemented correctly alongside your Pixel, it materially reduces your CPL and gives Meta's algorithm the signal density it needs to optimise properly.
+
+This guide covers everything: how CAPI works, the key parameters you must send (EMQ, FBC, FBP), deduplication, event hierarchy under Aggregated Event Measurement, send timing, and real-world results from practitioners who've been through it.
+
+---
+
+## What is Meta Conversions API?
+
+Meta Pixel is **client-side** tracking: a JavaScript snippet runs in the user's browser and fires events (PageView, Lead, Purchase) back to Meta's servers. The problem is that the browser is increasingly hostile to this — ad blockers intercept it, iOS blocks cross-app tracking, and browser privacy settings strip identifying cookies.
+
+Meta Conversions API is **server-side** tracking: your server fires conversion events directly to Meta's Graph API, bypassing the browser entirely. The key difference is the call chain:
+
+```
+Pixel (client-side):
+User Browser → [blocked by ad blocker / iOS / ITP] → Meta
+
+CAPI (server-side):
+User Action → Your Server → Meta Graph API ✓
+```
+
+Because the call originates from your server, ad blockers and browser privacy settings can't touch it. A peer-reviewed study published in *Proceedings on Privacy Enhancing Technologies* (PoPETs, 2024) confirmed that filter lists — including the most aggressive ad-blocking lists — successfully block Pixel requests but cannot block CAPI calls, since they originate from a server IP, not a browser environment.
+
+The recommended setup is **both running in parallel**: Pixel for real-time in-session data, CAPI as the durable server-side record. Meta deduplicates overlapping events (more on this below).
+
+---
+
+## Why Your Pixel Data Is Already Wrong
+
+Before getting into implementation, it helps to understand exactly how much signal you're losing and why.
+
+### iOS 14.5 and App Tracking Transparency (ATT)
+
+Apple's ATT framework, launched in April 2021, requires apps to ask permission before tracking users across other apps and websites. Opt-in rates landed around 25–35%, meaning roughly 65–75% of iOS users are invisible to cross-app attribution. Since Meta's most valuable audiences skew iOS, this disproportionately affects advertisers.
+
+### Ad Blockers
+
+According to GlobalWebIndex, 42% of internet users globally use some form of ad blocker. On desktop, the figure exceeds 50% in many markets. uBlock Origin, AdGuard, and Brave's built-in shield all intercept Pixel calls at the network level — before the event reaches Meta.
+
+### Safari's Intelligent Tracking Prevention (ITP)
+
+ITP deletes first-party cookies after 7 days of inactivity (and in some configurations, 1 day). The `_fbp` cookie that Meta uses to identify browsers is particularly vulnerable. A user who clicked an ad, returned a week later to convert, and had their cookie deleted in the interim is invisible to attribution.
+
+### The Cumulative Effect
+
+The PoPETs 2024 research paper ("Client-side and Server-side Tracking on Meta: Effectiveness and Accuracy") quantified this gap empirically:
+
+- Under **optimal conditions** (no blocking, authentic IPs), Pixel matched **42–61% of visitors** to Meta profiles, while CAPI matched **34–51%** using IP + User Agent fingerprinting alone
+- When Pixel is **blocked** (ad blockers, ITP), CAPI becomes the only signal source, achieving 27% reach even on VPN traffic where IPs are masked
+- CAPI accuracy using IP + UA alone sits at **60–65%** — but adding the FBC click ID parameter improves it to **70%**
+
+The practical implication: no single method gives you 100% attribution. The combination of Pixel + CAPI + strong user identifiers gets you closest.
+
+---
+
+## How CAPI Works: The Data Flow
+
+```
+┌─────────────────────────────────────────────────────┐
+│                    USER ACTION                       │
+│         (clicks ad → lands → fills form)            │
+└────────────────┬────────────────────────────────────┘
+                 │
+        ┌────────┴────────┐
+        │                 │
+   CLIENT SIDE        SERVER SIDE
+   (Pixel fires)      (CAPI fires)
+        │                 │
+   Browser → Meta    Server → Meta Graph API
+        │                 │
+        └────────┬────────┘
+                 │
+         ┌───────▼───────┐
+         │  Meta checks  │
+         │  event_id     │
+         │  event_name   │
+         │  → dedupe     │
+         └───────┬───────┘
+                 │
+         ┌───────▼───────┐
+         │  1 CONVERSION │
+         │   RECORDED    │
+         └───────────────┘
+```
+
+When both fire for the same event:
+1. Pixel sends: `event_name: "Lead"`, `event_id: "abc-123"`, browser-side user data
+2. CAPI sends: `event_name: "Lead"`, `event_id: "abc-123"`, server-side user data (email hash, phone hash, IP, FBC, FBP)
+3. Meta matches on `event_id` + `event_name` → counts one conversion, enriches it with data from both sources
+
+When Pixel is blocked:
+1. CAPI fires alone → conversion still recorded → algorithm still learns
+
+---
+
+## The Parameters That Actually Matter
+
+### Event Match Quality (EMQ)
+
+EMQ is Meta's score (0–10) for how reliably it can match your conversion events to real user profiles in its system. Higher EMQ = more matched events = better algorithmic signal = lower CPL.
+
+> Meta's internal benchmark sits around **6/10**. Scores above 8.5 show diminishing returns — the jump from 6 to 8 matters far more than 9 to 10.
+
+The score is driven by the **user data parameters** you send with each event. The more identifiers, the higher the match probability:
+
+| Parameter | Field Name | Impact | Notes |
+|-----------|-----------|--------|-------|
+| Email | `em` | ⭐⭐⭐ Highest | Must be SHA-256 hashed |
+| Phone | `ph` | ⭐⭐⭐ Highest | Hash with country code |
+| Click ID | `fbc` | ⭐⭐ High | From `fbclid` URL param |
+| Browser ID | `fbp` | ⭐⭐ High | From `_fbp` cookie |
+| External ID | `external_id` | ⭐⭐ High | Your CRM user ID |
+| First Name | `fn` | ⭐ Medium | Hash before sending |
+| Last Name | `ln` | ⭐ Medium | Hash before sending |
+| City / State / Zip | `ct`, `st`, `zp` | ⭐ Medium | Useful for local |
+| Gender | `ge` | Low | Hash: "m" or "f" |
+| Date of Birth | `db` | Low | YYYYMMDD format |
+
+**Real-world impact:** Implementations sending 8+ parameters consistently achieve "Great" EMQ scores (8+). Moving from Pixel-only to Pixel + CAPI with complete user data typically improves EMQ by 2–4 points. [CustomerLabs research](https://www.customerlabs.com/blog/improve-your-event-match-quality-from-ok-to-great/) documents this consistently across accounts.
+
+**Critical rule:** Always hash PII with SHA-256 before sending. Meta won't accept unhashed data, and sending it raw creates compliance exposure.
+
+---
+
+### FBC — Facebook Click ID
+
+FBC is the most important tracking parameter most marketers undervalue. When a user clicks your Meta ad, Meta appends `?fbclid=<unique_id>` to your landing page URL. The FBC value is constructed from this:
+
+```
+fbc = fb.{subdomain_index}.{creation_time}.{fbclid_value}
+```
+
+**Why it matters:** The PoPETs research found that including FBC in CAPI events improved accuracy from **65% to 70%** and effectiveness from **20% to 23%**. That's the single biggest accuracy lift from any individual parameter.
+
+FBC is what converts probabilistic attribution ("Meta thinks this conversion came from that ad") into **deterministic attribution** ("Meta knows this conversion came from that specific click"). Without it, Meta is guessing. With it, Meta has a receipted record.
+
+**How to capture and pass it:**
+1. Your Pixel automatically reads `fbclid` from the URL and stores it as the `_fbc` cookie
+2. Read the `_fbc` cookie server-side at the point of conversion
+3. Include it in your CAPI event's `user_data.fbc` field
+
+If a user doesn't click a Meta ad directly (organic visit, email, etc.), FBC will be null — that's fine. Never fabricate or invent it.
+
+---
+
+### FBP — Facebook Browser ID
+
+FBP identifies a browser instance, not a person. It's stored in the `_fbp` first-party cookie, which Meta Pixel sets automatically on page load.
+
+```
+fbp = fb.{version}.{subdomain_index}.{unique_id}
+```
+
+**What it does vs what it doesn't do:**
+- ✓ Links multiple sessions from the same browser on your site
+- ✓ Helps Meta match events to a browser-level identity
+- ✗ Does NOT improve direct user matching (the PoPETs paper found FBP doesn't improve matching accuracy independently)
+- ✗ Doesn't persist across devices or browsers
+
+**How to pass it:**
+- Read the `_fbp` cookie server-side at event time
+- Include in `user_data.fbp` in your CAPI call
+- If not present (new user, cookie blocked), omit it — don't send empty strings
+
+The cookie is vulnerable to ITP (Safari deletes it after 7 days), which is exactly why pairing it with email/phone hash and FBC is critical. Don't rely on FBP alone.
+
+---
+
+## Deduplication: The Step Everyone Gets Wrong
+
+Running Pixel + CAPI simultaneously means Meta receives two event signals for every conversion. Without deduplication, you get double-counted conversions, inflated ROAS, and an algorithm that learns the wrong patterns.
+
+Meta deduplicates using two fields that must be **identical** from both Pixel and CAPI:
+
+```
+event_name: "Lead"   ← must match exactly (case-sensitive)
+event_id: "abc-123"  ← must match exactly (character-for-character)
+```
+
+**The deduplication window is 48 hours.** Events with the same `event_id` + `event_name` received within 48 hours of each other are treated as the same conversion.
+
+### Common Deduplication Failures
+
+| Mistake | Example | Result |
+|---------|---------|--------|
+| Mismatched case | Pixel: `"purchase"` / CAPI: `"Purchase"` | Double count |
+| Different ID sources | Pixel: UUID v4 / CAPI: order DB ID | Double count |
+| Missing event_id on one side | Pixel has it / CAPI doesn't | Double count |
+| Re-generating ID on CAPI | `crypto.randomUUID()` on server | Double count — different ID every time |
+| Extra whitespace or characters | `"abc-123 "` vs `"abc-123"` | Double count |
+
+### The Correct Pattern
+
+Generate the `event_id` **once**, client-side, at the moment of conversion. Pass it both to the Pixel call and to your server (via a hidden form field, dataLayer push, or API request body).
+
+```javascript
+// Client side — at conversion moment
+const eventId = crypto.randomUUID();
+
+// Fire Pixel
+fbq('track', 'Lead', {}, { eventID: eventId });
+
+// Send to your server (include in form submission or API call)
+fetch('/api/submit-lead', {
+  method: 'POST',
+  body: JSON.stringify({ ...formData, meta_event_id: eventId })
+});
+```
+
+```javascript
+// Server side — your API route
+const { meta_event_id, email, phone } = body;
+
+await fetch('https://graph.facebook.com/v18.0/{pixel_id}/events', {
+  method: 'POST',
+  body: JSON.stringify({
+    data: [{
+      event_name: 'Lead',
+      event_time: Math.floor(Date.now() / 1000),
+      event_id: meta_event_id,  // ← same ID from client
+      action_source: 'website',
+      user_data: {
+        em: sha256(email.toLowerCase().trim()),
+        ph: sha256(phone),
+        fbc: cookies['_fbc'],
+        fbp: cookies['_fbp'],
+        client_ip_address: req.ip,
+        client_user_agent: req.headers['user-agent']
+      }
+    }],
+    access_token: process.env.META_CAPI_TOKEN
+  })
+});
+```
+
+You can verify your deduplication is working in Events Manager → select your event → View Details. Meta shows what percentage of events are being deduplicated.
+
+---
+
+## Event Hierarchy Under Aggregated Event Measurement (AEM)
+
+After iOS 14.5, Meta introduced Aggregated Event Measurement (AEM) for web campaigns targeting iOS users. Under AEM, you can configure up to **8 prioritised conversion events per domain**. When a user opts out of tracking:
+
+- Only the **highest-priority event** that fired is reported
+- Lower-priority events are suppressed
+
+This means your priority order directly affects what data you see. Get it wrong and you'll under-report your most important conversions.
+
+### Priority Order by Business Type
+
+**Lead generation (no e-commerce):**
+
+```
+Priority 1 (highest) → Purchase / Qualified Lead (if you pass lead status back)
+Priority 2           → Lead
+Priority 3           → CompleteRegistration
+Priority 4           → SubmitApplication
+Priority 5           → ViewContent (key landing pages)
+Priority 6           → PageView
+Priority 7–8         → Custom events specific to your funnel
+```
+
+**E-commerce:**
+
+```
+Priority 1 → Purchase
+Priority 2 → InitiateCheckout
+Priority 3 → AddToCart
+Priority 4 → AddPaymentInfo
+Priority 5 → AddToWishlist
+Priority 6 → ViewContent
+Priority 7 → Search
+Priority 8 → Lead / CompleteRegistration
+```
+
+**The rule of thumb:** highest revenue impact goes first. If a user both viewed content AND submitted a lead in the same session, you want the Lead reported, not the ViewContent.
+
+To configure this, go to Events Manager → Data Sources → your Pixel → Aggregated Event Measurement → Configure Web Events.
+
+---
+
+## Send Timing: When to Fire CAPI Events
+
+Timing your CAPI calls correctly affects both data accuracy and algorithm performance.
+
+### The 48-Hour Rule
+
+Meta's deduplication window is 48 hours, but send your CAPI event **as close to the original event time as possible**. The `event_time` Unix timestamp you include in the payload tells Meta when the conversion actually happened — but the sooner you send it, the less lag there is in your reporting and the faster the algorithm learns.
+
+| Scenario | Recommended Send Time |
+|----------|----------------------|
+| Web lead form submission | Immediately in your API route handler |
+| E-commerce purchase | Immediately at order confirmation |
+| Offline conversion (sales call close) | Within 24 hours (use Offline Events API) |
+| Downstream quality event (lead qualified) | Within 48 hours of qualification |
+| App event mirroring | Within 60 minutes |
+
+### The `event_time` Field
+
+Set this to the Unix timestamp of when the event *actually occurred*, not when your server processes it. For synchronous web events these will be identical. For batch offline uploads, the `event_time` should reflect the actual conversion moment.
+
+```javascript
+event_time: Math.floor(Date.now() / 1000)  // epoch seconds
+```
+
+Meta rejects events with `event_time` more than **7 days in the past** for the real-time Conversions API. For older data, use the Offline Conversions API.
+
+### Why Send Time Matters for Algorithm Performance
+
+Meta's delivery algorithm runs on near-real-time signal. When your CAPI event arrives quickly after the conversion, the algorithm can immediately update its understanding of which audience segments and creative variants are converting. Delayed signals arrive after the algorithm has already shifted budget — less useful.
+
+> Rule: Fire CAPI events **synchronously** in your API handler. Don't queue them to a background job unless latency is unavoidable (and even then, process the queue within minutes, not hours).
+
+---
+
+## Real-World Results: What Practitioners Report
+
+### My Experience at BricknBolt
+
+I run paid acquisition at BricknBolt, a home construction platform in India. After implementing CAPI with full user data (email hash + phone hash + FBC + FBP) alongside the existing Pixel, we saw a **7% reduction in cost per lead within 30 days** of deployment.
+
+This wasn't dramatic, but the context matters: we were already running a well-optimised Pixel setup. The incremental signal CAPI provided improved the algorithm's ability to distinguish genuine intent signals from form abandonment, which tightened the audience it optimised toward.
+
+The EMQ improvement (from ~6.2 to ~8.1 after adding phone hashes and FBC) was the primary driver. Better matching = more signal per impression = more efficient delivery.
+
+### What Other Practitioners Report
+
+**Franchise brand (Big Rush Marketing case study):** A health-focused franchise implementing CAPI saw **3X ROAS growth over 7 months**, with the largest jumps occurring 1–2 months post-deployment as Meta's algorithm retrained on the higher-quality signal. The brand expanded from 1 to 12 open locations over the same period. [Source: Big Rush Marketing](https://bigrush.com/meta-conversions-api-capi-franchise-case-study/)
+
+**Meta's own benchmark data:** Advertisers with CAPI set up for web events saw an average **17.8% lower cost per result** compared to those without CAPI (as of 2026 data). Advertisers running both Pixel and CAPI see a **13% lower cost per action** on average versus Pixel-only. [Source: Segwise](https://segwise.ai/blog/meta-pixel-conversions-api-ai-updates-2026)
+
+**LeadsBridge 2025 benchmark:** Advertisers running Pixel + CAPI saw a **19% improvement in ROAS** compared to Pixel-only setups. [Source: Dinmo](https://www.dinmo.com/third-party-cookies/solutions/conversions-api/meta-ads/)
+
+**EMQ impact:** Improving EMQ from 8.6 to 9.3 has been shown to reduce CPA by approximately 18%. Moving from no CAPI to CAPI with full parameters typically shifts EMQ by 2–4 points. [Source: CustomerLabs](https://www.customerlabs.com/blog/improve-your-event-match-quality-from-ok-to-great/)
+
+**First-party data quality:** Advertisers with clean first-party data (hashed email + phone captured at conversion) consistently report **CPL 15–25% lower** than those relying on Pixel fingerprinting alone. [Source: Madgicx](https://madgicx.com/blog/event-match-quality)
+
+### What the Academic Research Shows
+
+The 2024 PoPETs study ("Client-side and Server-side Tracking on Meta: Effectiveness and Accuracy") provides the most rigorous independent analysis to date:
+
+- CAPI matched **34–51% of visitors** under optimal conditions (vs Pixel's 42–61%)
+- Adding FBC improved CAPI's accuracy from **65% → 70%** and effectiveness from **20% → 23%**
+- On VPN traffic (where IPs are masked), CAPI still achieved **27% reach** — significantly better than Pixel's 0% in the same blocked conditions
+- Spoofing the User Agent string had no meaningful effect on CAPI's accuracy — the IP address is the primary matching signal
+- Ad blockers successfully blocked Pixel events but **could not block CAPI calls** in any configuration tested
+
+The research is clear: no single tracking method captures everything. CAPI's resilience against browser-side blocking makes it the essential complement to Pixel, not a replacement.
+
+---
+
+## What CAPI Won't Fix
+
+Intellectual honesty matters here. CAPI is powerful but not omnipotent.
+
+**VPN and privacy proxy users:** CAPI still achieves ~27% reach on VPN traffic. But users behind residential proxies with rotating IPs are largely invisible. This is a fundamental constraint — the IP address is Meta's primary server-side matching signal.
+
+**New users with no Meta history:** If someone has never interacted with Meta's system, their conversion can't be attributed to an ad even with perfect CAPI implementation. Identity matching requires an existing profile to match to.
+
+**Consent in regulated markets:** In the EU, CAPI events sent without user consent (under GDPR/ePrivacy) are a compliance risk. You still need a consent framework. Meta's Consent Mode integration for CAPI helps here, but it's a separate implementation concern.
+
+**Delayed conversions beyond 7 days:** The real-time CAPI has a 7-day lookback. For long sales cycles where a lead converts to customer weeks later, use the Offline Conversions API with CRM integration.
+
+---
+
+## CAPI Implementation Checklist
+
+Before going live, verify each of these:
+
+**Setup:**
+- [ ] Pixel running on all pages (standard events properly firing)
+- [ ] CAPI access token generated (System User, not personal account)
+- [ ] Pixel ID confirmed
+- [ ] `event_time` in Unix epoch seconds
+- [ ] `action_source` set to `"website"` for web events
+
+**User Data (the more the better):**
+- [ ] `em` — SHA-256 hashed, lowercased, trimmed email
+- [ ] `ph` — SHA-256 hashed phone with country code, digits only
+- [ ] `fbc` — from `_fbc` cookie (read server-side at conversion moment)
+- [ ] `fbp` — from `_fbp` cookie (read server-side at conversion moment)
+- [ ] `client_ip_address` — user's IP (not your server's IP)
+- [ ] `client_user_agent` — user's UA string from request headers
+- [ ] `external_id` — your CRM/database user ID (hashed)
+
+**Deduplication:**
+- [ ] Same `event_id` sent from both Pixel and CAPI for every event
+- [ ] Same `event_name` (exact case match) on both sides
+- [ ] Event ID generated client-side, passed server-side — never regenerated server-side
+
+**Event Hierarchy (AEM):**
+- [ ] Up to 8 events configured under Aggregated Event Measurement
+- [ ] Highest-value conversion at Priority 1
+- [ ] Verified in Events Manager → Aggregated Event Measurement
+
+**Testing:**
+- [ ] Test Events tool in Events Manager showing events received
+- [ ] Deduplication rate visible and close to 100% (for events where both Pixel + CAPI fire)
+- [ ] EMQ score visible in Events Manager → Data Sources → your event
+
+---
+
+## Summary: The Mental Model
+
+Think of Meta's algorithm as a machine that learns from examples. Pixel gives it some examples. iOS, ad blockers, and ITP delete a portion of those examples before they arrive. CAPI is a parallel channel that delivers examples the browser can't intercept.
+
+More examples + better-labelled examples (high EMQ via complete user data) = the machine learns faster and spends your budget more efficiently.
+
+The 7% CPL reduction I saw at BricknBolt, the 17.8% industry average Meta cites, and the 3X ROAS from the franchise case study all follow the same mechanism: more signal → tighter optimisation → lower cost to acquire the same customer.
+
+The implementation isn't trivial — deduplication, AEM priority configuration, and proper parameter hashing all have failure modes. But for any account spending meaningfully on Meta, the return on implementation effort is almost always positive within 30–60 days.
+
+---
+
+## FAQ
+
+**What is Meta Conversions API (CAPI)?**
+Meta Conversions API (CAPI) is a server-to-server integration that sends conversion events directly from your server to Meta's Graph API, bypassing browser-based restrictions like ad blockers, iOS App Tracking Transparency, and Safari's cookie deletion. Unlike the Meta Pixel which runs in the user's browser, CAPI events cannot be blocked by browser privacy tools, making them a reliable complement to Pixel tracking.
+
+**How does Meta CAPI improve cost per lead?**
+CAPI improves cost per lead by delivering more and higher-quality conversion signals to Meta's algorithm. With more matched conversions (higher Event Match Quality), the algorithm can more precisely identify users likely to convert, reducing wasted spend on low-intent audiences. Meta's own data shows advertisers running Pixel + CAPI see 13–17.8% lower cost per result on average versus Pixel-only setups.
+
+**What is Event Match Quality (EMQ) in Meta CAPI?**
+Event Match Quality (EMQ) is Meta's 0–10 score for how reliably it can match your conversion events to real user profiles. It's driven by the quantity and quality of user identifiers you send — email hash, phone hash, click ID (FBC), browser ID (FBP), and others. Higher EMQ means more conversions are successfully attributed, giving the algorithm better signal. Meta's internal benchmark is around 6/10; scores of 8+ are considered "Great."
+
+**What is the difference between FBC and FBP in Meta tracking?**
+FBC (Facebook Click ID) is derived from the `fbclid` URL parameter appended when a user clicks a Meta ad — it's a deterministic attribution signal that links a conversion back to a specific ad click. FBP (Facebook Browser ID) is stored in the `_fbp` cookie and identifies a browser instance across sessions on your site. FBC is the higher-impact parameter: independent research shows it improves CAPI accuracy from 65% to 70%.
+
+**How do I prevent duplicate conversions when running both Pixel and CAPI?**
+Meta deduplicates events using two fields that must be identical from both sources: `event_id` (a unique ID you generate for each conversion) and `event_name` (e.g., "Lead" — case-sensitive). Generate the event ID client-side at the moment of conversion, pass it to both the Pixel call and your server, and include it in your CAPI payload. Never regenerate the event ID on the server — it must be the same value that the Pixel fires.
+
+**How quickly should I send CAPI events after a conversion?**
+Send CAPI events as close to real-time as possible — ideally synchronously in the same API request handler that processes the conversion. For web events, this means firing CAPI in your form submission or order confirmation API route. Meta's real-time CAPI accepts events up to 7 days old, but real-time delivery gives the algorithm the fastest feedback loop. For older conversions (CRM quality signals, offline closes), use Meta's Offline Conversions API.
+
+**Does Meta CAPI work when users use VPNs or block ads?**
+CAPI is more resilient than Pixel against tracking prevention. Filter lists and ad blockers cannot block server-side CAPI calls. Research from PoPETs 2024 found that even on VPN traffic (where user IPs are masked), CAPI achieves approximately 27% reach — versus near-zero for Pixel in the same blocked conditions. That said, VPN usage and missing user identifiers do reduce match rates; CAPI is not a complete solution but consistently outperforms Pixel under adverse conditions.
+
+**What is Aggregated Event Measurement (AEM) and how does it affect CAPI?**
+Aggregated Event Measurement (AEM) is Meta's framework for reporting iOS conversions after App Tracking Transparency. Under AEM, you configure up to 8 prioritised events per domain. When an iOS user opts out of tracking, only the highest-priority event that fired is reported. This makes priority configuration critical: your most valuable conversion (Lead, Purchase) must be at Priority 1, or iOS reporting will show lower-funnel events instead of the ones you care about.
