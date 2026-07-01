@@ -10,10 +10,11 @@ import { trackEvent } from "@/lib/analytics";
 
 const CATEGORIES = [
   { id: "all", label: "All Tools", icon: LayoutGrid },
-  { id: "campaign", label: "Campaign & Tracking", icon: Link2 },
+  { id: "campaign", label: "Campaign", icon: Link2 },
   { id: "paid-search", label: "Paid Search", icon: Search },
   { id: "aso", label: "App & ASO", icon: Smartphone },
   { id: "creative", label: "Creative & Ads", icon: Shield },
+  { id: "social", label: "Social", icon: Linkedin },
   { id: "data", label: "Data & Utilities", icon: Database },
 ] as const;
 
@@ -126,7 +127,7 @@ const tools = [
     icon: <Linkedin className="h-5 w-5" />,
     colorClass: "text-blue-600",
     bgClass: "bg-blue-50",
-    category: "campaign" as CategoryId,
+    category: "social" as CategoryId,
   },
 ];
 
