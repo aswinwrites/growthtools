@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { getAllPosts, formatDate } from "@/lib/blog";
-import { ArrowRight, Clock, Tag } from "lucide-react";
-import { BlogListTracker } from "@/components/blog/blog-list-tracker";
+import { getAllPosts } from "@/lib/blog";
+import BlogIndex from "@/components/blog/blog-index";
 
 export const metadata: Metadata = {
   title: "Marketing Blog — Guides, Tips & Insights | MarketerTools",
@@ -17,17 +15,22 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://www.marketertools.fyi/blog" },
 };
 
-const CATEGORY_COLORS: Record<string, string> = {
-  "Campaign Tracking": "bg-blue-50 text-blue-700",
-  "Paid Search": "bg-purple-50 text-purple-700",
-  "App Marketing": "bg-green-50 text-green-700",
-  "Data & Analytics": "bg-orange-50 text-orange-700",
-  "Creative & Ads": "bg-pink-50 text-pink-700",
-  default: "bg-gray-100 text-gray-700",
-};
-
 export default function BlogPage() {
   const posts = getAllPosts();
+
+  // Build tag frequency map, sorted by count desc then alpha
+  const tagFreq: Record<string, number> = {};
+  for (const post of posts) {
+    for (const tag of post.tags ?? []) {
+      tagFreq[tag] = (tagFreq[tag] ?? 0) + 1;
+    }
+  }
+  const allTags = Object.entries(tagFreq)
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([tag, count]) => ({ tag, count }));
+
+  // Unique categories in publication order (deduplicated)
+  const categories = [...new Set(posts.map((p) => p.category))];
 
   return (
     <div className="min-h-screen bg-white">
@@ -48,78 +51,8 @@ export default function BlogPage() {
         </div>
       </div>
 
-      {/* Posts */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
-        {posts.length === 0 ? (
-          <p className="text-gray-400 text-center py-20">Coming soon.</p>
-        ) : (
-          <BlogListTracker>
-          <div className="space-y-px">
-            {posts.map((post, i) => {
-              const colorClass =
-                CATEGORY_COLORS[post.category] ?? CATEGORY_COLORS.default;
-              return (
-                <Link
-                  key={post.slug}
-                  href={`/blog/${post.slug}`}
-                  className="group flex flex-col sm:flex-row gap-6 py-8 border-b border-gray-100 hover:bg-gray-50 -mx-4 px-4 transition-colors rounded-lg"
-                >
-                  {/* Number */}
-                  <span className="hidden sm:block text-3xl font-bold text-gray-100 group-hover:text-gray-200 transition-colors w-12 shrink-0 pt-1">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-wrap items-center gap-3 mb-2">
-                      <span
-                        className={`text-xs font-semibold px-2 py-0.5 rounded-full ${colorClass}`}
-                      >
-                        {post.category}
-                      </span>
-                      <span className="text-xs text-gray-400 flex items-center gap-1">
-                        <Clock size={12} />
-                        {post.readTime}
-                      </span>
-                      <span className="text-xs text-gray-400">
-                        {formatDate(post.date)}
-                      </span>
-                    </div>
-
-                    <h2 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors leading-snug">
-                      {post.title}
-                    </h2>
-                    <p className="text-gray-500 leading-relaxed text-sm line-clamp-2">
-                      {post.description}
-                    </p>
-
-                    {post.tags && post.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mt-3">
-                        {post.tags.slice(0, 4).map((tag) => (
-                          <span
-                            key={tag}
-                            className="text-xs text-gray-400 flex items-center gap-1"
-                          >
-                            <Tag size={10} />
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="flex items-center shrink-0">
-                    <ArrowRight
-                      size={18}
-                      className="text-gray-300 group-hover:text-blue-500 group-hover:translate-x-1 transition-all"
-                    />
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-          </BlogListTracker>
-        )}
-      </div>
+      {/* Interactive list — search, tag filter, pagination */}
+      <BlogIndex posts={posts} allTags={allTags} categories={categories} />
     </div>
   );
 }
